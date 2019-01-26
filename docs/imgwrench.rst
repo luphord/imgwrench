@@ -1,0 +1,22 @@
+imgwrench package
+=================
+
+Submodules
+----------
+
+imgwrench.colorfix module
+-------------------------
+
+.. automodule:: imgwrench.colorfix
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: imgwrench
+    :members:
+    :undoc-members:
+    :show-inheritance:
