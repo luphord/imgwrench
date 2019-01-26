@@ -36,7 +36,7 @@ setup(
     description="A command line tool for specific image processing tasks.",
     entry_points={
         'console_scripts': [
-            'imgwrench=imgwrench.cli:main',
+            'imgwrench=imgwrench:imgwrench',
         ],
     },
     install_requires=requirements,
