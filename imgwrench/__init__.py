@@ -8,8 +8,10 @@ __version__ = '0.1.0'
 
 import click
 
+from .colorfix import colorfix
 
-@click.group(chain=True)
+
+@click.group(name='imgwrench', chain=True)
 @click.option('-i', '--image-list', type=click.File(mode='r'), default='-',
               help='File containing paths to images for processing, ' +
                     'defaults to stdin')
@@ -28,9 +30,4 @@ def imgwrench(image_list, prefix, keep_names, outdir, quality):
     click.echo(locals())
 
 
-@click.command()
-def dummy():
-    pass
-
-
-imgwrench.add_command(dummy)
+imgwrench.add_command(colorfix)
