@@ -25,9 +25,14 @@ from .colorfix import colorfix
               default='.', help='output directory')
 @click.option('-q', '--quality', type=click.INT, default=88,
               help='quality of the output images, integer 0 - 100')
-def imgwrench(image_list, prefix, keep_names, outdir, quality):
+@click.pass_context
+def imgwrench(ctx, image_list, prefix, keep_names, outdir, quality):
     '''The main command line interface function of imgwrench'''
+    click.echo('Starting imgwrench')
+    with image_list:
+        ctx.obj = dict(images=[line for line in image_list])
     click.echo(locals())
+    click.echo('imgwrench completed')
 
 
 imgwrench.add_command(colorfix)
