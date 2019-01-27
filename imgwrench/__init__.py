@@ -27,9 +27,6 @@ from .colorfix import colorfix
               help='quality of the output images, integer 0 - 100')
 def imgwrench(image_list, prefix, keep_names, outdir, quality):
     '''The main command line interface function of imgwrench'''
-    click.echo('Starting imgwrench')
-    click.echo(locals())
-    click.echo('imgwrench completed')
 
 
 @imgwrench.resultcallback()
