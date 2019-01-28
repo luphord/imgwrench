@@ -27,28 +27,30 @@ from .colorfix import colorfix
               help='quality of the output images, integer 0 - 100')
 def imgwrench(image_list, prefix, keep_names, outdir, quality):
     '''The main command line interface function of imgwrench'''
+    param = dict(**locals())
+    del param['image_list']
+    click.echo('Preparing imgwrench pipeline with parameters {}'.format(param))
 
 
 @imgwrench.resultcallback()
 def pipeline(image_processors, image_list, prefix,
              keep_names, outdir, quality):
-    click.echo('Initializing pipeline')
 
     def _load_images():
         with image_list:
             for line in image_list:
-                click.echo('loading {}...'.format(line.strip()))
+                click.echo('Processing {}...'.format(line.strip()))
                 yield 'loaded {}'.format(line)
 
     images = _load_images()
-    click.echo(locals())
     # connecting pipeline image processors
     for image_processor in image_processors:
         images = image_processor(images)
+    click.echo('--- Executing pipeline ---')
     # exectung pipeline
     for processed_image in images:
         click.echo('saved {}'.format(processed_image))
-    click.echo('pipeline completed completed')
+    click.echo('Pipeline execution completed')
 
 
 imgwrench.add_command(colorfix)

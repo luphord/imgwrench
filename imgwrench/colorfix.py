@@ -10,9 +10,7 @@ import click
                     'and maximum color, defaults to 0.01')
 def colorfix(alpha):
     '''Fix colors by stretching channel histograms to full range.'''
-    click.echo('Starting colorfix')
-    click.echo(locals())
-    click.echo('colorfix completed')
+    click.echo('Initializing colorfix with parameters {}'.format(locals()))
 
     def _colorfix(images):
         for image in images:
