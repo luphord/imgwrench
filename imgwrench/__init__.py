@@ -61,7 +61,7 @@ def pipeline(image_processors, image_list, prefix,
             for line in image_list:
                 fname = line.strip()
                 click.echo('<- Processing {}...'.format(fname))
-                yield _load_image(fname)
+                yield os.path.basename(fname), _load_image(fname)
 
     images = _load_images()
     # connecting pipeline image processors
@@ -70,12 +70,12 @@ def pipeline(image_processors, image_list, prefix,
     click.echo('--- Executing pipeline ---')
     # exectung pipeline
     fmt = '{}{:04d}.jpg'
-    for i, processed_image in enumerate(images):
-        newfname = fmt.format(prefix, i)  # todo: keepnames
+    for i, (orgfname, processed_image) in enumerate(images):
+        newfname = orgfname if keep_names else fmt.format(prefix, i)
         outpath = os.path.join(outdir, newfname)
         processed_image.save(outpath, quality=quality)
         click.echo('-> Saved {}'.format(outpath))
-    click.echo('Pipeline execution completed')
+    click.echo('--- Pipeline execution completed ---')
 
 
 cli_imgwrench.add_command(cli_colorfix)
