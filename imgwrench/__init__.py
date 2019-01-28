@@ -11,7 +11,7 @@ import click
 from .colorfix import colorfix
 
 
-@click.group(name='imgwrench', chain=True, invoke_without_command=True)
+@click.group(name='imgwrench', chain=True)
 @click.option('-i', '--image-list', type=click.File(mode='r'), default='-',
               help='File containing paths to images for processing, ' +
                     'defaults to stdin')
