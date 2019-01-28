@@ -7,8 +7,27 @@ __email__ = 'luphord@protonmail.com'
 __version__ = '0.1.0'
 
 import click
+from PIL import Image
 
 from .colorfix import colorfix
+
+
+def _load_image(fname):
+    '''Load an image from file system and rotate according to exif'''
+    img = Image.open(fname)
+    if hasattr(img, '_getexif'):
+        orientation = 0x0112
+        exif = img._getexif()
+        if exif is not None:
+            orientation = exif[orientation]
+            rotations = {
+                3: Image.ROTATE_180,
+                6: Image.ROTATE_270,
+                8: Image.ROTATE_90
+            }
+            if orientation in rotations:
+                img = img.transpose(rotations[orientation])
+    return img
 
 
 @click.group(name='imgwrench', chain=True)
@@ -39,8 +58,9 @@ def pipeline(image_processors, image_list, prefix,
     def _load_images():
         with image_list:
             for line in image_list:
-                click.echo('Processing {}...'.format(line.strip()))
-                yield 'loaded {}'.format(line)
+                fname = line.strip()
+                click.echo('Processing {}...'.format(fname))
+                yield _load_image(fname)
 
     images = _load_images()
     # connecting pipeline image processors
