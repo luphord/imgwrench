@@ -14,6 +14,6 @@ def colorfix(alpha):
 
     def _colorfix(images):
         for image in images:
-            yield 'colorfixed {}'.format(image)
+            yield image  # todo apply colorfix
 
     return _colorfix

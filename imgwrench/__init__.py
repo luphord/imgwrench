@@ -6,6 +6,7 @@ __author__ = """luphord"""
 __email__ = 'luphord@protonmail.com'
 __version__ = '0.1.0'
 
+import os
 import click
 from PIL import Image
 
@@ -59,7 +60,7 @@ def pipeline(image_processors, image_list, prefix,
         with image_list:
             for line in image_list:
                 fname = line.strip()
-                click.echo('Processing {}...'.format(fname))
+                click.echo('<- Processing {}...'.format(fname))
                 yield _load_image(fname)
 
     images = _load_images()
@@ -68,8 +69,12 @@ def pipeline(image_processors, image_list, prefix,
         images = image_processor(images)
     click.echo('--- Executing pipeline ---')
     # exectung pipeline
-    for processed_image in images:
-        click.echo('saved {}'.format(processed_image))
+    fmt = '{}{:04d}.jpg'
+    for i, processed_image in enumerate(images):
+        newfname = fmt.format(prefix, i)  # todo: keepnames
+        outpath = os.path.join(outdir, newfname)
+        processed_image.save(outpath, quality=quality)
+        click.echo('-> Saved {}'.format(outpath))
     click.echo('Pipeline execution completed')
 
 
