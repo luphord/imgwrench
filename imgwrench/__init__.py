@@ -10,7 +10,7 @@ import os
 import click
 from PIL import Image
 
-from .colorfix import colorfix
+from .colorfix import cli_colorfix
 
 
 def _load_image(fname):
@@ -45,14 +45,14 @@ def _load_image(fname):
               default='.', help='output directory')
 @click.option('-q', '--quality', type=click.INT, default=88,
               help='quality of the output images, integer 0 - 100')
-def imgwrench(image_list, prefix, keep_names, outdir, quality):
+def cli_imgwrench(image_list, prefix, keep_names, outdir, quality):
     '''The main command line interface function of imgwrench'''
     param = dict(**locals())
     del param['image_list']
     click.echo('Preparing imgwrench pipeline with parameters {}'.format(param))
 
 
-@imgwrench.resultcallback()
+@cli_imgwrench.resultcallback()
 def pipeline(image_processors, image_list, prefix,
              keep_names, outdir, quality):
 
@@ -78,4 +78,4 @@ def pipeline(image_processors, image_list, prefix,
     click.echo('Pipeline execution completed')
 
 
-imgwrench.add_command(colorfix)
+cli_imgwrench.add_command(cli_colorfix)
