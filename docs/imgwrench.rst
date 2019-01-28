@@ -12,6 +12,14 @@ imgwrench.colorfix module
     :undoc-members:
     :show-inheritance:
 
+imgwrench.resize module
+-----------------------
+
+.. automodule:: imgwrench.resize
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 
 Module contents
 ---------------
