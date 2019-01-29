@@ -12,6 +12,7 @@ from PIL import Image
 
 from .colorfix import cli_colorfix
 from .resize import cli_resize
+from .stack import cli_stack
 
 
 def _load_image(fname):
@@ -81,3 +82,4 @@ def pipeline(image_processors, image_list, prefix,
 
 cli_imgwrench.add_command(cli_colorfix)
 cli_imgwrench.add_command(cli_resize)
+cli_imgwrench.add_command(cli_stack)
