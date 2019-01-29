@@ -30,3 +30,10 @@ class TestImgwrenchMainCli(unittest.TestCase):
         help_result = self.runner.invoke(cli_imgwrench)
         self.assertEqual(0, help_result.exit_code)
         self.assertIn(help_msg, help_result.output)
+
+    def test_subcommand_availability(self):
+        '''Test availability of subcommands'''
+        self.assertGreaterEqual(len(cli_imgwrench.commands), 3)
+        help_result = self.runner.invoke(cli_imgwrench, ['--help'])
+        for subcommand in cli_imgwrench.commands:
+            self.assertIn(subcommand, help_result.output)
