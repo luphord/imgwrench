@@ -16,17 +16,43 @@ Image Wrench
 
 
 
-A command line tool for specific image processing tasks.
+A command line tool for my image processing needs. Multiple subcommands can
+be executed sequentially to form a processing pipeline.
 
 
 * Free software: MIT license
 * Documentation: https://imgwrench.readthedocs.io.
 
+Usage
+-----
+
+.. code-block:: console
+
+        Usage: imgwrench [OPTIONS] COMMAND1 [ARGS]... [COMMAND2 [ARGS]...]...
+
+        The main command line interface function of imgwrench
+
+        Options:
+        -i, --image-list FILENAME  File containing paths to images for processing,
+                                defaults to stdin
+        -p, --prefix TEXT          prefix for all output filenames before numbering
+        -k, --keep-names           keep original file names instead of numbering
+        -o, --outdir DIRECTORY     output directory
+        -q, --quality INTEGER      quality of the output images, integer 0 - 100
+        --help                     Show this message and exit.
+
+        Commands:
+        colorfix  Fix colors by stretching channel histograms to full range.
+        resize    Resize images to a maximum side length preserving aspect ratio.
+        stack     Stack images vertically, empty space in the middle.
 
 Features
 --------
 
-* TODO
+* Subcommands can be executed sequentially to form a pipeline
+* Command *colorfix* for fixing the colors of aged photographs
+* Command *resize* for resizing images
+* Command *stack* for vertically stacking images
 
 Credits
 -------

@@ -31,7 +31,7 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
     ],
-    description="A command line tool for specific image processing tasks.",
+    description="A command line tool for my image processing needs.",
     entry_points={
         'console_scripts': [
             'imgwrench=imgwrench:cli_imgwrench',

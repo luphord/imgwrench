@@ -20,6 +20,14 @@ imgwrench.resize module
     :undoc-members:
     :show-inheritance:
 
+imgwrench.stack module
+----------------------
+
+.. automodule:: imgwrench.stack
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 
 Module contents
 ---------------
