@@ -2,7 +2,7 @@
 
 import sys
 
-from . import imgwrench
+from . import cli_imgwrench
 
 if __name__ == "__main__":
-    sys.exit(imgwrench())
+    sys.exit(cli_imgwrench())
