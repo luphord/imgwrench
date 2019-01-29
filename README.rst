@@ -37,6 +37,7 @@ Usage
                                 defaults to stdin
         -p, --prefix TEXT          prefix for all output filenames before numbering
         -k, --keep-names           keep original file names instead of numbering
+        -f, --force-overwrite      force overwriting output image file if it exists
         -o, --outdir DIRECTORY     output directory
         -q, --quality INTEGER      quality of the output images, integer 0 - 100
         --help                     Show this message and exit.

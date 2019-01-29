@@ -41,13 +41,16 @@ def _load_image(fname):
               help='prefix for all output filenames before numbering')
 @click.option('-k', '--keep-names', is_flag=True, default=False,
               help='keep original file names instead of numbering')
+@click.option('-f', '--force-overwrite', is_flag=True, default=False,
+              help='force overwriting output image file if it exists')
 @click.option('-o', '--outdir',
               type=click.Path(exists=False, file_okay=False, dir_okay=True,
                               writable=True, resolve_path=True),
               default='.', help='output directory')
 @click.option('-q', '--quality', type=click.INT, default=88,
               help='quality of the output images, integer 0 - 100')
-def cli_imgwrench(image_list, prefix, keep_names, outdir, quality):
+def cli_imgwrench(image_list, prefix, keep_names, force_overwrite,
+                  outdir, quality):
     '''The main command line interface function of imgwrench'''
     param = dict(**locals())
     del param['image_list']
@@ -56,7 +59,7 @@ def cli_imgwrench(image_list, prefix, keep_names, outdir, quality):
 
 @cli_imgwrench.resultcallback()
 def pipeline(image_processors, image_list, prefix,
-             keep_names, outdir, quality):
+             keep_names, force_overwrite, outdir, quality):
 
     def _load_images():
         with image_list:
@@ -75,6 +78,9 @@ def pipeline(image_processors, image_list, prefix,
     for i, (orgfname, processed_image) in enumerate(images):
         newfname = orgfname if keep_names else fmt.format(prefix, i)
         outpath = os.path.join(outdir, newfname)
+        if not force_overwrite and os.path.exists(outpath):
+            raise Exception(('{} already exists; use --force-overwrite ' +
+                             'to overwrite').format(outpath))
         processed_image.save(outpath, quality=quality)
         click.echo('-> Saved {}'.format(outpath))
     click.echo('--- Pipeline execution completed ---')
