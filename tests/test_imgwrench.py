@@ -30,3 +30,8 @@ class TestImgwrench(unittest.TestCase):
         help_result = runner.invoke(cli_imgwrench, ['--help'])
         assert help_result.exit_code == 0
         assert 'Show this message and exit' in help_result.output
+        assert result.exit_code == 0
+        # executing imgwrench without subcommands should have the same effect
+        help_result = runner.invoke(cli_imgwrench)
+        assert help_result.exit_code == 0
+        assert 'Show this message and exit' in help_result.output
