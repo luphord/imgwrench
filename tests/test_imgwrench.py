@@ -10,28 +10,23 @@ from click.testing import CliRunner
 from imgwrench import cli_imgwrench
 
 
-class TestImgwrench(unittest.TestCase):
-    """Tests for `imgwrench` package."""
+class TestImgwrenchMainCli(unittest.TestCase):
+    '''Tests for `imgwrench` main cli.'''
 
     def setUp(self):
-        """Set up test fixtures, if any."""
+        '''Set up test fixtures, if any.'''
+        self.runner = CliRunner()
 
     def tearDown(self):
-        """Tear down test fixtures, if any."""
-
-    def test_000_something(self):
-        """Test something."""
+        '''Tear down test fixtures, if any.'''
 
     def test_command_line_interface(self):
-        """Test the CLI."""
-        runner = CliRunner()
-        result = runner.invoke(cli_imgwrench)
-        assert result.exit_code == 0
-        help_result = runner.invoke(cli_imgwrench, ['--help'])
-        assert help_result.exit_code == 0
-        assert 'Show this message and exit' in help_result.output
-        assert result.exit_code == 0
+        '''Test help invocation.'''
+        help_msg = 'Show this message and exit'
+        help_result = self.runner.invoke(cli_imgwrench, ['--help'])
+        self.assertEqual(0, help_result.exit_code)
+        self.assertIn(help_msg, help_result.output)
         # executing imgwrench without subcommands should have the same effect
-        help_result = runner.invoke(cli_imgwrench)
-        assert help_result.exit_code == 0
-        assert 'Show this message and exit' in help_result.output
+        help_result = self.runner.invoke(cli_imgwrench)
+        self.assertEqual(0, help_result.exit_code)
+        self.assertIn(help_msg, help_result.output)
