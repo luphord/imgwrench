@@ -45,6 +45,7 @@ Usage
         Commands:
         colorfix  Fix colors by stretching channel histograms to full range.
         resize    Resize images to a maximum side length preserving aspect ratio.
+        save      No-op to enable saving of images without any processing.
         stack     Stack images vertically, empty space in the middle.
 
 Features
@@ -54,6 +55,7 @@ Features
 * Command *colorfix* for fixing the colors of aged photographs
 * Command *resize* for resizing images
 * Command *stack* for vertically stacking images
+* Command *save* for no processing, but saving images with the given parameters
 
 Credits
 -------

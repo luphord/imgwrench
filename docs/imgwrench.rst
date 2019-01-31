@@ -20,6 +20,14 @@ imgwrench.resize module
     :undoc-members:
     :show-inheritance:
 
+imgwrench.save module
+---------------------
+
+.. automodule:: imgwrench.save
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 imgwrench.stack module
 ----------------------
 
