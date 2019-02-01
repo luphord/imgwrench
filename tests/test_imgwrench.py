@@ -4,6 +4,7 @@
 """Tests for `imgwrench` package."""
 
 
+import os
 import unittest
 from click.testing import CliRunner
 
@@ -72,3 +73,21 @@ class TestImgwrenchMainCli(unittest.TestCase):
             self.assertEqual(3, n_invocations[0], 'expecting 3 processors')
             self.assertEqual(30, n_image_invocations[0], 'expecting 30 calls')
         del cli_imgwrench.commands[pipelinetest]
+
+    def test_increment(self):
+        '''Test increment of output files'''
+        increment = 3
+        prefix = 'img_'
+        with self.runner.isolated_filesystem():
+            with open('pixel1x1.jpg', 'wb') as f:
+                f.write(pixel1x1)
+            with open('images.txt', 'w') as f:
+                for i in range(10):
+                    f.write('pixel1x1.jpg\n')
+            result = self.runner.invoke(cli_imgwrench,
+                                        ['-c', increment, '-p', prefix,
+                                         '-i', 'images.txt', 'save'])
+            self.assertEqual(0, result.exit_code)
+            for i in range(10):
+                fname = '{}{:04d}.jpg'.format(prefix, i*increment)
+                self.assertTrue(os.path.exists(fname), fname + ' missing')
