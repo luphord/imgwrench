@@ -2,6 +2,11 @@
 History
 =======
 
+0.3.0 (not yet)
+---------------
+
+* -c/--increment option to define increment for file numbering
+
 0.2.0 (2019-01-30)
 ------------------
 

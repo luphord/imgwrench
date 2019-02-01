@@ -36,6 +36,7 @@ Usage
         -i, --image-list FILENAME  File containing paths to images for processing,
                                 defaults to stdin
         -p, --prefix TEXT          prefix for all output filenames before numbering
+        -c, --increment INTEGER    increment for file numbering (default 1)
         -k, --keep-names           keep original file names instead of numbering
         -f, --force-overwrite      force overwriting output image file if it exists
         -o, --outdir DIRECTORY     output directory
