@@ -86,8 +86,27 @@ class TestImgwrenchMainCli(unittest.TestCase):
                     f.write('pixel1x1.jpg\n')
             result = self.runner.invoke(cli_imgwrench,
                                         ['-c', increment, '-p', prefix,
+                                         '-d', 4,
                                          '-i', 'images.txt', 'save'])
             self.assertEqual(0, result.exit_code)
             for i in range(10):
                 fname = '{}{:04d}.jpg'.format(prefix, i*increment)
+                self.assertTrue(os.path.exists(fname), fname + ' missing')
+
+    def test_digits(self):
+        '''Test number of digits of output files'''
+        prefix = 'img_'
+        with self.runner.isolated_filesystem():
+            with open('pixel1x1.jpg', 'wb') as f:
+                f.write(pixel1x1)
+            with open('images.txt', 'w') as f:
+                for i in range(20):
+                    f.write('pixel1x1.jpg\n')
+            result = self.runner.invoke(cli_imgwrench,
+                                        ['-p', prefix,
+                                         '-d', 7,
+                                         '-i', 'images.txt', 'save'])
+            self.assertEqual(0, result.exit_code)
+            for i in range(20):
+                fname = '{}{:07d}.jpg'.format(prefix, i)
                 self.assertTrue(os.path.exists(fname), fname + ' missing')

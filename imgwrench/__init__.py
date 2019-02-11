@@ -40,6 +40,8 @@ def _load_image(fname):
                     'defaults to stdin')
 @click.option('-p', '--prefix', type=click.STRING, default='img_',
               help='prefix for all output filenames before numbering')
+@click.option('-d', '--digits', type=click.INT, default=4,
+              help='number of digits for file numbering (default 4)')
 @click.option('-c', '--increment', type=click.INT, default=1,
               help='increment for file numbering (default 1)')
 @click.option('-k', '--keep-names', is_flag=True, default=False,
@@ -52,8 +54,8 @@ def _load_image(fname):
               default='.', help='output directory')
 @click.option('-q', '--quality', type=click.INT, default=88,
               help='quality of the output images, integer 0 - 100')
-def cli_imgwrench(image_list, increment, prefix, keep_names, force_overwrite,
-                  outdir, quality):
+def cli_imgwrench(image_list, prefix, digits, increment, keep_names,
+                  force_overwrite, outdir, quality):
     '''The main command line interface function of imgwrench'''
     param = dict(**locals())
     del param['image_list']
@@ -61,7 +63,7 @@ def cli_imgwrench(image_list, increment, prefix, keep_names, force_overwrite,
 
 
 @cli_imgwrench.resultcallback()
-def pipeline(image_processors, image_list, prefix, increment,
+def pipeline(image_processors, image_list, prefix, increment, digits,
              keep_names, force_overwrite, outdir, quality):
 
     def _load_images():
@@ -77,7 +79,7 @@ def pipeline(image_processors, image_list, prefix, increment,
         images = image_processor(images)
     click.echo('--- Executing pipeline ---')
     # exectung pipeline
-    fmt = '{}{:04d}.jpg'
+    fmt = '{}{:0' + str(digits) + 'd}.jpg'
     for i, (orgfname, processed_image) in enumerate(images):
         newfname = orgfname if keep_names else fmt.format(prefix, i*increment)
         outpath = os.path.join(outdir, newfname)
