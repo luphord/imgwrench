@@ -5,6 +5,7 @@ History
 0.3.0 (not yet)
 ---------------
 
+* -d/--digits option to specify number of digits in file names
 * -c/--increment option to define increment for file numbering
 
 0.2.0 (2019-01-30)
