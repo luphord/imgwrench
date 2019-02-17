@@ -2,8 +2,8 @@
 History
 =======
 
-0.3.0 (not yet)
----------------
+0.3.0 (2019-02-17)
+------------------
 
 * -d/--digits option to specify number of digits in file names
 * -c/--increment option to define increment for file numbering
