@@ -110,3 +110,24 @@ class TestImgwrenchMainCli(unittest.TestCase):
             for i in range(20):
                 fname = '{}{:07d}.jpg'.format(prefix, i)
                 self.assertTrue(os.path.exists(fname), fname + ' missing')
+
+    def test_output_folder_creation(self):
+        '''Test creation of non-existing output folder'''
+        prefix = 'img_'
+        output_folder = 'my/out/dir'
+        n = 5
+        with self.runner.isolated_filesystem():
+            with open('pixel1x1.jpg', 'wb') as f:
+                f.write(pixel1x1)
+            with open('images.txt', 'w') as f:
+                for i in range(n):
+                    f.write('pixel1x1.jpg\n')
+            result = self.runner.invoke(cli_imgwrench,
+                                        ['-o', output_folder,
+                                         '-p', prefix,
+                                         '-d', 1,
+                                         '-i', 'images.txt', 'save'])
+            self.assertEqual(0, result.exit_code)
+            for i in range(n):
+                fname = '{}/{}{:01d}.jpg'.format(output_folder, prefix, i)
+                self.assertTrue(os.path.exists(fname), fname + ' missing')

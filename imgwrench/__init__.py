@@ -77,8 +77,9 @@ def pipeline(image_processors, image_list, prefix, increment, digits,
     # connecting pipeline image processors
     for image_processor in image_processors:
         images = image_processor(images)
+    os.makedirs(outdir, exist_ok=True)
     click.echo('--- Executing pipeline ---')
-    # exectung pipeline
+    # executing pipeline
     fmt = '{}{:0' + str(digits) + 'd}.jpg'
     for i, (orgfname, processed_image) in enumerate(images):
         newfname = orgfname if keep_names else fmt.format(prefix, i*increment)

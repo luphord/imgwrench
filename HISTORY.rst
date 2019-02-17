@@ -7,6 +7,7 @@ History
 
 * -d/--digits option to specify number of digits in file names
 * -c/--increment option to define increment for file numbering
+* create non-existing output folder instead of complaining
 
 0.2.0 (2019-01-30)
 ------------------
