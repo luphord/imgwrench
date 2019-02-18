@@ -20,3 +20,12 @@ AAAAAAAAAAAAAAAA/9oACAEBAAE/EH//2Q==''')
 with io.BytesIO(pixel1x1) as f:
     pixel1x1_img = Image.open(f)
     pixel1x1_img.load()
+
+png1x1 = base64.b64decode('''
+iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABmJLR0QA/wD/AP+gvaeTAAAACXBI
+WXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4wISEAcwqWoK4wAAAAh0RVh0Q29tbWVudAD2zJa/AAAA
+DUlEQVQI12NgYGBgAAAABQABXvMqOgAAAABJRU5ErkJggg==''')
+
+with io.BytesIO(png1x1) as f:
+    png1x1_img = Image.open(f)
+    png1x1_img.load()

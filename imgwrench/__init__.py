@@ -31,6 +31,8 @@ def _load_image(fname):
             }
             if orientation in rotations:
                 img = img.transpose(rotations[orientation])
+    if img.mode != 'RGB':
+        return img.convert('RGB')
     return img
 
 

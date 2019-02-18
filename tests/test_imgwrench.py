@@ -10,7 +10,7 @@ from click.testing import CliRunner
 
 from imgwrench import cli_imgwrench
 
-from .images import pixel1x1
+from .images import pixel1x1, png1x1
 
 
 class TestImgwrenchMainCli(unittest.TestCase):
@@ -131,3 +131,19 @@ class TestImgwrenchMainCli(unittest.TestCase):
             for i in range(n):
                 fname = '{}/{}{:01d}.jpg'.format(output_folder, prefix, i)
                 self.assertTrue(os.path.exists(fname), fname + ' missing')
+
+    def test_png_loading(self):
+        '''Test loading of PNG input images'''
+        prefix = 'img_'
+        with self.runner.isolated_filesystem():
+            with open('png1x1.png', 'wb') as f:
+                f.write(png1x1)
+            with open('images.txt', 'w') as f:
+                f.write('png1x1.png\n')
+            result = self.runner.invoke(cli_imgwrench,
+                                        ['-p', prefix,
+                                         '-d', 4,
+                                         '-i', 'images.txt', 'save'])
+            self.assertEqual(0, result.exit_code)
+            fname = '{}{:04d}.jpg'.format(prefix, 0)
+            self.assertTrue(os.path.exists(fname), fname + ' missing')
