@@ -4,7 +4,7 @@
 
 __author__ = """luphord"""
 __email__ = 'luphord@protonmail.com'
-__version__ = '0.3.0'
+__version__ = '0.4.0'
 
 import os
 import click
