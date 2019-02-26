@@ -9,25 +9,30 @@ def crop(image, aspect_ratio):
     '''Crop images to the given aspect ratio.'''
     a, b = aspect_ratio.split(':')
     a, b = float(a), float(b)
-    actual_ratio = image.size[0] / image.size[1]
-    if actual_ratio >= 1:  # landscape
-        target_ratio = max(a, b) / min(a, b)
-    else:  # portrait
-        target_ratio = min(a, b) / max(a, b)
-    if target_ratio > actual_ratio:  # need to crop height
-        crop_pixels = int((1 - actual_ratio / target_ratio)
-                          * image.size[1])
+    width, height = image.size[0], image.size[1]
+    long_side = max(width, height)
+    short_side = min(width, height)
+    actual_ratio = long_side / short_side
+    target_ratio = max(a, b) / min(a, b)
+    # we assume long_side == width and short_side == height
+    # if not, we are going to switch later
+    if target_ratio > actual_ratio:  # need to crop short side
+        crop_pixels = round((1 - actual_ratio / target_ratio)
+                            * short_side)
         left = 0
-        right = image.size[0]
+        right = long_side
         upper = floor(crop_pixels / 2)
-        lower = image.size[1] - ceil(crop_pixels / 2)
-    else:  # need to crop width
-        crop_pixels = int((1 - actual_ratio / target_ratio)
-                          * image.size[0])
+        lower = short_side - ceil(crop_pixels / 2)
+    else:  # need to crop long side
+        crop_pixels = round((1 - target_ratio / actual_ratio)
+                            * long_side)
         left = floor(crop_pixels / 2)
-        right = image.size[0] - ceil(crop_pixels / 2)
+        right = long_side - ceil(crop_pixels / 2)
         upper = 0
-        lower = image.size[1]
+        lower = short_side
+    if height > width:
+        upper, left = left, upper
+        lower, right = right, lower
     return image.crop((left, upper, right, lower))
 
 
