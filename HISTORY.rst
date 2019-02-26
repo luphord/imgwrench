@@ -2,8 +2,8 @@
 History
 =======
 
-0.4.0 (not yet)
----------------
+0.4.0 (2019-02-26)
+------------------
 
 * convert RGBA mode PNG images to RGB (to enable saving as JPG)
 * crop subcommand to crop images to a specified aspect ratio
