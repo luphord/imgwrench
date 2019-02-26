@@ -33,3 +33,31 @@ and will intensify the contrast of the resulting image.
     -a, --alpha FLOAT  quantile (low and high) to be clipped to minimum and
                         maximum color, defaults to 0.01
     --help             Show this message and exit.
+
+
+crop
+====
+
+The `crop` subcommand crops images to a specified aspect ratio.
+
+Assuming image `rainbow.jpg` in the current directory, `crop` can be applied
+with aspect ratio 2:1 and output to `img_0000.jpg` as follows:
+
+.. code-block:: console
+
+    ls rainbow.jpg | imgwrench crop -a 2:1
+
+.. image:: _static/crop.jpg
+
+`crop` supports the parameter -a/--aspect-ratio which has to be an aspect ratio
+specified as two numbers separated by a colon, e.g. "2:1", "3:4", "117:123".
+
+.. code-block:: console
+
+    Usage: imgwrench crop [OPTIONS]
+
+    Crop images to the given aspect ratio.
+
+    Options:
+    -a, --aspect-ratio TEXT  aspect ratio to crop to, defaults to "3:2"
+    --help                   Show this message and exit.
