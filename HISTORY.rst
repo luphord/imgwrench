@@ -6,6 +6,7 @@ History
 ---------------
 
 * convert RGBA mode PNG images to RGB (to enable saving as JPG)
+* crop subcommand to crop images to a specified aspect ratio
 * documentation for colorfix
 
 0.3.0 (2019-02-17)
