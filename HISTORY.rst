@@ -2,6 +2,11 @@
 History
 =======
 
+0.5.0 (not yet)
+---------------
+
+* blackwhite subcommand to convert color images to black and white
+
 0.4.0 (2019-02-26)
 ------------------
 
