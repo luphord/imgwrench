@@ -16,7 +16,7 @@ def resize(image, maxsize):
               help='size of the longer side (width or height) in pixels')
 def cli_resize(maxsize):
     '''Resize images to a maximum side length preserving aspect ratio.'''
-    click.echo('Initializing colorfix with parameters {}'.format(locals()))
+    click.echo('Initializing resize with parameters {}'.format(locals()))
 
     def _resize(images):
         for orgfname, image in images:
