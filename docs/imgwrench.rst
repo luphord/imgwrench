@@ -4,6 +4,14 @@ imgwrench package
 Submodules
 ----------
 
+imgwrench.blackwhite module
+---------------------------
+
+.. automodule:: imgwrench.blackwhite
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 imgwrench.colorfix module
 -------------------------
 

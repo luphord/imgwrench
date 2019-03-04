@@ -45,16 +45,20 @@ Usage
         --help                     Show this message and exit.
 
         Commands:
-        colorfix  Fix colors by stretching channel histograms to full range.
-        resize    Resize images to a maximum side length preserving aspect ratio.
-        save      No-op to enable saving of images without any processing.
-        stack     Stack images vertically, empty space in the middle.
+        blackwhite  Convert color images to black and white.
+        colorfix    Fix colors by stretching channel histograms to full range.
+        crop        Crop images to the given aspect ratio.
+        resize      Resize images to a maximum side length preserving aspect...
+        save        No-op to enable saving of images without any processing.
+        stack       Stack images vertically, empty space in the middle.
 
 Features
 --------
 
 * Subcommands can be executed sequentially to form a pipeline
+* Command *blackwhite* for converting images to black and white
 * Command *colorfix* for fixing the colors of aged photographs
+* Command *crop* for cropping images to give aspect ratio
 * Command *resize* for resizing images
 * Command *stack* for vertically stacking images
 * Command *save* for no processing, but saving images with the given parameters
