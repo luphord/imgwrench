@@ -2,11 +2,11 @@
 History
 =======
 
-0.5.0 (not yet)
----------------
+0.5.0 (2019-03-07)
+------------------
 
-* blackwhite subcommand to convert color images to black and white incl. doc
-* frame subcommand to put a monocolor frame around images
+* blackwhite subcommand to convert color images to black and white; incl. doc
+* frame subcommand to put a monocolor frame around images; incl. tests
 
 0.4.0 (2019-02-26)
 ------------------
