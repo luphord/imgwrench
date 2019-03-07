@@ -48,6 +48,7 @@ Usage
         blackwhite  Convert color images to black and white.
         colorfix    Fix colors by stretching channel histograms to full range.
         crop        Crop images to the given aspect ratio.
+        frame       Put a monocolor frame around images.
         resize      Resize images to a maximum side length preserving aspect...
         save        No-op to enable saving of images without any processing.
         stack       Stack images vertically, empty space in the middle.
@@ -61,6 +62,7 @@ Features
 * Command *crop* for cropping images to give aspect ratio
 * Command *resize* for resizing images
 * Command *stack* for vertically stacking images
+* Command *frame* to put a monocolor frame around images
 * Command *save* for no processing, but saving images with the given parameters
 
 Credits

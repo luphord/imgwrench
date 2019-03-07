@@ -28,6 +28,14 @@ imgwrench.crop module
     :undoc-members:
     :show-inheritance:
 
+imgwrench.frame module
+----------------------
+
+.. automodule:: imgwrench.frame
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 imgwrench.resize module
 -----------------------
 
