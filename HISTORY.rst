@@ -6,6 +6,7 @@ History
 ---------------
 
 * blackwhite subcommand to convert color images to black and white incl. doc
+* frame subcommand to put a monocolor frame around images
 
 0.4.0 (2019-02-26)
 ------------------

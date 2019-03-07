@@ -15,6 +15,7 @@ from .blackwhite import cli_blackwhite
 from .resize import cli_resize
 from .crop import cli_crop
 from .stack import cli_stack
+from .frame import cli_frame
 from .save import cli_save
 
 
@@ -101,4 +102,5 @@ cli_imgwrench.add_command(cli_blackwhite)
 cli_imgwrench.add_command(cli_resize)
 cli_imgwrench.add_command(cli_crop)
 cli_imgwrench.add_command(cli_stack)
+cli_imgwrench.add_command(cli_frame)
 cli_imgwrench.add_command(cli_save)
