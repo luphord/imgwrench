@@ -18,7 +18,8 @@ def frame(image, width, color):
               help='width of the frame as a fraction of the longer ' +
                    'image side (default: 0.025)')
 @click.option('-c', '--color', type=click.STRING, default='white',
-              help='color of the frame (default: white)')
+              help='color of the frame as a color name, hex value ' +
+                   'or in rgb(...) function form (default: white)')
 def cli_frame(frame_width, color):
     '''Put a monocolor frame around images.'''
     click.echo('Initializing frame with parameters {}'.format(locals()))

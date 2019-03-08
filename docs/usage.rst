@@ -79,3 +79,38 @@ be applied to output to `img_0000.jpg` as follows:
 
 At the moment, `blackwhite` supports no further parameters. Conversion
 is delegated to the PIL `convert('L')` method call.
+
+frame
+=====
+
+The `frame` subcommand puts a monocolor frame around the image. The frame is
+added to the image size.
+
+Assuming image `saarschleife.jpg` in the current directory, `frame` can
+be applied with a frame width equal to 3% of the original image width (which
+is in landscape format, i.e. width > height) and a light grey color
+to output to `img_0000.jpg` as follows:
+
+.. code-block:: console
+
+    ls saarschleife.jpg | imgwrench frame -w 0.03 -c '#ddd'
+
+.. image:: _static/frame.jpg
+
+`frame` supports the parameter -w/--frame-width which specifies the frame width
+as fraction of the longer image side, e.g. 0.1 for a frame width that is equal
+to 10% of the longer image side. Also -c/--color is supported which accepts
+the frame color as either a name (e.g. 'white', 'green'), a hex value (e.g.
+'#ab1fde') or an rgb function value (e.g. 'rgb(120,23,217)').
+
+.. code-block:: console
+    Usage: imgwrench frame [OPTIONS]
+
+    Put a monocolor frame around images.
+
+    Options:
+    -w, --frame-width FLOAT  width of the frame as a fraction of the longer
+                            image side (default: 0.025)
+    -c, --color TEXT         color of the frame as a color name, hex value or in
+                            rgb(...) function form (default: white)
+    --help                   Show this message and exit.
