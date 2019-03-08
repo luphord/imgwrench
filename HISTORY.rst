@@ -2,6 +2,11 @@
 History
 =======
 
+0.5.1 (not yet)
+---------------
+
+* changed default frame width to 0.025
+
 0.5.0 (2019-03-07)
 ------------------
 

@@ -14,9 +14,9 @@ def frame(image, width, color):
 
 
 @click.command(name='frame')
-@click.option('-w', '--frame-width', type=click.FLOAT, default=0.01,
+@click.option('-w', '--frame-width', type=click.FLOAT, default=0.025,
               help='width of the frame as a fraction of the longer ' +
-                   'image side (default: 0.01)')
+                   'image side (default: 0.025)')
 @click.option('-c', '--color', type=click.STRING, default='white',
               help='color of the frame (default: white)')
 def cli_frame(frame_width, color):
