@@ -11,9 +11,16 @@ class Ratio(click.ParamType):
         try:
             a, b = value.split(':')
             a, b = float(a), float(b)
-            return a / b
+            ratio = a / b
         except ValueError:
-            self.fail('{} is not a valid ratio'.format(value), param, ctx)
+            try:
+                ratio = float(value)
+            except ValueError:
+                self.fail('{} is not a valid ratio'.format(value), param, ctx)
+        if ratio <= 0:
+            self.fail('parsed ratio {} is not strictly positive'.format(value),
+                      param, ctx)
+        return ratio
 
 
 RATIO = Ratio()
