@@ -3,6 +3,24 @@ Usage
 =====
 
 
+
+blackwhite
+==========
+
+The `blackwhite` subcommand converts color images to black and white.
+
+Assuming image `rainbow.jpg` in the current directory, `blackwhite` can
+be applied to output to `img_0000.jpg` as follows:
+
+.. code-block:: console
+
+    ls rainbow.jpg | imgwrench blackwhite
+
+.. image:: _static/blackwhite.jpg
+
+At the moment, `blackwhite` supports no further parameters. Conversion
+is delegated to the PIL `convert('L')` method call.
+
 colorfix
 ========
 
@@ -61,24 +79,6 @@ specified as two numbers separated by a colon, e.g. "2:1", "3:4", "117:123".
     Options:
     -a, --aspect-ratio TEXT  aspect ratio to crop to, defaults to "3:2"
     --help                   Show this message and exit.
-
-
-blackwhite
-==========
-
-The `blackwhite` subcommand converts color images to black and white.
-
-Assuming image `rainbow.jpg` in the current directory, `blackwhite` can
-be applied to output to `img_0000.jpg` as follows:
-
-.. code-block:: console
-
-    ls rainbow.jpg | imgwrench blackwhite
-
-.. image:: _static/blackwhite.jpg
-
-At the moment, `blackwhite` supports no further parameters. Conversion
-is delegated to the PIL `convert('L')` method call.
 
 frame
 =====

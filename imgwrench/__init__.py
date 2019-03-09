@@ -10,13 +10,13 @@ import os
 import click
 from PIL import Image
 
-from .colorfix import cli_colorfix
 from .blackwhite import cli_blackwhite
-from .resize import cli_resize
+from .colorfix import cli_colorfix
 from .crop import cli_crop
-from .stack import cli_stack
 from .frame import cli_frame
+from .resize import cli_resize
 from .save import cli_save
+from .stack import cli_stack
 
 
 def _load_image(fname):
@@ -97,10 +97,10 @@ def pipeline(image_processors, image_list, prefix, increment, digits,
     click.echo('--- Pipeline execution completed ---')
 
 
-cli_imgwrench.add_command(cli_colorfix)
 cli_imgwrench.add_command(cli_blackwhite)
-cli_imgwrench.add_command(cli_resize)
+cli_imgwrench.add_command(cli_colorfix)
 cli_imgwrench.add_command(cli_crop)
-cli_imgwrench.add_command(cli_stack)
 cli_imgwrench.add_command(cli_frame)
+cli_imgwrench.add_command(cli_resize)
 cli_imgwrench.add_command(cli_save)
+cli_imgwrench.add_command(cli_stack)

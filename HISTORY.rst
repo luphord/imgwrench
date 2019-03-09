@@ -7,6 +7,7 @@ History
 
 * changed default frame width to 0.025
 * usage doc for frame subcommand
+* consistent alphabetic sorting of subcommands
 
 0.5.0 (2019-03-07)
 ------------------

@@ -60,10 +60,10 @@ Features
 * Command *blackwhite* for converting images to black and white
 * Command *colorfix* for fixing the colors of aged photographs
 * Command *crop* for cropping images to give aspect ratio
-* Command *resize* for resizing images
-* Command *stack* for vertically stacking images
 * Command *frame* to put a monocolor frame around images
+* Command *resize* for resizing images
 * Command *save* for no processing, but saving images with the given parameters
+* Command *stack* for vertically stacking images
 
 Credits
 -------
