@@ -36,6 +36,14 @@ imgwrench.frame module
     :undoc-members:
     :show-inheritance:
 
+imgwrench.param module
+----------------------
+
+.. automodule:: imgwrench.param
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 imgwrench.resize module
 -----------------------
 

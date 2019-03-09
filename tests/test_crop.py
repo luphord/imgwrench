@@ -5,9 +5,14 @@ import unittest
 from PIL import Image
 
 from imgwrench.crop import crop
+from imgwrench.param import RATIO
 
 from .images import white100x100_img, white117x100_img, \
                     white100x123_img, white150x100_img
+
+
+def _ratio(value):
+    return RATIO.convert(value, None, None)
 
 
 class TestResize(unittest.TestCase):
@@ -26,50 +31,50 @@ class TestResize(unittest.TestCase):
 
     def test_crop_size(self):
         '''Test output sizes of crop.'''
-        white100x67 = crop(white100x100_img, '3:2')
+        white100x67 = crop(white100x100_img, _ratio('3:2'))
         self.assertEqual(100, white100x67.size[0])
         self.assertEqual(67, white100x67.size[1])
         # exactly the same
-        white100x67 = crop(white100x100_img, '2:3')
+        white100x67 = crop(white100x100_img, _ratio('2:3'))
         self.assertEqual(100, white100x67.size[0])
         self.assertEqual(67, white100x67.size[1])
         # different ratio
-        white100x67 = crop(white100x100_img, '2:1')
+        white100x67 = crop(white100x100_img, _ratio('2:1'))
         self.assertEqual(100, white100x67.size[0])
         self.assertEqual(50, white100x67.size[1])
         # different images
         # square
-        white100x100 = crop(white100x100_img, '1:1')
+        white100x100 = crop(white100x100_img, _ratio('1:1'))
         self.assertEqual(100, white100x100.size[0])
         self.assertEqual(100, white100x100.size[1])
         # 117 x 100
-        white117x78 = crop(white117x100_img, '3:2')
+        white117x78 = crop(white117x100_img, _ratio('3:2'))
         self.assertEqual(117, white117x78.size[0])
         self.assertEqual(78, white117x78.size[1])
-        white117x78 = crop(white117x100_img, '2:3')
+        white117x78 = crop(white117x100_img, _ratio('2:3'))
         self.assertEqual(117, white117x78.size[0])
         self.assertEqual(78, white117x78.size[1])
-        white100x100 = crop(white117x100_img, '1:1')
+        white100x100 = crop(white117x100_img, _ratio('1:1'))
         self.assertEqual(100, white100x100.size[0])
         self.assertEqual(100, white100x100.size[1])
         # 100 x 123
-        white82x123 = crop(white100x123_img, '3:2')
+        white82x123 = crop(white100x123_img, _ratio('3:2'))
         self.assertEqual(82, white82x123.size[0])
         self.assertEqual(123, white82x123.size[1])
-        white82x123 = crop(white100x123_img, '2:3')
+        white82x123 = crop(white100x123_img, _ratio('2:3'))
         self.assertEqual(82, white82x123.size[0])
         self.assertEqual(123, white82x123.size[1])
-        white100x100 = crop(white100x123_img, '1:1')
+        white100x100 = crop(white100x123_img, _ratio('1:1'))
         self.assertEqual(100, white100x100.size[0])
         self.assertEqual(100, white100x100.size[1])
         # 150 x 100
-        white150x100 = crop(white150x100_img, '3:2')
+        white150x100 = crop(white150x100_img, _ratio('3:2'))
         self.assertEqual(150, white150x100.size[0])
         self.assertEqual(100, white150x100.size[1])
-        white150x100 = crop(white150x100_img, '2:3')
+        white150x100 = crop(white150x100_img, _ratio('2:3'))
         self.assertEqual(150, white150x100.size[0])
         self.assertEqual(100, white150x100.size[1])
-        white100x100 = crop(white150x100_img, '1:1')
+        white100x100 = crop(white150x100_img, _ratio('1:1'))
         self.assertEqual(100, white100x100.size[0])
         self.assertEqual(100, white100x100.size[1])
 
@@ -85,49 +90,62 @@ class TestResize(unittest.TestCase):
 
     def test_crop_size_of_rotated_images(self):
         '''Test output sizes of crop for rotated images.'''
-        white100x67 = crop(white100x100_img.transpose(Image.ROTATE_90), '3:2')
+        white100x67 = crop(white100x100_img.transpose(Image.ROTATE_90),
+                           _ratio('3:2'))
         self.assertEqual(100, white100x67.size[0])
         self.assertEqual(67, white100x67.size[1])
         # exactly the same
-        white100x67 = crop(white100x100_img.transpose(Image.ROTATE_90), '2:3')
+        white100x67 = crop(white100x100_img.transpose(Image.ROTATE_90),
+                           _ratio('2:3'))
         self.assertEqual(100, white100x67.size[0])
         self.assertEqual(67, white100x67.size[1])
         # different ratio
-        white100x67 = crop(white100x100_img.transpose(Image.ROTATE_90), '2:1')
+        white100x67 = crop(white100x100_img.transpose(Image.ROTATE_90),
+                           _ratio('2:1'))
         self.assertEqual(100, white100x67.size[0])
         self.assertEqual(50, white100x67.size[1])
         # different images
         # square
-        white100x100 = crop(white100x100_img.transpose(Image.ROTATE_90), '1:1')
+        white100x100 = crop(white100x100_img.transpose(Image.ROTATE_90),
+                            _ratio('1:1'))
         self.assertEqual(100, white100x100.size[1])
         self.assertEqual(100, white100x100.size[0])
         # 117 x 100
-        white117x78 = crop(white117x100_img.transpose(Image.ROTATE_90), '3:2')
+        white117x78 = crop(white117x100_img.transpose(Image.ROTATE_90),
+                           _ratio('3:2'))
         self.assertEqual(117, white117x78.size[1])
         self.assertEqual(78, white117x78.size[0])
-        white117x78 = crop(white117x100_img.transpose(Image.ROTATE_90), '2:3')
+        white117x78 = crop(white117x100_img.transpose(Image.ROTATE_90),
+                           _ratio('2:3'))
         self.assertEqual(117, white117x78.size[1])
         self.assertEqual(78, white117x78.size[0])
-        white100x100 = crop(white117x100_img.transpose(Image.ROTATE_90), '1:1')
+        white100x100 = crop(white117x100_img.transpose(Image.ROTATE_90),
+                            _ratio('1:1'))
         self.assertEqual(100, white100x100.size[1])
         self.assertEqual(100, white100x100.size[0])
         # 100 x 123
-        white82x123 = crop(white100x123_img.transpose(Image.ROTATE_90), '3:2')
+        white82x123 = crop(white100x123_img.transpose(Image.ROTATE_90),
+                           _ratio('3:2'))
         self.assertEqual(82, white82x123.size[1])
         self.assertEqual(123, white82x123.size[0])
-        white82x123 = crop(white100x123_img.transpose(Image.ROTATE_90), '2:3')
+        white82x123 = crop(white100x123_img.transpose(Image.ROTATE_90),
+                           _ratio('2:3'))
         self.assertEqual(82, white82x123.size[1])
         self.assertEqual(123, white82x123.size[0])
-        white100x100 = crop(white100x123_img.transpose(Image.ROTATE_90), '1:1')
+        white100x100 = crop(white100x123_img.transpose(Image.ROTATE_90),
+                            _ratio('1:1'))
         self.assertEqual(100, white100x100.size[1])
         self.assertEqual(100, white100x100.size[0])
         # 150 x 100
-        white150x100 = crop(white150x100_img.transpose(Image.ROTATE_90), '3:2')
+        white150x100 = crop(white150x100_img.transpose(Image.ROTATE_90),
+                            _ratio('3:2'))
         self.assertEqual(150, white150x100.size[1])
         self.assertEqual(100, white150x100.size[0])
-        white150x100 = crop(white150x100_img.transpose(Image.ROTATE_90), '2:3')
+        white150x100 = crop(white150x100_img.transpose(Image.ROTATE_90),
+                            _ratio('2:3'))
         self.assertEqual(150, white150x100.size[1])
         self.assertEqual(100, white150x100.size[0])
-        white100x100 = crop(white150x100_img.transpose(Image.ROTATE_90), '1:1')
+        white100x100 = crop(white150x100_img.transpose(Image.ROTATE_90),
+                            _ratio('1:1'))
         self.assertEqual(100, white100x100.size[1])
         self.assertEqual(100, white100x100.size[0])

@@ -4,16 +4,16 @@ from math import floor, ceil
 
 import click
 
+from .param import RATIO
+
 
 def crop(image, aspect_ratio):
     '''Crop images to the given aspect ratio.'''
-    a, b = aspect_ratio.split(':')
-    a, b = float(a), float(b)
     width, height = image.size[0], image.size[1]
     long_side = max(width, height)
     short_side = min(width, height)
     actual_ratio = long_side / short_side
-    target_ratio = max(a, b) / min(a, b)
+    target_ratio = max(aspect_ratio, 1 / aspect_ratio)
     # we assume long_side == width and short_side == height
     # if not, we are going to switch later
     if target_ratio > actual_ratio:  # need to crop short side
@@ -37,7 +37,7 @@ def crop(image, aspect_ratio):
 
 
 @click.command(name='crop')
-@click.option('-a', '--aspect-ratio', type=click.STRING, default='3:2',
+@click.option('-a', '--aspect-ratio', type=RATIO, default='3:2',
               help='aspect ratio to crop to, defaults to "3:2"')
 def cli_crop(aspect_ratio):
     '''Crop images to the given aspect ratio.'''
