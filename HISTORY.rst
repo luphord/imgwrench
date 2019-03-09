@@ -2,8 +2,8 @@
 History
 =======
 
-0.5.1 (not yet)
----------------
+0.5.1 (2019-03-09)
+------------------
 
 * changed default frame width to 0.025
 * usage doc for frame subcommand
