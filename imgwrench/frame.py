@@ -3,6 +3,8 @@
 import click
 from PIL import Image
 
+from imgwrench.param import COLOR
+
 
 def frame(image, width, color):
     '''Put a monocolor frame around images.'''
@@ -17,7 +19,7 @@ def frame(image, width, color):
 @click.option('-w', '--frame-width', type=click.FLOAT, default=0.025,
               help='width of the frame as a fraction of the longer ' +
                    'image side (default: 0.025)')
-@click.option('-c', '--color', type=click.STRING, default='white',
+@click.option('-c', '--color', type=COLOR, default='white',
               help='color of the frame as a color name, hex value ' +
                    'or in rgb(...) function form (default: white)')
 def cli_frame(frame_width, color):
