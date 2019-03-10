@@ -4,7 +4,45 @@ import unittest
 
 from click.exceptions import BadParameter
 
-from imgwrench.param import RATIO
+from imgwrench.param import RATIO, COLOR
+
+
+def _color(value):
+    return COLOR.convert(value, None, None)
+
+
+class TestColor(unittest.TestCase):
+    '''Test for `COLOR` custom parameter type'''
+
+    def test_color_names(self):
+        '''Test colors specified as name.'''
+        self.assertEqual((0, 0, 0), _color('black'))
+        self.assertEqual((255, 255, 255), _color('white'))
+        self.assertEqual((255, 0, 0), _color('red'))
+        self.assertEqual((0, 255, 0), _color('lime'))
+        self.assertEqual((0, 0, 255), _color('blue'))
+        self.assertEqual((0, 128, 0), _color('green'))
+        self.assertEqual((255, 255, 0), _color('yellow'))
+
+    def test_hex_colors(self):
+        '''Test colors specified as hex values.'''
+        self.assertEqual((0, 0, 0), _color('#000'))
+        self.assertEqual((0, 0, 0), _color('#000000'))
+        self.assertEqual((255, 255, 255), _color('#fff'))
+        self.assertEqual((240, 230, 140), _color('#F0E68C'))
+
+    def test_rgb_colors(self):
+        '''Test colors specified as rgb function values.'''
+        self.assertEqual((0, 0, 0), _color('rgb(0,0,0)'))
+        self.assertEqual((255, 255, 255), _color('rgb(255, 255, 255)'))
+        self.assertEqual((240, 230, 140), _color('rgb(240, 230, 140)'))
+
+    def test_bad_colors(self):
+        '''Test several bad color specifications which must raise errors.'''
+        bad_colors = ['asd', '0', '0.0', 'greenish', '#1', 'rgb()', 'rgb(0)']
+        for bad_color in bad_colors:
+            with self.assertRaises(BadParameter):
+                _color(bad_color)
 
 
 def _ratio(value):
@@ -12,7 +50,7 @@ def _ratio(value):
 
 
 class TestRatio(unittest.TestCase):
-    '''Test for `crop` command.'''
+    '''Test for `RATIO` custom parameter type.'''
 
     def test_float_ratios(self):
         '''Test several good ratio specifications as floating points.'''

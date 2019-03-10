@@ -1,6 +1,18 @@
 '''Custom parameter types for the click-based CLI'''
 
 import click
+from PIL import ImageColor
+
+
+class Color(click.ParamType):
+    '''Parameter type representing a color as name, hex or rgb value'''
+    name = 'color'
+
+    def convert(self, value, param, ctx):
+        try:
+            return ImageColor.getrgb(value)
+        except ValueError:
+            self.fail('{} is not a valid color'.format(value), param, ctx)
 
 
 class Ratio(click.ParamType):
@@ -23,4 +35,5 @@ class Ratio(click.ParamType):
         return ratio
 
 
+COLOR = Color()
 RATIO = Ratio()
