@@ -4,7 +4,7 @@ import unittest
 
 from PIL import Image
 
-from imgwrench.crop import crop
+from imgwrench.commands.crop import crop
 from imgwrench.param import RATIO
 
 from .images import white100x100_img, white117x100_img, \

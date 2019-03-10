@@ -1,69 +1,20 @@
 imgwrench package
 =================
 
+Subpackages
+-----------
+
+.. toctree::
+
+    imgwrench.commands
+
 Submodules
 ----------
-
-imgwrench.blackwhite module
----------------------------
-
-.. automodule:: imgwrench.blackwhite
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-imgwrench.colorfix module
--------------------------
-
-.. automodule:: imgwrench.colorfix
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-imgwrench.crop module
----------------------
-
-.. automodule:: imgwrench.crop
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-imgwrench.frame module
-----------------------
-
-.. automodule:: imgwrench.frame
-    :members:
-    :undoc-members:
-    :show-inheritance:
 
 imgwrench.param module
 ----------------------
 
 .. automodule:: imgwrench.param
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-imgwrench.resize module
------------------------
-
-.. automodule:: imgwrench.resize
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-imgwrench.save module
----------------------
-
-.. automodule:: imgwrench.save
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-imgwrench.stack module
-----------------------
-
-.. automodule:: imgwrench.stack
     :members:
     :undoc-members:
     :show-inheritance:

@@ -4,7 +4,7 @@ from math import floor, ceil
 
 import click
 
-from .param import RATIO
+from ..param import RATIO
 
 
 def crop(image, aspect_ratio):

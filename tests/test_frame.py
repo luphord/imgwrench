@@ -4,7 +4,7 @@ import unittest
 
 from PIL import Image
 
-from imgwrench.frame import frame
+from imgwrench.commands.frame import frame
 
 from .images import white150x100_img, white100x123_img
 

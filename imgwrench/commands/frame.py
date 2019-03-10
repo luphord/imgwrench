@@ -3,7 +3,7 @@
 import click
 from PIL import Image
 
-from imgwrench.param import COLOR
+from ..param import COLOR
 
 
 def frame(image, width, color):

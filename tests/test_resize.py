@@ -2,7 +2,7 @@
 
 import unittest
 
-from imgwrench.resize import resize
+from imgwrench.commands.resize import resize
 
 from .images import pixel1x1_img
 

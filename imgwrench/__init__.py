@@ -10,13 +10,13 @@ import os
 import click
 from PIL import Image
 
-from .blackwhite import cli_blackwhite
-from .colorfix import cli_colorfix
-from .crop import cli_crop
-from .frame import cli_frame
-from .resize import cli_resize
-from .save import cli_save
-from .stack import cli_stack
+from .commands.blackwhite import cli_blackwhite
+from .commands.colorfix import cli_colorfix
+from .commands.crop import cli_crop
+from .commands.frame import cli_frame
+from .commands.resize import cli_resize
+from .commands.save import cli_save
+from .commands.stack import cli_stack
 
 
 def _load_image(fname):
