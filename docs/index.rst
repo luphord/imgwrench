@@ -1,5 +1,5 @@
-Welcome to Image Wrench's documentation!
-======================================
+Documenation for Image Wrench (imgwrench)
+=========================================
 
 .. toctree::
    :maxdepth: 2

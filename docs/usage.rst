@@ -104,6 +104,7 @@ the frame color as either a name (e.g. 'white', 'green'), a hex value (e.g.
 '#ab1fde') or an rgb function value (e.g. 'rgb(120,23,217)').
 
 .. code-block:: console
+
     Usage: imgwrench frame [OPTIONS]
 
     Put a monocolor frame around images.
