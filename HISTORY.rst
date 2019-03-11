@@ -2,6 +2,13 @@
 History
 =======
 
+0.6.0 (not yet)
+---------------
+
+* framecrop subcommand to crop and frame an image to a target aspect ratio
+* breaking change: moved command modules to `commands` package
+
+
 0.5.2 (2019-03-10)
 ------------------
 
