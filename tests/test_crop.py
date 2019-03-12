@@ -15,7 +15,7 @@ def _ratio(value):
     return RATIO.convert(value, None, None)
 
 
-class TestResize(unittest.TestCase):
+class TestCrop(unittest.TestCase):
     '''Test for `crop` command.'''
 
     def test_original_sizes_to_be_sure(self):

@@ -9,7 +9,7 @@ from imgwrench.commands.frame import frame
 from .images import white150x100_img, white100x123_img
 
 
-class TestResize(unittest.TestCase):
+class TestFrame(unittest.TestCase):
     '''Test for `frame` command.'''
 
     def test_frame_size(self):
