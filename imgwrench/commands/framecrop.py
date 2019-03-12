@@ -12,6 +12,7 @@ def crop_ratio(target_ratio, frame_width):
        such that the resulting image matches `target_ratio`
        and has a frame of width `frame_width`
     '''
+    target_ratio = max(target_ratio, 1 / target_ratio)
     return target_ratio / (1 + 2*frame_width*(1-target_ratio))
 
 
