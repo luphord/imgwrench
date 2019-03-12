@@ -94,6 +94,7 @@ ENV/
 
 # Visual Studio Code
 settings.json
+.vscode/
 
 # Rope project settings
 .ropeproject
