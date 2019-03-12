@@ -115,3 +115,43 @@ the frame color as either a name (e.g. 'white', 'green'), a hex value (e.g.
     -c, --color TEXT         color of the frame as a color name, hex value or in
                             rgb(...) function form (default: white)
     --help                   Show this message and exit.
+
+framecrop
+=========
+
+The `framecrop` command crops and frames an image to a target aspect ratio.
+The resulting image will conform to the target aspect ratio so you don't have
+to precompute the required crop ratio.
+
+Assuming image `rainbow.jpg` in the current directory, `framecrop` can be applied
+with aspect ratio 3:2, a grey frame of width 10% and output to `img_0000.jpg` as follows:
+
+.. code-block:: console
+
+   ls rainbow.jpg | imgwrench framecrop -a '3:2' -w 0.1 -c grey
+
+.. image:: _static/framecrop.jpg
+
+`framecrop` supports the parameter -a/--aspect-ratio which has to be an aspect ratio
+specified as two numbers separated by a colon, e.g. "2:1", "3:4", "117:123". This will
+be the ratio of the final image *including* the frame.
+
+The parameter -w/--frame-width specifies the frame width as fraction of the longer
+image side after the crop operation. Also -c/--color is supported which accepts
+the frame color as either a name (e.g. 'white', 'green'), a hex value (e.g.
+'#ab1fde') or an rgb function value (e.g. 'rgb(120,23,217)').
+
+.. code-block:: console
+
+    Usage: imgwrench framecrop [OPTIONS]
+
+    Crop and frame an image to a target aspect ratio.
+
+    Options:
+    -a, --aspect-ratio RATIO  aspect ratio of final image including frame,
+                                defaults to "3:2"
+    -w, --frame-width FLOAT   width of the frame as a fraction of the longer
+                                side of the cropped image (default: 0.025)
+    -c, --color COLOR         color of the frame as a color name, hex value or
+                                in rgb(...) function form (default: white)
+    --help                    Show this message and exit.
