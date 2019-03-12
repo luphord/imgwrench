@@ -1,4 +1,5 @@
 '''Crop and frame an image to a target aspect ratio.'''
+from math import floor
 
 import click
 
@@ -7,12 +8,26 @@ from .crop import crop
 from .frame import frame
 
 
+def _floor(x, digits):
+    return floor(x*10**digits) / 10**digits
+
+
+def _unachievable_ratio_msg(target_ratio, frame_width):
+    max_frame = _floor(1 / (2*(target_ratio-1)), 2)
+    max_ratio = _floor(1 + 1/(2*frame_width), 2)
+    return 'Unachievable target ratio; ' + \
+           'reduce frame width to < {}'.format(max_frame) + \
+           ' or aspect ratio to < {}'.format(max_ratio)
+
+
 def crop_ratio(target_ratio, frame_width):
     '''Computes the crop ratio for a framecrop operation
        such that the resulting image matches `target_ratio`
        and has a frame of width `frame_width`
     '''
     target_ratio = max(target_ratio, 1 / target_ratio)
+    assert target_ratio < 1 + 1 / (2 * frame_width), \
+        _unachievable_ratio_msg(target_ratio, frame_width)
     return target_ratio / (1 + 2*frame_width*(1-target_ratio))
 
 
@@ -35,6 +50,8 @@ def framecrop(image, aspect_ratio, width, color):
 def cli_framecrop(aspect_ratio, frame_width, color):
     '''Crop and frame an image to a target aspect ratio.'''
     click.echo('Initializing framecrop with parameters {}'.format(locals()))
+    # for side effect of checking valid aspect_ratio and frame_width:
+    crop_ratio(aspect_ratio, frame_width)
 
     def _framecrop(images):
         for orgfname, image in images:

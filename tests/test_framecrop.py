@@ -39,6 +39,14 @@ class TestFramecrop(unittest.TestCase):
         self.assertEqual(round(2/3, 2), round(_aratio(framed_img), 2))
         framed_img = framecrop(white100x123_img, _ratio('2:1'), 0.2, 'green')
         self.assertEqual(round(1/2, 2), round(_aratio(framed_img), 2))
+        framed_img = framecrop(white100x123_img, _ratio('3:1'), 0.2, 'green')
+        self.assertEqual(round(1/3, 1), round(_aratio(framed_img), 1))
+        with self.assertRaises(AssertionError):
+            framecrop(white100x123_img, _ratio('4:1'), 0.2, 'green')
+        with self.assertRaises(AssertionError):
+            framecrop(white100x123_img, _ratio('6:1'), 0.1, 'green')
+        with self.assertRaises(AssertionError):
+            framecrop(white100x123_img, _ratio('1:3'), 0.3, 'green')
 
     def test_framecrop_pixelcolor(self):
         '''Test all pixels of a framecrop operation'''
