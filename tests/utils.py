@@ -23,7 +23,10 @@ def execute_and_test_output_images(test, cli_runner, n_input, n_output,
                                     '-d', 4,
                                     '-i', 'images.txt'] + args)
         test.assertEqual(0, result.exit_code)
-        for i in range(n_output):
+        for i in range(n_output + 1):
             fname = '{}{:04d}.jpg'.format(prefix, i)
             exists = os.path.exists(fname)
-            test.assertTrue(exists, fname + ' missing')
+            if i < n_output:
+                test.assertTrue(exists, fname + ' missing')
+            else:
+                test.assertFalse(exists, fname + ' must not exist')

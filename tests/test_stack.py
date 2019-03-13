@@ -20,4 +20,4 @@ class TestStack(unittest.TestCase):
     def test_stacked_output(self):
         '''Test output of stack command'''
         execute_and_test_output_images(self, self.runner, 6, 3,
-                                       '_stacked', ['stack'])
+                                       'stacked_', ['stack'])
