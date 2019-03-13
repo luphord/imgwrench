@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""The setup script."""
+'''setup script for imgwrench.'''
 
 from setuptools import setup, find_packages
 
@@ -13,12 +13,12 @@ with open('HISTORY.rst') as history_file:
 
 requirements = ['Click>=6.0', 'Pillow>=5.0']
 
-setup_requirements = [ ]
+setup_requirements = []
 
-test_requirements = [ ]
+test_requirements = []
 
 setup(
-    author="luphord",
+    author='luphord',
     author_email='luphord@protonmail.com',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
@@ -31,7 +31,7 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
     ],
-    description="A command line tool for my image processing needs.",
+    description='A command line tool for my image processing needs.',
     entry_points={
         'console_scripts': [
             'imgwrench=imgwrench:cli_imgwrench',
