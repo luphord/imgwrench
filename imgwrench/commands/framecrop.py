@@ -54,7 +54,7 @@ def cli_framecrop(aspect_ratio, frame_width, color):
     crop_ratio(aspect_ratio, frame_width)
 
     def _framecrop(images):
-        for orgfname, image in images:
-            yield orgfname, framecrop(image, aspect_ratio, frame_width, color)
+        for info, image in images:
+            yield info, framecrop(image, aspect_ratio, frame_width, color)
 
     return _framecrop

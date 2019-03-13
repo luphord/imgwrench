@@ -44,7 +44,7 @@ def cli_crop(aspect_ratio):
     click.echo('Initializing crop with parameters {}'.format(locals()))
 
     def _crop(images):
-        for orgfname, image in images:
-            yield orgfname, crop(image, aspect_ratio)
+        for info, image in images:
+            yield info, crop(image, aspect_ratio)
 
     return _crop

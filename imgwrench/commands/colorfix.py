@@ -59,7 +59,7 @@ def cli_colorfix(alpha):
     click.echo('Initializing colorfix with parameters {}'.format(locals()))
 
     def _colorfix(images):
-        for orgfname, image in images:
-            yield orgfname, colorfix(image, alpha)
+        for info, image in images:
+            yield info, colorfix(image, alpha)
 
     return _colorfix

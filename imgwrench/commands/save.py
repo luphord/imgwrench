@@ -9,7 +9,7 @@ def cli_save():
     click.echo('Initializing save (no-op) without parameters')
 
     def _save(images):
-        for orgfname, image in images:
-            yield orgfname, image
+        for info, image in images:
+            yield info, image
 
     return _save

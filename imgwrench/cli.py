@@ -6,6 +6,7 @@ import os
 import click
 from PIL import Image
 
+from .info import ImageInfo
 from .commands.blackwhite import cli_blackwhite
 from .commands.colorfix import cli_colorfix
 from .commands.crop import cli_crop
@@ -70,10 +71,10 @@ def pipeline(image_processors, image_list, prefix, increment, digits,
 
     def _load_images():
         with image_list:
-            for line in image_list:
-                fname = line.strip()
-                click.echo('<- Processing {}...'.format(fname))
-                yield os.path.basename(fname), _load_image(fname)
+            for i, line in enumerate(image_list):
+                info = ImageInfo(line.strip(), i)
+                click.echo('<- Processing {}...'.format(info))
+                yield info, _load_image(info.path)
 
     images = _load_images()
     # connecting pipeline image processors

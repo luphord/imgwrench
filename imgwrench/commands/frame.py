@@ -27,7 +27,7 @@ def cli_frame(frame_width, color):
     click.echo('Initializing frame with parameters {}'.format(locals()))
 
     def _frame(images):
-        for orgfname, image in images:
-            yield orgfname, frame(image, frame_width, color)
+        for info, image in images:
+            yield info, frame(image, frame_width, color)
 
     return _frame

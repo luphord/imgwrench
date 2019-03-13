@@ -14,7 +14,7 @@ def cli_blackwhite():
     click.echo('Initializing blackwhite with parameters {}'.format(locals()))
 
     def _blackwhite(images):
-        for orgfname, image in images:
-            yield orgfname, blackwhite(image)
+        for info, image in images:
+            yield info, blackwhite(image)
 
     return _blackwhite

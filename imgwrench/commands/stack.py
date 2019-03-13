@@ -31,13 +31,13 @@ def cli_stack(width, height):
     click.echo('Initializing stack with parameters {}'.format(locals()))
 
     def _stack(images):
-        last_orgfname = None
+        last_info = None
         last_image = None
-        for i, (orgfname, image) in enumerate(images):
-            if i % 2 == 0:
-                last_orgfname = orgfname
+        for info, image in images:
+            if info.index % 2 == 0:
+                last_info = info
                 last_image = image
             else:
-                yield last_orgfname, stack(last_image, image, width, height)
+                yield last_info, stack(last_image, image, width, height)
 
     return _stack

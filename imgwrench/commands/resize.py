@@ -19,7 +19,7 @@ def cli_resize(maxsize):
     click.echo('Initializing resize with parameters {}'.format(locals()))
 
     def _resize(images):
-        for orgfname, image in images:
-            yield orgfname, resize(image, maxsize)
+        for info, image in images:
+            yield info, resize(image, maxsize)
 
     return _resize
