@@ -3,11 +3,13 @@
 import unittest
 
 from PIL import Image
+from click.testing import CliRunner
 
 from imgwrench.commands.framecrop import framecrop
 from imgwrench.param import RATIO
 
 from .images import white150x100_img, white100x123_img
+from .utils import execute_and_test_output_images
 
 
 def _ratio(value):
@@ -69,3 +71,8 @@ class TestFramecrop(unittest.TestCase):
                     self.assertEqual(255, r)
                     self.assertEqual(255, g)
                     self.assertEqual(255, b)
+
+    def test_framecropped_output(self):
+        '''Test output of framecrop command.'''
+        execute_and_test_output_images(self, CliRunner(), 3, 3,
+                                       'framecroppedd_', ['framecrop'])

@@ -3,12 +3,14 @@
 import unittest
 
 from PIL import Image
+from click.testing import CliRunner
 
 from imgwrench.commands.crop import crop
 from imgwrench.param import RATIO
 
 from .images import white100x100_img, white117x100_img, \
                     white100x123_img, white150x100_img
+from .utils import execute_and_test_output_images
 
 
 def _ratio(value):
@@ -149,3 +151,8 @@ class TestCrop(unittest.TestCase):
                             _ratio('1:1'))
         self.assertEqual(100, white100x100.size[1])
         self.assertEqual(100, white100x100.size[0])
+
+    def test_cropped_output(self):
+        '''Test output of crop command.'''
+        execute_and_test_output_images(self, CliRunner(), 3, 3,
+                                       'cropped_', ['crop'])

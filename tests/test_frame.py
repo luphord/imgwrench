@@ -3,10 +3,12 @@
 import unittest
 
 from PIL import Image
+from click.testing import CliRunner
 
 from imgwrench.commands.frame import frame
 
 from .images import white150x100_img, white100x123_img
+from .utils import execute_and_test_output_images
 
 
 class TestFrame(unittest.TestCase):
@@ -38,3 +40,8 @@ class TestFrame(unittest.TestCase):
                     self.assertEqual(255, r)
                     self.assertEqual(255, g)
                     self.assertEqual(255, b)
+
+    def test_framed_output(self):
+        '''Test output of frame command.'''
+        execute_and_test_output_images(self, CliRunner(), 3, 3,
+                                       'framed_', ['frame'])
