@@ -184,3 +184,33 @@ images it specifies the new height.
     Options:
     -m, --maxsize INTEGER  size of the longer side (width or height) in pixels
     --help                 Show this message and exit.
+
+stack
+=====
+
+The `stack` command stacks pairs of images vertically.
+
+Assuming image `sky.jpg` and `sunset.jpg` in the current directory,
+`stack` can be applied with a target width of 400 and height 600 pixels
+to output to `img_0000.jpg` as follows:
+
+.. code-block:: console
+
+    ls sky.jpg sunset.jpg | imgwrench stack -w 400 -s 600
+
+.. image:: _static/stack.jpg
+
+The parameters -w/--width and -s/--height (attention: it is -s, not -h to avoid
+conflicts with --help) specify the target width and height of the output image.
+Remaining space will be white.
+
+.. code-block:: console
+
+    Usage: imgwrench stack [OPTIONS]
+
+    Stack images vertically, empty space in the middle.
+
+    Options:
+    -w, --width INTEGER   width of the stacked image
+    -s, --height INTEGER  height of the stacked image
+    --help                Show this message and exit.
