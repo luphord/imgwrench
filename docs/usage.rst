@@ -155,3 +155,32 @@ the frame color as either a name (e.g. 'white', 'green'), a hex value (e.g.
     -c, --color COLOR         color of the frame as a color name, hex value or
                                 in rgb(...) function form (default: white)
     --help                    Show this message and exit.
+
+resize
+======
+
+The `resize` command resizes images to a maximum side length while preserving the
+original aspect ratio.
+
+Assuming image `lensflare.jpg` in the current directory, `resize` can be applied
+with a maximum side length of 300 pixels to `img_0000.jpg` as follows:
+
+.. code-block:: console
+
+    ls lensflare.jpg | imgwrench resize -m 300
+
+.. image:: _static/resize.jpg
+
+The parameter -m/--maxsize specifies the new maximum side length of the resized
+image, i.e. for landscape images it specifies the new width and for portrait
+images it specifies the new height.
+
+.. code-block:: console
+
+    Usage: imgwrench resize [OPTIONS]
+
+    Resize images to a maximum side length preserving aspect ratio.
+
+    Options:
+    -m, --maxsize INTEGER  size of the longer side (width or height) in pixels
+    --help                 Show this message and exit.
