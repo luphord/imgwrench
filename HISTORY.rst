@@ -2,14 +2,14 @@
 History
 =======
 
-0.6.0 (not yet)
----------------
+0.6.0 (2019.03-14)
+------------------
 
 * framecrop subcommand to crop and frame an image to a target aspect ratio incl. tests and docs
 * breaking change: moved command modules to `commands` package
 * introduced ImageInfo as a container for additional meta information in the pipeline
 * increased test coverage
-
+* more documentation
 
 0.5.2 (2019-03-10)
 ------------------
