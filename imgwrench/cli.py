@@ -3,6 +3,8 @@
 '''Command Line Interface for Image Wrench.'''
 
 import os
+from pathlib import Path
+
 import click
 from PIL import Image
 
@@ -72,9 +74,11 @@ def pipeline(image_processors, image_list, prefix, increment, digits,
     def _load_images():
         with image_list:
             for i, line in enumerate(image_list):
-                info = ImageInfo(line.strip(), i)
+                path = Path(line.strip()).resolve()
+                img = _load_image(path)
+                info = ImageInfo(path, i, img.info.get('exif'))
                 click.echo('<- Processing {}...'.format(info))
-                yield info, _load_image(info.path)
+                yield info, img
 
     images = _load_images()
     # connecting pipeline image processors

@@ -2,6 +2,11 @@
 History
 =======
 
+0.7.0 (not yet)
+---------------
+
+* option for preserving exif image metadata
+
 0.6.0 (2019.03-14)
 ------------------
 

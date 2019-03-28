@@ -2,16 +2,15 @@
 
 '''Image meta information.'''
 
-from pathlib import Path
-
 
 class ImageInfo:
     '''Container for image meta information'''
 
-    def __init__(self, path, index):
-        self.path = Path(path).resolve()
+    def __init__(self, path, index, exif):
+        self.path = path
         self.fname = self.path.name
         self.index = int(index)
+        self.exif = exif
 
     def __str__(self):
         return str(self.path)
