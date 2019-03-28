@@ -59,8 +59,10 @@ def _load_image(fname):
               default='.', help='output directory')
 @click.option('-q', '--quality', type=click.INT, default=88,
               help='quality of the output images, integer 0 - 100')
+@click.option('-e', '--preserve-exif', is_flag=True, default=False,
+              help='preserve image exif headers if available')
 def cli_imgwrench(image_list, prefix, digits, increment, keep_names,
-                  force_overwrite, outdir, quality):
+                  force_overwrite, outdir, quality, preserve_exif):
     '''The main command line interface function of imgwrench'''
     param = dict(**locals())
     del param['image_list']
@@ -69,7 +71,7 @@ def cli_imgwrench(image_list, prefix, digits, increment, keep_names,
 
 @cli_imgwrench.resultcallback()
 def pipeline(image_processors, image_list, prefix, increment, digits,
-             keep_names, force_overwrite, outdir, quality):
+             keep_names, force_overwrite, outdir, quality, preserve_exif):
 
     def _load_images():
         with image_list:
@@ -88,13 +90,16 @@ def pipeline(image_processors, image_list, prefix, increment, digits,
     click.echo('--- Executing pipeline ---')
     # executing pipeline
     fmt = '{}{:0' + str(digits) + 'd}.jpg'
-    for i, (orgfname, processed_image) in enumerate(images):
-        newfname = orgfname if keep_names else fmt.format(prefix, i*increment)
+    for i, (info, processed_image) in enumerate(images):
+        newfname = info if keep_names else fmt.format(prefix, i*increment)
         outpath = os.path.join(outdir, newfname)
         if not force_overwrite and os.path.exists(outpath):
             raise Exception(('{} already exists; use --force-overwrite ' +
                              'to overwrite').format(outpath))
-        processed_image.save(outpath, quality=quality)
+        args = dict(quality=quality)
+        if preserve_exif and info.exif:
+            args['exif'] = info.exif
+        processed_image.save(outpath, **args)
         click.echo('-> Saved {}'.format(outpath))
     click.echo('--- Pipeline execution completed ---')
 
