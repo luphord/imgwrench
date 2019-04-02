@@ -49,8 +49,8 @@ and will intensify the contrast of the resulting image.
 
     Options:
     -a, --alpha FLOAT  quantile (low and high) to be clipped to minimum and
-                        maximum color, defaults to 0.01
-    --help             Show this message and exit.
+                        maximum color  [default: 0.01]
+    --help             Show this message and exit
 
 
 crop
@@ -77,8 +77,8 @@ specified as two numbers separated by a colon, e.g. "2:1", "3:4", "117:123".
     Crop images to the given aspect ratio.
 
     Options:
-    -a, --aspect-ratio TEXT  aspect ratio to crop to, defaults to "3:2"
-    --help                   Show this message and exit.
+    -a, --aspect-ratio RATIO  aspect ratio to crop to  [default: 3:2]
+    --help                    Show this message and exit.
 
 frame
 =====
@@ -111,9 +111,9 @@ the frame color as either a name (e.g. 'white', 'green'), a hex value (e.g.
 
     Options:
     -w, --frame-width FLOAT  width of the frame as a fraction of the longer
-                            image side (default: 0.025)
-    -c, --color TEXT         color of the frame as a color name, hex value or in
-                            rgb(...) function form (default: white)
+                            image side  [default: 0.025]
+    -c, --color COLOR        color of the frame as a color name, hex value or in
+                            rgb(...) function form  [default: white]
     --help                   Show this message and exit.
 
 framecrop
@@ -148,12 +148,12 @@ the frame color as either a name (e.g. 'white', 'green'), a hex value (e.g.
     Crop and frame an image to a target aspect ratio.
 
     Options:
-    -a, --aspect-ratio RATIO  aspect ratio of final image including frame,
-                                defaults to "3:2"
+    -a, --aspect-ratio RATIO  aspect ratio of final image including frame
+                                [default: 3:2]
     -w, --frame-width FLOAT   width of the frame as a fraction of the longer
-                                side of the cropped image (default: 0.025)
+                                side of the cropped image  [default: 0.025]
     -c, --color COLOR         color of the frame as a color name, hex value or
-                                in rgb(...) function form (default: white)
+                                in rgb(...) function form  [default: white]
     --help                    Show this message and exit.
 
 resize
@@ -183,6 +183,7 @@ images it specifies the new height.
 
     Options:
     -m, --maxsize INTEGER  size of the longer side (width or height) in pixels
+                            [default: 1024]
     --help                 Show this message and exit.
 
 stack
@@ -211,6 +212,6 @@ Remaining space will be white.
     Stack images vertically, empty space in the middle.
 
     Options:
-    -w, --width INTEGER   width of the stacked image
-    -s, --height INTEGER  height of the stacked image
+    -w, --width INTEGER   width of the stacked image  [default: 2048]
+    -s, --height INTEGER  height of the stacked image  [default: 3072]
     --help                Show this message and exit.

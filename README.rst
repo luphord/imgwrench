@@ -36,12 +36,18 @@ Usage
         -i, --image-list FILENAME  File containing paths to images for processing,
                                 defaults to stdin
         -p, --prefix TEXT          prefix for all output filenames before numbering
-        -d, --digits INTEGER       number of digits for file numbering (default 4)
-        -c, --increment INTEGER    increment for file numbering (default 1)
+                                [default: img_]
+        -d, --digits INTEGER       number of digits for file numbering  [default: 4]
+        -c, --increment INTEGER    increment for file numbering  [default: 1]
         -k, --keep-names           keep original file names instead of numbering
+                                [default: False]
         -f, --force-overwrite      force overwriting output image file if it exists
-        -o, --outdir DIRECTORY     output directory
+                                [default: False]
+        -o, --outdir DIRECTORY     output directory  [default: .]
         -q, --quality INTEGER      quality of the output images, integer 0 - 100
+                                [default: 88]
+        -e, --preserve-exif        preserve image exif headers if available
+                                [default: False]
         --help                     Show this message and exit.
 
         Commands:
