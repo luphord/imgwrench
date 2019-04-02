@@ -38,7 +38,8 @@ def crop(image, aspect_ratio):
 
 @click.command(name='crop')
 @click.option('-a', '--aspect-ratio', type=RATIO, default='3:2',
-              help='aspect ratio to crop to, defaults to "3:2"')
+              show_default=True,
+              help='aspect ratio to crop to')
 def cli_crop(aspect_ratio):
     '''Crop images to the given aspect ratio.'''
     click.echo('Initializing crop with parameters {}'.format(locals()))

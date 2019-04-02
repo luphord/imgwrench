@@ -44,22 +44,30 @@ def _load_image(fname):
               help='File containing paths to images for processing, ' +
                     'defaults to stdin')
 @click.option('-p', '--prefix', type=click.STRING, default='img_',
+              show_default=True,
               help='prefix for all output filenames before numbering')
 @click.option('-d', '--digits', type=click.INT, default=4,
-              help='number of digits for file numbering (default 4)')
+              show_default=True,
+              help='number of digits for file numbering')
 @click.option('-c', '--increment', type=click.INT, default=1,
-              help='increment for file numbering (default 1)')
+              show_default=True,
+              help='increment for file numbering')
 @click.option('-k', '--keep-names', is_flag=True, default=False,
+              show_default=True,
               help='keep original file names instead of numbering')
 @click.option('-f', '--force-overwrite', is_flag=True, default=False,
+              show_default=True,
               help='force overwriting output image file if it exists')
 @click.option('-o', '--outdir',
               type=click.Path(exists=False, file_okay=False, dir_okay=True,
                               writable=True, resolve_path=True),
+              show_default=True,
               default='.', help='output directory')
 @click.option('-q', '--quality', type=click.INT, default=88,
+              show_default=True,
               help='quality of the output images, integer 0 - 100')
 @click.option('-e', '--preserve-exif', is_flag=True, default=False,
+              show_default=True,
               help='preserve image exif headers if available')
 def cli_imgwrench(image_list, prefix, digits, increment, keep_names,
                   force_overwrite, outdir, quality, preserve_exif):

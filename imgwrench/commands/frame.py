@@ -17,11 +17,13 @@ def frame(image, width, color):
 
 @click.command(name='frame')
 @click.option('-w', '--frame-width', type=click.FLOAT, default=0.025,
+              show_default=True,
               help='width of the frame as a fraction of the longer ' +
-                   'image side (default: 0.025)')
+                   'image side')
 @click.option('-c', '--color', type=COLOR, default='white',
+              show_default=True,
               help='color of the frame as a color name, hex value ' +
-                   'or in rgb(...) function form (default: white)')
+                   'or in rgb(...) function form')
 def cli_frame(frame_width, color):
     '''Put a monocolor frame around images.'''
     click.echo('Initializing frame with parameters {}'.format(locals()))

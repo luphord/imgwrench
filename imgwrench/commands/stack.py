@@ -23,8 +23,10 @@ def stack(img1, img2, width, height):
 
 @click.command(name='stack')
 @click.option('-w', '--width', type=click.INT, default=2048,
+              show_default=True,
               help='width of the stacked image')
 @click.option('-s', '--height', type=click.INT, default=3072,
+              show_default=True,
               help='height of the stacked image')
 def cli_stack(width, height):
     '''Stack images vertically, empty space in the middle.'''

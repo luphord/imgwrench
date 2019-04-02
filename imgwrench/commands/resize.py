@@ -13,6 +13,7 @@ def resize(image, maxsize):
 
 @click.command(name='resize')
 @click.option('-m', '--maxsize', type=click.INT, default=1024,
+              show_default=True,
               help='size of the longer side (width or height) in pixels')
 def cli_resize(maxsize):
     '''Resize images to a maximum side length preserving aspect ratio.'''

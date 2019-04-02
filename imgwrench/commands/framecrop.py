@@ -39,14 +39,16 @@ def framecrop(image, aspect_ratio, width, color):
 
 @click.command(name='framecrop')
 @click.option('-a', '--aspect-ratio', type=RATIO, default='3:2',
-              help='aspect ratio of final image including frame, ' +
-                   'defaults to "3:2"')
+              show_default=True,
+              help='aspect ratio of final image including frame')
 @click.option('-w', '--frame-width', type=click.FLOAT, default=0.025,
+              show_default=True,
               help='width of the frame as a fraction of the longer ' +
-                   ' side of the cropped image (default: 0.025)')
+                   ' side of the cropped image')
 @click.option('-c', '--color', type=COLOR, default='white',
+              show_default=True,
               help='color of the frame as a color name, hex value ' +
-                   'or in rgb(...) function form (default: white)')
+                   'or in rgb(...) function form')
 def cli_framecrop(aspect_ratio, frame_width, color):
     '''Crop and frame an image to a target aspect ratio.'''
     click.echo('Initializing framecrop with parameters {}'.format(locals()))

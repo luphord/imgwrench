@@ -52,8 +52,9 @@ def colorfix(img, level=0.01):
 
 @click.command(name='colorfix')
 @click.option('-a', '--alpha', type=click.FLOAT, default=0.01,
+              show_default=True,
               help='quantile (low and high) to be clipped to minimum ' +
-                    'and maximum color, defaults to 0.01')
+                    'and maximum color')
 def cli_colorfix(alpha):
     '''Fix colors by stretching channel histograms to full range.'''
     click.echo('Initializing colorfix with parameters {}'.format(locals()))
