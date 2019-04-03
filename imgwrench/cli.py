@@ -19,10 +19,12 @@ from .commands.save import cli_save
 from .commands.stack import cli_stack
 
 
-def _load_image(fname):
+def _load_image(fname, preserve_exif):
     '''Load an image from file system and rotate according to exif'''
     img = Image.open(fname)
-    if hasattr(img, '_getexif'):
+    # do not rotate image if exif is preserved
+    # (otherwise it would be rotated twice)
+    if not preserve_exif and hasattr(img, '_getexif'):
         orientation = 0x0112
         exif = img._getexif()
         if exif is not None:
@@ -85,7 +87,7 @@ def pipeline(image_processors, image_list, prefix, increment, digits,
         with image_list:
             for i, line in enumerate(image_list):
                 path = Path(line.strip()).resolve()
-                img = _load_image(path)
+                img = _load_image(path, preserve_exif)
                 info = ImageInfo(path, i, img.info.get('exif'))
                 click.echo('<- Processing {}...'.format(info))
                 yield info, img
