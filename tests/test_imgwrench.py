@@ -6,6 +6,9 @@
 
 import os
 import unittest
+from pathlib import Path
+
+from PIL import Image
 from click.testing import CliRunner
 
 from imgwrench import cli_imgwrench
@@ -19,6 +22,7 @@ class TestImgwrenchMainCli(unittest.TestCase):
     def setUp(self):
         '''Set up test fixtures, if any.'''
         self.runner = CliRunner()
+        self.images_path = Path(__file__).resolve().parent / 'images'
 
     def tearDown(self):
         '''Tear down test fixtures, if any.'''
@@ -147,3 +151,40 @@ class TestImgwrenchMainCli(unittest.TestCase):
             self.assertEqual(0, result.exit_code)
             fname = '{}{:04d}.jpg'.format(prefix, 0)
             self.assertTrue(os.path.exists(fname), fname + ' missing')
+
+    def test_saving_of_exif_metadata(self):
+        '''Test saving of exif metadata'''
+        img_path = str(self.images_path / 'town.jpg')
+        img = Image.open(img_path)
+        self.assertTrue(hasattr(img, '_getexif'))
+        org_exif = img._getexif()
+        # need to copy image to isolated filesystem
+        with open(img_path, 'rb') as f:
+            img_data = f.read()
+        with self.runner.isolated_filesystem():
+            with open('town.jpg', 'wb') as f:
+                f.write(img_data)
+            with open('images.txt', 'w') as f:
+                f.write('town.jpg\n')
+            # save with exif
+            result = self.runner.invoke(cli_imgwrench,
+                                        ['-p', 'exif_',
+                                         '-d', 4,
+                                         '-e',
+                                         '-i', 'images.txt', 'save'])
+            self.assertEqual(0, result.exit_code)
+            fname = '{}{:04d}.jpg'.format('exif_', 0)
+            self.assertTrue(os.path.exists(fname), fname + ' missing')
+            img = Image.open(fname)
+            self.assertTrue(hasattr(img, '_getexif'))
+            exif = img._getexif()
+            self.assertEqual(org_exif, exif)
+            # save without exif
+            result = self.runner.invoke(cli_imgwrench,
+                                        ['-p', 'no_exif_',
+                                         '-d', 4,
+                                         '-i', 'images.txt', 'save'])
+            fname = '{}{:04d}.jpg'.format('no_exif_', 0)
+            self.assertTrue(os.path.exists(fname), fname + ' missing')
+            img = Image.open(fname)
+            self.assertFalse(hasattr(img, '_getexif') and img._getexif())
