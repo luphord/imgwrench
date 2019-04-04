@@ -171,7 +171,8 @@ class TestImgwrenchMainCli(unittest.TestCase):
                                         ['-p', 'exif_',
                                          '-d', 4,
                                          '-e',
-                                         '-i', 'images.txt', 'save'])
+                                         '-i', 'images.txt',
+                                         'resize', '-m', 100])
             self.assertEqual(0, result.exit_code)
             fname = '{}{:04d}.jpg'.format('exif_', 0)
             self.assertTrue(os.path.exists(fname), fname + ' missing')
