@@ -189,3 +189,48 @@ class TestImgwrenchMainCli(unittest.TestCase):
             self.assertTrue(os.path.exists(fname), fname + ' missing')
             img = Image.open(fname)
             self.assertFalse(hasattr(img, '_getexif') and img._getexif())
+
+    def test_image_rotation(self):
+        '''Test rotation if images depending on exif preservation'''
+        img_path = str(self.images_path / 'town.jpg')
+        img = Image.open(img_path)
+        self.assertTrue(hasattr(img, '_getexif'))
+        # note: this is a portrait image by exif rotation,
+        # but a landscaoe image by storage format
+        self.assertEqual(img.size[0], 300)
+        self.assertEqual(img.size[1], 200)
+        # need to copy image to isolated filesystem
+        with open(img_path, 'rb') as f:
+            img_data = f.read()
+        with self.runner.isolated_filesystem():
+            with open('town.jpg', 'wb') as f:
+                f.write(img_data)
+            with open('images.txt', 'w') as f:
+                f.write('town.jpg\n')
+            # save with exif
+            result = self.runner.invoke(cli_imgwrench,
+                                        ['-p', 'exif_',
+                                         '-d', 4,
+                                         '-e',
+                                         '-i', 'images.txt',
+                                         'save'])
+            self.assertEqual(0, result.exit_code)
+            fname = '{}{:04d}.jpg'.format('exif_', 0)
+            self.assertTrue(os.path.exists(fname), fname + ' missing')
+            img = Image.open(fname)
+            # stored with exif -> should still be landscape by storage
+            self.assertEqual(img.size[0], 300)
+            self.assertEqual(img.size[1], 200)
+            # save without exif
+            result = self.runner.invoke(cli_imgwrench,
+                                        ['-p', 'no_exif_',
+                                         '-d', 4,
+                                         '-i', 'images.txt',
+                                         'save'])
+            self.assertEqual(0, result.exit_code)
+            fname = '{}{:04d}.jpg'.format('no_exif_', 0)
+            self.assertTrue(os.path.exists(fname), fname + ' missing')
+            img = Image.open(fname)
+            # stored without exif -> should now be portrait by storage
+            self.assertEqual(img.size[0], 200)
+            self.assertEqual(img.size[1], 300)
