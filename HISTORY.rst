@@ -2,8 +2,8 @@
 History
 =======
 
-0.7.0 (not yet)
----------------
+0.7.0 (2019-05-16)
+------------------
 
 * option for preserving exif image metadata
 * fix error when running with -k/--keep-names
