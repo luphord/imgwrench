@@ -234,3 +234,18 @@ class TestImgwrenchMainCli(unittest.TestCase):
             # stored without exif -> should now be portrait by storage
             self.assertEqual(img.size[0], 200)
             self.assertEqual(img.size[1], 300)
+
+    def test_keep_names(self):
+        '''Test keeping names of images.'''
+        fname = 'pixel1x1.jpg'
+        with self.runner.isolated_filesystem():
+            with open(fname, 'wb') as f:
+                f.write(pixel1x1)
+            with open('images.txt', 'w') as f:
+                f.write(fname + '\n')
+            result = self.runner.invoke(cli_imgwrench,
+                                        ['-k',
+                                         '-i', 'images.txt',
+                                         'save'])
+            self.assertEqual(0, result.exit_code)
+            self.assertTrue(os.path.exists(fname), fname + ' missing')
