@@ -6,6 +6,7 @@ History
 ---------------
 
 * option for preserving exif image metadata
+* status progress to Alpha
 
 0.6.0 (2019.03-14)
 ------------------
