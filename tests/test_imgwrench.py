@@ -238,6 +238,7 @@ class TestImgwrenchMainCli(unittest.TestCase):
     def test_keep_names(self):
         '''Test keeping names of images.'''
         fname = 'pixel1x1.jpg'
+        outdir = Path('out')
         with self.runner.isolated_filesystem():
             with open(fname, 'wb') as f:
                 f.write(pixel1x1)
@@ -246,6 +247,8 @@ class TestImgwrenchMainCli(unittest.TestCase):
             result = self.runner.invoke(cli_imgwrench,
                                         ['-k',
                                          '-i', 'images.txt',
+                                         '-o', str(outdir),
                                          'save'])
             self.assertEqual(0, result.exit_code)
-            self.assertTrue(os.path.exists(fname), fname + ' missing')
+            outfile = outdir / fname
+            self.assertTrue(outfile.exists(), '{0} missing'.format(outfile))
