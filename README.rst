@@ -73,6 +73,26 @@ Features
 * Command *save* for no processing, but saving images with the given parameters
 * Command *stack* for vertically stacking images
 
+Pipelines
+---------
+
+imgwrench subcommands can be combined into pipelines. This saves you from generating intermediate
+files cluttering your filesystem and reducing the quality of the final results. For example, if you
+would like to convert all images in the current directory to black and white, put a white frame
+around them and have them cut to an aspect ratio of 3:2 (for standard format printing), you would
+execute the following command:
+
+.. code-block:: console
+
+        ls *.JPG | \
+        imgwrench -o out -q 95 -p oldschool_img_ \
+                blackwhite \
+                framecrop -a 3:2 -w 0.03 -c white
+
+Please refer to the `detailed subcommand documentation`_ for the individual parameters.
+
+.. _`detailed subcommand documentation`: https://imgwrench.readthedocs.io/en/latest/usage.html
+
 Credits
 -------
 
