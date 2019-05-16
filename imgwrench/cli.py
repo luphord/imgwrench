@@ -101,7 +101,9 @@ def pipeline(image_processors, image_list, prefix, increment, digits,
     # executing pipeline
     fmt = '{}{:0' + str(digits) + 'd}.jpg'
     for i, (info, processed_image) in enumerate(images):
-        newfname = info if keep_names else fmt.format(prefix, i*increment)
+        newfname = info.fname \
+                    if keep_names \
+                    else fmt.format(prefix, i * increment)
         outpath = os.path.join(outdir, newfname)
         if not force_overwrite and os.path.exists(outpath):
             raise Exception(('{} already exists; use --force-overwrite ' +

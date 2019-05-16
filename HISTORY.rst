@@ -6,9 +6,10 @@ History
 ---------------
 
 * option for preserving exif image metadata
+* fix error when running with -k/--keep-names
 * status progress to Alpha
 
-0.6.0 (2019.03-14)
+0.6.0 (2019-03-14)
 ------------------
 
 * framecrop subcommand to crop and frame an image to a target aspect ratio incl. tests and docs
