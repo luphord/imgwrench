@@ -29,7 +29,7 @@ def stack(img1, img2, width, height):
               show_default=True,
               help='height of the stacked image')
 def cli_stack(width, height):
-    '''Stack images vertically, empty space in the middle.'''
+    '''Stacks pairs of images vertically, empty space in the middle.'''
     click.echo('Initializing stack with parameters {}'.format(locals()))
 
     def _stack(images):
