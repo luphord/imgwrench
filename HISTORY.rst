@@ -2,6 +2,11 @@
 History
 =======
 
+0.8.0 (not yet)
+---------------
+
+* rowcollage subcommand the stack images horizontally
+
 0.7.1 (2019-05-16)
 ------------------
 
