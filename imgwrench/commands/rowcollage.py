@@ -13,7 +13,7 @@ def rowcollage(height, frame_width, color, images):
     n = len(images)
     ratios = sum(img.size[0] / img.size[1] for img in images)
     new_width = int(ratios * (height - 2 * frame_pixels)
-                    + 2 * n * frame_pixels)
+                    + (n + 1) * frame_pixels)
     new_size = (new_width, height)
     framed_image = Image.new('RGB', new_size, color)
     offset = frame_pixels
