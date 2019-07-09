@@ -1,10 +1,12 @@
 '''Apply black-white dithering to images.'''
 
 import click
+from PIL import ImageEnhance
 
 
 def dither(image):
     '''Apply black-white dithering to images.'''
+    image = ImageEnhance.Brightness(image).enhance(1.5)
     return image.convert('1')
 
 
