@@ -12,6 +12,7 @@ from .info import ImageInfo
 from .commands.blackwhite import cli_blackwhite
 from .commands.colorfix import cli_colorfix
 from .commands.crop import cli_crop
+from .commands.dither import cli_dither
 from .commands.frame import cli_frame
 from .commands.framecrop import cli_framecrop
 from .commands.resize import cli_resize
@@ -130,3 +131,4 @@ cli_imgwrench.add_command(cli_resize)
 cli_imgwrench.add_command(cli_rowcollage)
 cli_imgwrench.add_command(cli_save)
 cli_imgwrench.add_command(cli_stack)
+cli_imgwrench.add_command(cli_dither)
