@@ -72,8 +72,11 @@ def _load_image(fname, preserve_exif):
 @click.option('-e', '--preserve-exif', is_flag=True, default=False,
               show_default=True,
               help='preserve image exif headers if available')
+@click.option('-j', '--jpg/--png',
+              default=True, show_default=True,
+              help='save output images in JPEG format (otherwise PNG)')
 def cli_imgwrench(image_list, prefix, digits, increment, keep_names,
-                  force_overwrite, outdir, quality, preserve_exif):
+                  force_overwrite, outdir, quality, preserve_exif, jpg):
     '''The main command line interface function of imgwrench'''
     param = dict(**locals())
     del param['image_list']
@@ -82,7 +85,7 @@ def cli_imgwrench(image_list, prefix, digits, increment, keep_names,
 
 @cli_imgwrench.resultcallback()
 def pipeline(image_processors, image_list, prefix, increment, digits,
-             keep_names, force_overwrite, outdir, quality, preserve_exif):
+             keep_names, force_overwrite, outdir, quality, preserve_exif, jpg):
 
     def _load_images():
         with image_list:
@@ -100,7 +103,8 @@ def pipeline(image_processors, image_list, prefix, increment, digits,
     os.makedirs(outdir, exist_ok=True)
     click.echo('--- Executing pipeline ---')
     # executing pipeline
-    fmt = '{}{:0' + str(digits) + 'd}.jpg'
+    ext = 'jpg' if jpg else 'png'
+    fmt = '{}{:0' + str(digits) + 'd}.' + ext
     for i, (info, processed_image) in enumerate(images):
         newfname = info.fname \
                     if keep_names \

@@ -152,6 +152,22 @@ class TestImgwrenchMainCli(unittest.TestCase):
             fname = '{}{:04d}.jpg'.format(prefix, 0)
             self.assertTrue(os.path.exists(fname), fname + ' missing')
 
+    def test_png_saving(self):
+        '''Test saving of PNG output images'''
+        prefix = 'img_'
+        with self.runner.isolated_filesystem():
+            with open('pixel1x1.jpg', 'wb') as f:
+                f.write(pixel1x1)
+            with open('images.txt', 'w') as f:
+                f.write('pixel1x1.jpg\n')
+            result = self.runner.invoke(cli_imgwrench,
+                                        ['-p', prefix,
+                                         '-d', 4, '--png',
+                                         '-i', 'images.txt', 'save'])
+            self.assertEqual(0, result.exit_code)
+            fname = '{}{:04d}.png'.format(prefix, 0)
+            self.assertTrue(os.path.exists(fname), fname + ' missing')
+
     def test_saving_of_exif_metadata(self):
         '''Test saving of exif metadata'''
         img_path = str(self.images_path / 'town.jpg')
