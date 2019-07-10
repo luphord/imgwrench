@@ -1,4 +1,4 @@
-'''Stack images vertically, empty space in the middle.'''
+'''Stack images horizontally, creating a filmstrip.'''
 
 import click
 from PIL import Image
@@ -6,8 +6,8 @@ from PIL import Image
 from ..param import COLOR
 
 
-def rowcollage(height, frame_width, color, images):
-    '''Stack all images horizontally, creating a row collage.'''
+def filmstrip(height, frame_width, color, images):
+    '''Stack all images horizontally, creating a filmstrip.'''
     images = list(images)
     frame_pixels = round(frame_width * height)
     n = len(images)
@@ -26,25 +26,25 @@ def rowcollage(height, frame_width, color, images):
     return framed_image
 
 
-@click.command(name='rowcollage')
+@click.command(name='filmstrip')
 @click.option('-s', '--height', type=click.INT, default=2048,
               show_default=True,
-              help='height of the collage image')
+              help='height of the filmstrip')
 @click.option('-w', '--frame-width', type=click.FLOAT, default=0.025,
               show_default=True,
               help='width of the frame as a fraction of the height ' +
-                   ' of the collage')
+                   ' of the filmstrip')
 @click.option('-c', '--color', type=COLOR, default='white',
               show_default=True,
               help='color of the frame as a color name, hex value ' +
                    'or in rgb(...) function form')
-def cli_rowcollage(height, frame_width, color):
-    '''Stack all images horizontally, creating a row collage.'''
-    click.echo('Initializing rowcollage with parameters {}'.format(locals()))
+def cli_filmstrip(height, frame_width, color):
+    '''Stack all images horizontally, creating a filmstrip.'''
+    click.echo('Initializing filmstrip with parameters {}'.format(locals()))
 
-    def _rowcollage(images):
+    def _filmstrip(images):
         images = list(images)
-        yield images[0][0], rowcollage(height, frame_width, color,
-                                       [img for info, img in images])
+        yield images[0][0], filmstrip(height, frame_width, color,
+                                      [img for info, img in images])
 
-    return _rowcollage
+    return _filmstrip

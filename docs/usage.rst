@@ -112,6 +112,38 @@ will make it darker. It defaults to 1.5.
                                     darker)  [default: 1.5]
     --help                         Show this message and exit.
 
+filmstrip
+==========
+
+The `filmstrip` command stacks all images in the pipeline horizontally to create
+a filmstrip within a single row. Assuming a couple of images in the current directory,
+`filmstrip` will create a single output image `img_0000.jpg` width height 800 pixels
+as follows:
+
+.. code-block:: console
+
+    ls *.JPG | imgwrench filmstrip -s 800
+
+.. image:: _static/filmstrip.jpg
+
+The parameter -s/--height specifies the total height of the resulting collage,
+its width will be inferred. -w/--frame-width determines the frame width relative
+to the specified height and -c/--color sets the frame color.
+
+.. code-block:: console
+
+    Usage: imgwrench filmstrip [OPTIONS]
+
+    Stack all images horizontally, creating a row collage.
+
+    Options:
+    -s, --height INTEGER     height of the collage image  [default: 2048]
+    -w, --frame-width FLOAT  width of the frame as a fraction of the height  of
+                             the collage  [default: 0.025]
+    -c, --color COLOR        color of the frame as a color name, hex value or in
+                             rgb(...) function form  [default: white]
+    --help                   Show this message and exit.
+
 frame
 =====
 
@@ -217,38 +249,6 @@ images it specifies the new height.
     -m, --maxsize INTEGER  size of the longer side (width or height) in pixels
                             [default: 1024]
     --help                 Show this message and exit.
-
-rowcollage
-==========
-
-The `rowcollage` command stacks all images in the pipeline horizontally to create
-a collage within a single row. Assuming a couple of images in the current directory,
-`rowcollage` will create a single output image `img_0000.jpg` width height 800 pixels
-as follows:
-
-.. code-block:: console
-
-    ls *.JPG | imgwrench rowcollage -s 800
-
-.. image:: _static/rowcollage.jpg
-
-The parameter -s/--height specifies the total height of the resulting collage,
-its width will be inferred. -w/--frame-width determines the frame width relative
-to the specified height and -c/--color sets the frame color.
-
-.. code-block:: console
-
-    Usage: imgwrench rowcollage [OPTIONS]
-
-    Stack all images horizontally, creating a row collage.
-
-    Options:
-    -s, --height INTEGER     height of the collage image  [default: 2048]
-    -w, --frame-width FLOAT  width of the frame as a fraction of the height  of
-                             the collage  [default: 0.025]
-    -c, --color COLOR        color of the frame as a color name, hex value or in
-                             rgb(...) function form  [default: white]
-    --help                   Show this message and exit.
 
 stack
 =====

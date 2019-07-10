@@ -13,10 +13,10 @@ from .commands.blackwhite import cli_blackwhite
 from .commands.colorfix import cli_colorfix
 from .commands.crop import cli_crop
 from .commands.dither import cli_dither
+from .commands.filmstrip import cli_filmstrip
 from .commands.frame import cli_frame
 from .commands.framecrop import cli_framecrop
 from .commands.resize import cli_resize
-from .commands.rowcollage import cli_rowcollage
 from .commands.save import cli_save
 from .commands.stack import cli_stack
 
@@ -125,10 +125,10 @@ def pipeline(image_processors, image_list, prefix, increment, digits,
 cli_imgwrench.add_command(cli_blackwhite)
 cli_imgwrench.add_command(cli_colorfix)
 cli_imgwrench.add_command(cli_crop)
+cli_imgwrench.add_command(cli_filmstrip)
 cli_imgwrench.add_command(cli_frame)
 cli_imgwrench.add_command(cli_framecrop)
 cli_imgwrench.add_command(cli_resize)
-cli_imgwrench.add_command(cli_rowcollage)
 cli_imgwrench.add_command(cli_save)
 cli_imgwrench.add_command(cli_stack)
 cli_imgwrench.add_command(cli_dither)
