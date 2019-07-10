@@ -5,7 +5,8 @@ History
 0.8.0 (not yet)
 ---------------
 
-* rowcollage subcommand the stack images horizontally
+* dither subcommand for dithering
+* filmstrip subcommand to stack images horizontally
 * images can be saved in PNG format using --png CLI flag
 
 0.7.1 (2019-05-16)

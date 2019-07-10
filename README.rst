@@ -67,6 +67,8 @@ Features
 * Command *blackwhite* for converting images to black and white
 * Command *colorfix* for fixing the colors of aged photographs
 * Command *crop* for cropping images to give aspect ratio
+* Command *dither* for converting images to black and white and dithering
+* Command *filmstrip* to stack images horizontally forming a filmstrip
 * Command *frame* to put a monocolor frame around images
 * Command *framecrop* top frame and crop an image to a target aspect ratio
 * Command *resize* for resizing images
