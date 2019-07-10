@@ -16,7 +16,7 @@ Image Wrench
 
 
 
-A command line tool for my image processing needs. Multiple subcommands can
+A highly opinionated image processor for the commandline. Multiple subcommands can
 be executed sequentially to form a processing pipeline.
 
 
@@ -30,7 +30,8 @@ Usage
 
         Usage: imgwrench [OPTIONS] COMMAND1 [ARGS]... [COMMAND2 [ARGS]...]...
 
-        The main command line interface function of imgwrench
+        A highly opinionated image processor for the commandline. Multiple
+        subcommands can be executed sequentially to form a processing pipeline.
 
         Options:
         -i, --image-list FILENAME  File containing paths to images for processing,

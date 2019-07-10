@@ -78,7 +78,9 @@ def _load_image(fname, preserve_exif):
               help='save output images in JPEG format (otherwise PNG)')
 def cli_imgwrench(image_list, prefix, digits, increment, keep_names,
                   force_overwrite, outdir, quality, preserve_exif, jpg):
-    '''The main command line interface function of imgwrench'''
+    '''A highly opinionated image processor for the commandline.
+       Multiple subcommands can be executed sequentially to form
+       a processing pipeline.'''
     param = dict(**locals())
     del param['image_list']
     click.echo('Preparing imgwrench pipeline with parameters {}'.format(param))
