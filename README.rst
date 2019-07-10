@@ -48,17 +48,21 @@ Usage
                                 [default: 88]
         -e, --preserve-exif        preserve image exif headers if available
                                 [default: False]
+        -j, --jpg / --png          save output images in JPEG format (otherwise PNG)
+                                [default: True]
         --help                     Show this message and exit.
 
         Commands:
         blackwhite  Convert color images to black and white.
         colorfix    Fix colors by stretching channel histograms to full range.
         crop        Crop images to the given aspect ratio.
+        dither      Apply black-white dithering to images.
+        filmstrip   Stack all images horizontally, creating a filmstrip.
         frame       Put a monocolor frame around images.
         framecrop   Crop and frame an image to a target aspect ratio.
         resize      Resize images to a maximum side length preserving aspect...
         save        No-op to enable saving of images without any processing.
-        stack       Stack images vertically, empty space in the middle.
+        stack       Stacks pairs of images vertically, empty space in the middle.
 
 Features
 --------
