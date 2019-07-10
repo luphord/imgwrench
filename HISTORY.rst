@@ -2,8 +2,8 @@
 History
 =======
 
-0.8.0 (not yet)
----------------
+0.8.0 (2019-07-10)
+------------------
 
 * dither subcommand for dithering
 * filmstrip subcommand to stack images horizontally
