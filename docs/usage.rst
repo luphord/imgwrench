@@ -80,6 +80,38 @@ specified as two numbers separated by a colon, e.g. "2:1", "3:4", "117:123".
     -a, --aspect-ratio RATIO  aspect ratio to crop to  [default: 3:2]
     --help                    Show this message and exit.
 
+dither
+======
+
+The `dither` command converts the image to true black and white (not greyscale)
+and applies dithering.
+
+Assuming image `lensflare.jpg` in the current directory, `dither` can be applied
+to output `img_0000.jpg` as follows:
+
+.. code-block:: console
+
+    ls lensflare.jpg | imgwrench dither
+
+.. image:: _static/dither.jpg
+
+The parameter -b/--brightness-factor adjusts the brightness of the image before dithering.
+It is usually recommended to make images brighter before dithering. A value of 1.0 is
+neutral (i.e. has no effect), larger values will make the image brighter, smaller values
+will make it darker. It defaults to 1.5.
+
+.. code-block:: console
+
+    Usage: imgwrench dither [OPTIONS]
+
+    Apply black-white dithering to images.
+
+    Options:
+    -b, --brightness-factor FLOAT  adjust brightness before dithering (1.0 is
+                                    neutral, larger is brighter, smaller is
+                                    darker)  [default: 1.5]
+    --help                         Show this message and exit.
+
 frame
 =====
 
