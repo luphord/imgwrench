@@ -134,14 +134,14 @@ to the specified height and -c/--color sets the frame color.
 
     Usage: imgwrench filmstrip [OPTIONS]
 
-    Stack all images horizontally, creating a row collage.
+    Stack all images horizontally, creating a filmstrip.
 
     Options:
-    -s, --height INTEGER     height of the collage image  [default: 2048]
+    -s, --height INTEGER     height of the filmstrip  [default: 2048]
     -w, --frame-width FLOAT  width of the frame as a fraction of the height  of
-                             the collage  [default: 0.025]
+                            the filmstrip  [default: 0.025]
     -c, --color COLOR        color of the frame as a color name, hex value or in
-                             rgb(...) function form  [default: white]
+                            rgb(...) function form  [default: white]
     --help                   Show this message and exit.
 
 frame
