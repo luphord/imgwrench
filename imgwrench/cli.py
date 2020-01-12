@@ -29,7 +29,7 @@ def _load_image(fname, preserve_exif):
     if not preserve_exif and hasattr(img, '_getexif'):
         orientation = 0x0112
         exif = img._getexif()
-        if exif is not None:
+        if exif is not None and orientation in exif:
             orientation = exif[orientation]
             rotations = {
                 3: Image.ROTATE_180,
