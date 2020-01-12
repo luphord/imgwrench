@@ -13,7 +13,7 @@ from click.testing import CliRunner
 
 from imgwrench import cli_imgwrench
 
-from .images import pixel1x1, png1x1
+from .images import pixel1x1, png1x1, badexif
 
 
 class TestImgwrenchMainCli(unittest.TestCase):
@@ -251,20 +251,20 @@ class TestImgwrenchMainCli(unittest.TestCase):
             self.assertEqual(img.size[0], 200)
             self.assertEqual(img.size[1], 300)
 
-    def test_keep_names(self):
-        '''Test keeping names of images.'''
-        fname = 'pixel1x1.jpg'
+    def test_loading_broken_exif(self):
+        '''Test loading an image with exif header, but missing orientation.'''
+        fname = 'badexif.jpg'
         outdir = Path('out')
         with self.runner.isolated_filesystem():
             with open(fname, 'wb') as f:
-                f.write(pixel1x1)
+                f.write(badexif)
             with open('images.txt', 'w') as f:
                 f.write(fname + '\n')
             result = self.runner.invoke(cli_imgwrench,
                                         ['-k',
                                          '-i', 'images.txt',
                                          '-o', str(outdir),
-                                         'save'])
+                                         'resize'])
             self.assertEqual(0, result.exit_code)
             outfile = outdir / fname
             self.assertTrue(outfile.exists(), '{0} missing'.format(outfile))
