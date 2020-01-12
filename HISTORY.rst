@@ -2,6 +2,11 @@
 History
 =======
 
+0.8.1 (2020-01-12)
+------------------
+
+* fix crash when orientation is missing in exif headers
+
 0.8.0 (2019-07-10)
 ------------------
 
