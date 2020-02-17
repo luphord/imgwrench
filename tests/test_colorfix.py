@@ -62,4 +62,5 @@ class TestBlackwhite(unittest.TestCase):
         '''Regression test for colorfix algorithm.'''
         for level, target in IMAGES_TARGETS:
             cf = colorfix(colorcast_img.copy(), level)
-            self.assertEqual(target, _tobytes(cf), 'level {} fail'.format(level))
+            self.assertEqual(target, _tobytes(cf),
+                             'level {} fail'.format(level))
