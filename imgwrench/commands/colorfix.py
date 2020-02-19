@@ -48,12 +48,13 @@ def quantiles(img, level=0.01):
 def colorfix(img, level=0.01):
     '''Fix colors by stretching channels histograms to full range.'''
     qr, qg, qb = quantiles(img, level)
-    arr = np.array(img).astype(int)  # arr.shape = (height, width, channel)
+    arr = np.array(img).astype(np.int16)
+    # arr.shape = (height, width, channel)
     r, g, b = arr[:, :, 0], arr[:, :, 1], arr[:, :, 2]
     r[:, :] = nmax(nmin(aint((r - qr[0]) / (qr[1] - qr[0]) * 256), 255), 0)
     g[:, :] = nmax(nmin(aint((g - qg[0]) / (qg[1] - qg[0]) * 256), 255), 0)
     b[:, :] = nmax(nmin(aint((b - qb[0]) / (qb[1] - qb[0]) * 256), 255), 0)
-    return Image.fromarray(arr.astype('uint8'))
+    return Image.fromarray(arr.astype(np.uint8))
 
 
 @click.command(name='colorfix')
