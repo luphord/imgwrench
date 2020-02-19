@@ -6,14 +6,6 @@ from PIL import Image
 import numpy as np
 
 
-nmax = np.maximum
-nmin = np.minimum
-
-
-def aint(arr):
-    return arr.astype(np.int16)
-
-
 def _quantiles_iter(img, level):
     assert img.mode == 'RGB'
     assert level > 0 and level < 1
@@ -53,7 +45,8 @@ def colorfix(img, level=0.01):
     for channel in range(3):
         q = channel_quantiles[channel]
         c = arr[:, :, channel]
-        c[:, :] = nmax(nmin(aint((c - q[0]) / (q[1] - q[0]) * 256), 255), 0)
+        stretched = (c - q[0]) / (q[1] - q[0]) * 256
+        c[:, :] = np.maximum(np.minimum(stretched.astype(np.int16), 255), 0)
     return Image.fromarray(arr.astype(np.uint8))
 
 
