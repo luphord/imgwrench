@@ -2,6 +2,13 @@
 History
 =======
 
+0.9.0 (2020-02-19)
+------------------
+
+* add numpy as dependency
+* change colorfix algorithm to vectorized numpy code for performance
+* support Python 3.8
+
 0.8.1 (2020-01-12)
 ------------------
 
