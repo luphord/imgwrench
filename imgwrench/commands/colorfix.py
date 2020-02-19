@@ -11,7 +11,7 @@ nmin = np.minimum
 
 
 def aint(arr):
-    return arr.astype(int)
+    return arr.astype(np.int16)
 
 
 def _quantiles_iter(img, level):
