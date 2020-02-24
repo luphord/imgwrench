@@ -40,7 +40,8 @@ def quantiles(img, level=0.01):
 
 
 def colorfix_quantiles(img, level=0.01):
-    '''Fix colors by stretching channels histograms to full range.'''
+    '''Fix colors by stretching channel histograms between given quantiles
+       to full range.'''
     channel_quantiles = quantiles(img, level)
     arr = np.array(img).astype(np.int16)
     # arr.shape = (height, width, channel)
@@ -50,6 +51,12 @@ def colorfix_quantiles(img, level=0.01):
         stretched = (c - q[0]) / (q[1] - q[0]) * 256
         c[:, :] = np.maximum(np.minimum(stretched.astype(np.int16), 255), 0)
     return Image.fromarray(arr.astype(np.uint8))
+
+
+def colorfix_fixed_cutoff(img, lower_cutoff, upper_cutoff):
+    '''Fix colors by stretching channel histograms between given
+       cutoff colors to full range.'''
+    raise NotImplementedError('colorfix_fixed_cutoff not implemented yet')
 
 
 QUANTILES = 'quantiles'
@@ -88,6 +95,10 @@ def cli_colorfix(method, alpha, lower_cutoff, upper_cutoff):
         for info, image in images:
             if method == QUANTILES:
                 yield info, colorfix_quantiles(image, alpha)
+            elif method == FIXED_CUTOFF:
+                yield info, colorfix_fixed_cutoff(image,
+                                                  lower_cutoff,
+                                                  upper_cutoff)
             else:
                 raise NotImplementedError('{} not implemented'.format(method))
 
