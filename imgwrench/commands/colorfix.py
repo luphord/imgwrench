@@ -1,6 +1,7 @@
 '''Fix colors of images by stretching their channel histograms to full
 range.'''
 
+from warnings import warn
 import click
 from PIL import Image
 import numpy as np
@@ -80,11 +81,18 @@ QUANTILES = 'quantiles'
 FIXED_CUTOFF = 'fixed-cutoff'
 
 
+def _deprecation_warn_default_method():
+    warn('Running colorfix without specifying -m/--method is deprecated '
+         'as the default will change. Use "colorfix -m quantiles" to '
+         'get rid of this warning message.', UserWarning, stacklevel=2)
+    return QUANTILES
+
+
 @click.command(name='colorfix')
 @click.option('-m', '--method',
               type=click.Choice([QUANTILES, FIXED_CUTOFF],
                                 case_sensitive=False),
-              default=QUANTILES,
+              default=_deprecation_warn_default_method,
               show_default=True,
               help='algorithm method to use; quantiles stretches all channel'
                    'histograms between the quantile specified by --alpha; '
