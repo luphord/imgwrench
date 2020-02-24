@@ -49,7 +49,8 @@ def colorfix_quantiles(img, level=0.01):
 def colorfix_fixed_cutoff(img, lower_cutoff, upper_cutoff):
     '''Fix colors by stretching channel histograms between given
        cutoff colors to full range.'''
-    raise NotImplementedError('colorfix_fixed_cutoff not implemented yet')
+    cutoffs = list(zip(lower_cutoff, upper_cutoff))
+    return colorfix_algorithm(img, cutoffs)
 
 
 def colorfix_algorithm(img, cutoffs):
