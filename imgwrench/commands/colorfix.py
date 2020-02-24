@@ -5,6 +5,8 @@ import click
 from PIL import Image
 import numpy as np
 
+from ..param import COLOR
+
 
 def _quantiles_iter(img, level):
     assert img.mode == 'RGB'
@@ -68,7 +70,17 @@ FIXED_CUTOFF = 'fixed-cutoff'
               show_default=True,
               help='quantile (low and high) to be clipped to minimum '
                    'and maximum color; only relevant for --method=quantiles')
-def cli_colorfix(method, alpha):
+@click.option('-l', '--lower-cutoff', type=COLOR, default='black',
+              show_default=True,
+              help='lower cutoff as a color name, hex value '
+                   'or in rgb(...) function form; '
+                   'only relevant for --method=fixed-cutoff')
+@click.option('-u', '--upper-cutoff', type=COLOR, default='white',
+              show_default=True,
+              help='lower cutoff as a color name, hex value '
+                   'or in rgb(...) function form; '
+                   'only relevant for --method=fixed-cutoff')
+def cli_colorfix(method, alpha, lower_cutoff, upper_cutoff):
     '''Fix colors by stretching channel histograms to full range.'''
     click.echo('Initializing colorfix with parameters {}'.format(locals()))
 
