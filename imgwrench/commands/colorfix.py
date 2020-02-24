@@ -43,26 +43,33 @@ def colorfix_quantiles(img, level=0.01):
     '''Fix colors by stretching channel histograms between given quantiles
        to full range.'''
     channel_quantiles = quantiles(img, level)
-    return colorfix_algorithm(img, channel_quantiles)
+    return stretch_histogram(img, channel_quantiles)
 
 
 def colorfix_fixed_cutoff(img, lower_cutoff, upper_cutoff):
     '''Fix colors by stretching channel histograms between given
        cutoff colors to full range.'''
     cutoffs = list(zip(lower_cutoff, upper_cutoff))
-    return colorfix_algorithm(img, cutoffs)
+    return stretch_histogram(img, cutoffs)
 
 
-def colorfix_algorithm(img, cutoffs):
-    '''Fix colors by stretching channel histograms between given
-       cutoffs to full range.'''
+def stretch_histogram(img, cutoffs):
+    '''Stretch channel histograms between given cutoffs to full range.'''
+    # convert PIL image to numpy array for processing
     arr = np.array(img).astype(np.int16)
+    # type int16 is required to prevent stretched colors from overflowing
     # arr.shape = (height, width, channel)
-    for channel in range(3):
-        q = cutoffs[channel]
-        c = arr[:, :, channel]
-        stretched = (c - q[0]) / (q[1] - q[0]) * 256
-        c[:, :] = np.maximum(np.minimum(stretched.astype(np.int16), 255), 0)
+    # iterate over all three color channels (red, green, blue)
+    for idx_channel in range(3):
+        low, high = cutoffs[idx_channel]
+        channel = arr[:, :, idx_channel]
+        # stretch colors betweem low and high to full range
+        stretched = (channel - low) / (high - low) * 256
+        stretched = stretched.astype(np.int16)
+        # cut off anything that has been scaled under or over full range
+        channel[:, :] = np.maximum(np.minimum(stretched, 255), 0)
+    # convert back to uint8 (lossless after range cutoff)
+    # ... and to PIL image
     return Image.fromarray(arr.astype(np.uint8))
 
 
