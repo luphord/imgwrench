@@ -2,6 +2,12 @@
 History
 =======
 
+0.10.0 (not yet)
+----------------
+
+* -m/--method option to colorfix (default: quantiles)
+* add fixed_cutoff as new method to colorfix accepting fixed colors as color cutoff boundaries
+
 0.9.0 (2020-02-19)
 ------------------
 

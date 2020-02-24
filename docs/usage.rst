@@ -48,9 +48,23 @@ and will intensify the contrast of the resulting image.
     Fix colors by stretching channel histograms to full range.
 
     Options:
-    -a, --alpha FLOAT  quantile (low and high) to be clipped to minimum and
-                        maximum color  [default: 0.01]
-    --help             Show this message and exit
+    -m, --method [quantiles|fixed-cutoff]
+                                    algorithm method to use; quantiles stretches
+                                    all channelhistograms between the quantile
+                                    specified by --alpha; fixed-cutoff stretches
+                                    channels between the cutoffs specified by
+                                    --lower-cutoff and --upper-cutoff  [default:
+                                    quantiles]
+    -a, --alpha FLOAT               quantile (low and high) to be clipped to
+                                    minimum and maximum color; only relevant for
+                                    --method=quantiles  [default: 0.01]
+    -l, --lower-cutoff COLOR        lower cutoff as a color name, hex value or
+                                    in rgb(...) function form; only relevant for
+                                    --method=fixed-cutoff  [default: black]
+    -u, --upper-cutoff COLOR        lower cutoff as a color name, hex value or
+                                    in rgb(...) function form; only relevant for
+                                    --method=fixed-cutoff  [default: white]
+    --help                          Show this message and exit.
 
 
 crop
