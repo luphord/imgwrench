@@ -37,7 +37,7 @@ def quantiles(img, level=0.01):
     return (r_low, r_high), (g_low, g_high), (b_low, b_high)
 
 
-def colorfix(img, level=0.01):
+def colorfix_quantiles(img, level=0.01):
     '''Fix colors by stretching channels histograms to full range.'''
     channel_quantiles = quantiles(img, level)
     arr = np.array(img).astype(np.int16)
@@ -50,17 +50,33 @@ def colorfix(img, level=0.01):
     return Image.fromarray(arr.astype(np.uint8))
 
 
+QUANTILES = 'quantiles'
+FIXED_CUTOFF = 'fixed-cutoff'
+
+
 @click.command(name='colorfix')
+@click.option('-m', '--method',
+              type=click.Choice([QUANTILES, FIXED_CUTOFF],
+                                case_sensitive=False),
+              default=QUANTILES,
+              show_default=True,
+              help='algorithm method to use; quantiles stretches all channel'
+                   'histograms between the quantile specified by --alpha; '
+                   'fixed-cutoff stretches channels between the cutoffs'
+                   'specified by --lower-cutoff and --upper-cutoff')
 @click.option('-a', '--alpha', type=click.FLOAT, default=0.01,
               show_default=True,
-              help='quantile (low and high) to be clipped to minimum ' +
-                    'and maximum color')
-def cli_colorfix(alpha):
+              help='quantile (low and high) to be clipped to minimum '
+                   'and maximum color; only relevant for --method=quantiles')
+def cli_colorfix(method, alpha):
     '''Fix colors by stretching channel histograms to full range.'''
     click.echo('Initializing colorfix with parameters {}'.format(locals()))
 
     def _colorfix(images):
         for info, image in images:
-            yield info, colorfix(image, alpha)
+            if method == QUANTILES:
+                yield info, colorfix_quantiles(image, alpha)
+            else:
+                raise NotImplementedError('{} not implemented'.format(method))
 
     return _colorfix

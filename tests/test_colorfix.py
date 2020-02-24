@@ -9,7 +9,7 @@ from io import BytesIO
 from base64 import encodebytes
 
 from click.testing import CliRunner
-from imgwrench.commands.colorfix import quantiles, colorfix
+from imgwrench.commands.colorfix import quantiles, colorfix_quantiles
 
 from .utils import execute_and_test_output_images
 from .images import colorcast_img, colorcast_fixed_001, colorcast_fixed_002, \
@@ -61,6 +61,6 @@ class TestBlackwhite(unittest.TestCase):
     def test_colorfix_regression(self):
         '''Regression test for colorfix algorithm.'''
         for level, target in IMAGES_TARGETS:
-            cf = colorfix(colorcast_img.copy(), level)
+            cf = colorfix_quantiles(colorcast_img.copy(), level)
             self.assertEqual(target, _tobytes(cf),
                              'level {} fail'.format(level))
