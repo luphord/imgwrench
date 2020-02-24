@@ -8,6 +8,9 @@ import numpy as np
 from ..param import COLOR
 
 
+DEFAULT_LEVEL = 0.01
+
+
 def _quantiles_iter(img, level):
     assert img.mode == 'RGB'
     assert level > 0 and level < 1
@@ -32,14 +35,14 @@ def _quantiles_iter(img, level):
                     break
 
 
-def quantiles(img, level=0.01):
+def quantiles(img, level=DEFAULT_LEVEL):
     '''Compute high and low quantiles to the given level'''
     r_low, r_high, g_low, g_high, b_low, b_high = \
         list(_quantiles_iter(img, level))
     return (r_low, r_high), (g_low, g_high), (b_low, b_high)
 
 
-def colorfix_quantiles(img, level=0.01):
+def colorfix_quantiles(img, level=DEFAULT_LEVEL):
     '''Fix colors by stretching channel histograms between given quantiles
        to full range.'''
     channel_quantiles = quantiles(img, level)
@@ -87,7 +90,7 @@ FIXED_CUTOFF = 'fixed-cutoff'
                    'histograms between the quantile specified by --alpha; '
                    'fixed-cutoff stretches channels between the cutoffs'
                    'specified by --lower-cutoff and --upper-cutoff')
-@click.option('-a', '--alpha', type=click.FLOAT, default=0.01,
+@click.option('-a', '--alpha', type=click.FLOAT, default=DEFAULT_LEVEL,
               show_default=True,
               help='quantile (low and high) to be clipped to minimum '
                    'and maximum color; only relevant for --method=quantiles')
