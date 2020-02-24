@@ -88,7 +88,7 @@ FIXED_CUTOFF = 'fixed-cutoff'
               show_default=True,
               help='algorithm method to use; quantiles stretches all channel'
                    'histograms between the quantile specified by --alpha; '
-                   'fixed-cutoff stretches channels between the cutoffs'
+                   'fixed-cutoff stretches channels between the cutoffs '
                    'specified by --lower-cutoff and --upper-cutoff')
 @click.option('-a', '--alpha', type=click.FLOAT, default=DEFAULT_LEVEL,
               show_default=True,
