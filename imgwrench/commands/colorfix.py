@@ -66,6 +66,10 @@ def stretch_histogram(img, cutoffs):
     # iterate over all three color channels (red, green, blue)
     for idx_channel in range(3):
         low, high = cutoffs[idx_channel]
+        assert low >= 0, ('low value for channel {} is {}, but must be 0 '
+                          'or larger').format(idx_channel, low)
+        assert high <= 255, ('high value for channel {} is {}, but must be 255'
+                             ' or less').format(idx_channel, high)
         channel = arr[:, :, idx_channel]
         # stretch colors betweem low and high to full range
         stretched = (channel - low) / (high - low) * 256
