@@ -108,7 +108,7 @@ def _deprecation_warn_default_method():
               show_default=True,
               help='quantile (low and high) to be clipped to minimum '
                    'and maximum color; only relevant for --method=quantiles')
-@click.option('-l', '--lower-cutoff', type=COLOR, default='black',
+@click.option('-l', '--lower-cutoff', type=COLOR, default='rgb(127,0,0)',
               show_default=True,
               help='lower cutoff as a color name, hex value '
                    'or in rgb(...) function form; '
