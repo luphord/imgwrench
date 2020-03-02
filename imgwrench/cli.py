@@ -21,6 +21,13 @@ from .commands.save import cli_save
 from .commands.stack import cli_stack
 
 
+def _xmp_from_image(img, xmp_marker=b'http://ns.adobe.com/xap/1.0/'):
+    if hasattr(img, 'app'):
+        for key, val in img.app.items():
+            if key == 'APP1' and val.startswith(xmp_marker):
+                return val
+
+
 def _load_image(fname, preserve_exif):
     '''Load an image from file system and rotate according to exif'''
     img = Image.open(fname)
