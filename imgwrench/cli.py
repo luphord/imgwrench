@@ -22,8 +22,8 @@ from .commands.stack import cli_stack
 
 
 def _xmp_from_image(img, xmp_marker=b'http://ns.adobe.com/xap/1.0/'):
-    if hasattr(img, 'app'):
-        for key, val in img.app.items():
+    if hasattr(img, 'applist'):
+        for key, val in img.applist:
             if key == 'APP1' and val.startswith(xmp_marker):
                 return val
 
