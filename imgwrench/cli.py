@@ -28,9 +28,10 @@ def _xmp_from_image(img, xmp_marker=b'http://ns.adobe.com/xap/1.0/'):
                 return val
 
 
-def _load_image(fname, preserve_exif):
+def _load_image(fname, i, preserve_exif):
     '''Load an image from file system and rotate according to exif'''
     img = Image.open(fname)
+    info = ImageInfo(fname, i, img.info.get('exif'))
     # do not rotate image if exif is preserved
     # (otherwise it would be rotated twice)
     if not preserve_exif and hasattr(img, '_getexif'):
@@ -46,8 +47,8 @@ def _load_image(fname, preserve_exif):
             if orientation in rotations:
                 img = img.transpose(rotations[orientation])
     if img.mode != 'RGB':
-        return img.convert('RGB')
-    return img
+        return img.convert('RGB'), info
+    return img, info
 
 
 @click.group(name='imgwrench', chain=True)
@@ -101,8 +102,7 @@ def pipeline(image_processors, image_list, prefix, increment, digits,
         with image_list:
             for i, line in enumerate(image_list):
                 path = Path(line.strip()).resolve()
-                img = _load_image(path, preserve_exif)
-                info = ImageInfo(path, i, img.info.get('exif'))
+                img, info = _load_image(path, i, preserve_exif)
                 click.echo('<- Processing {}...'.format(info))
                 yield info, img
 
