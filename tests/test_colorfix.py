@@ -86,6 +86,12 @@ class TestBlackwhite(unittest.TestCase):
         execute_and_test_output_images(self, CliRunner(), 3, 3,
                                        'colorfix_', args)
 
+    def test_colorfixed_output_quantiles_fixed_cutoff(self):
+        '''Test output of colorfix command with quantiles-fixed-cutoff.'''
+        args = ['colorfix', '-m', 'quantiles-fixed-cutoff']
+        execute_and_test_output_images(self, CliRunner(), 3, 3,
+                                       'colorfix_', args)
+
     def test_quantiles(self):
         '''Regression test for quantiles.'''
         for level, target in QUANTILES_TARGETS:
