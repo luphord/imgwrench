@@ -15,7 +15,8 @@ from imgwrench.commands.colorfix import quantiles, colorfix_quantiles, \
 from .utils import execute_and_test_output_images
 from .images import colorcast_img, colorcast_fixed_001, colorcast_fixed_002, \
     colorcast_fixed_003, colorcast_fixed_005, colorcast_cutoff_boundaries, \
-    colorcast_cutoff_red, colorcast_cutoff_middle
+    colorcast_cutoff_red, colorcast_cutoff_middle, \
+    colorcast_cutoff_combined_middle, colorcast_cutoff_combined_red
 
 
 # targets for quantile regression test: (level, target)
@@ -49,7 +50,9 @@ IMAGES_FIXED_CUTOFF_TARGETS = [
 # (level, lower_cutoff, upper_cutoff, target)
 IMAGES_QUANTILES_FIXED_CUTOFF_TARGETS = [
     (0.01, (0, 0, 0), (255, 255, 255), colorcast_fixed_001),
-    (0.05, (0, 0, 0), (255, 255, 255), colorcast_fixed_005)
+    (0.05, (0, 0, 0), (255, 255, 255), colorcast_fixed_005),
+    (0.02, (12, 34, 56), (111, 222, 233), colorcast_cutoff_combined_middle),
+    (0.01, (127, 0, 0), (255, 255, 255), colorcast_cutoff_combined_red)
 ]
 
 
@@ -113,6 +116,8 @@ class TestBlackwhite(unittest.TestCase):
                                                  alpha,
                                                  lower_cutoff,
                                                  upper_cutoff)
+            if target != _tobytes(cf):
+                print(_b64encode(cf))
             self.assertEqual(target, _tobytes(cf),
                              'cutoff {} / {} - {} fail'.format(alpha,
                                                                lower_cutoff,
