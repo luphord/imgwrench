@@ -57,6 +57,20 @@ def colorfix_fixed_cutoff(img, lower_cutoff, upper_cutoff):
     return stretch_histogram(img, cutoffs)
 
 
+def _inner_cutoffs(first_cutoffs, second_cutoffs):
+    for first, second in zip(first_cutoffs, second_cutoffs):
+        yield max(first[0], second[0]), min(first[1], second[1])
+
+
+def colorfix_quantiles_fixed_cutoff(img, level, lower_cutoff, upper_cutoff):
+    '''Fix colors by stretching channel histogram between inner values
+       of given quantiles and cutoff colors to full range.'''
+    channel_quantiles = quantiles(img, level)
+    cutoffs = list(zip(lower_cutoff, upper_cutoff))
+    combined = list(_inner_cutoffs(channel_quantiles, cutoffs))
+    return stretch_histogram(img, combined)
+
+
 def stretch_histogram(img, cutoffs):
     '''Stretch channel histograms between given cutoffs to full range.'''
     # convert PIL image to numpy array for processing
@@ -85,6 +99,7 @@ def stretch_histogram(img, cutoffs):
 
 QUANTILES = 'quantiles'
 FIXED_CUTOFF = 'fixed-cutoff'
+QUANTILES_FIXED_CUTOFF = 'quantiles-fixed-cutoff'
 
 
 def _deprecation_warn_default_method():
@@ -96,7 +111,8 @@ def _deprecation_warn_default_method():
 
 @click.command(name='colorfix')
 @click.option('-m', '--method',
-              type=click.Choice([QUANTILES, FIXED_CUTOFF],
+              type=click.Choice([QUANTILES, FIXED_CUTOFF,
+                                 QUANTILES_FIXED_CUTOFF],
                                 case_sensitive=False),
               default=_deprecation_warn_default_method,
               show_default=True,
@@ -130,6 +146,11 @@ def cli_colorfix(method, alpha, lower_cutoff, upper_cutoff):
                 yield info, colorfix_fixed_cutoff(image,
                                                   lower_cutoff,
                                                   upper_cutoff)
+            elif method == QUANTILES_FIXED_CUTOFF:
+                yield info, colorfix_quantiles_fixed_cutoff(image,
+                                                            alpha,
+                                                            lower_cutoff,
+                                                            upper_cutoff)
             else:
                 raise NotImplementedError('{} not implemented'.format(method))
 
