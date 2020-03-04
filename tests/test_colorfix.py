@@ -10,7 +10,7 @@ from base64 import encodebytes
 
 from click.testing import CliRunner
 from imgwrench.commands.colorfix import quantiles, colorfix_quantiles, \
-    colorfix_fixed_cutoff
+    colorfix_fixed_cutoff, colorfix_quantiles_fixed_cutoff
 
 from .utils import execute_and_test_output_images
 from .images import colorcast_img, colorcast_fixed_001, colorcast_fixed_002, \
@@ -42,6 +42,14 @@ IMAGES_FIXED_CUTOFF_TARGETS = [
     ((0, 0, 0), (255, 255, 255), colorcast_cutoff_boundaries),
     ((150, 0, 0), (255, 255, 255), colorcast_cutoff_red),
     ((12, 34, 56), (111, 222, 233), colorcast_cutoff_middle)
+]
+
+
+# targets for colorfix quantiles-fixed-cutoff algorithm regression test:
+# (level, lower_cutoff, upper_cutoff, target)
+IMAGES_QUANTILES_FIXED_CUTOFF_TARGETS = [
+    (0.01, (0, 0, 0), (255, 255, 255), colorcast_fixed_001),
+    (0.05, (0, 0, 0), (255, 255, 255), colorcast_fixed_005)
 ]
 
 
@@ -96,3 +104,16 @@ class TestBlackwhite(unittest.TestCase):
             self.assertEqual(target, _tobytes(cf),
                              'cutoff {} - {} fail'.format(lower_cutoff,
                                                           upper_cutoff))
+
+    def test_colorfix_quantiles_fixed_cutoff_regression(self):
+        '''Regression test for colorfix fixed-cutoff algorithm.'''
+        for alpha, lower_cutoff, upper_cutoff, target in \
+                IMAGES_QUANTILES_FIXED_CUTOFF_TARGETS:
+            cf = colorfix_quantiles_fixed_cutoff(colorcast_img.copy(),
+                                                 alpha,
+                                                 lower_cutoff,
+                                                 upper_cutoff)
+            self.assertEqual(target, _tobytes(cf),
+                             'cutoff {} / {} - {} fail'.format(alpha,
+                                                               lower_cutoff,
+                                                               upper_cutoff))
