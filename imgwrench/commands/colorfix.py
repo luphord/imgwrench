@@ -116,24 +116,30 @@ def _deprecation_warn_default_method():
                                 case_sensitive=False),
               default=_deprecation_warn_default_method,
               show_default=True,
-              help='algorithm method to use; quantiles stretches all channel'
-                   'histograms between the quantile specified by --alpha; '
+              help='algorithm method to use; quantiles stretches all channel '
+                   'histograms between the quantiles specified by --alpha; '
                    'fixed-cutoff stretches channels between the cutoffs '
-                   'specified by --lower-cutoff and --upper-cutoff')
+                   'specified by --lower-cutoff and --upper-cutoff; '
+                   'quantiles-fixed-cutoff combines the two methods and '
+                   'applies the "stronger" of both cutoffs (i.e. the higher '
+                   'value of lower cutoffs and lower value of upper cutoffs)')
 @click.option('-a', '--alpha', type=click.FLOAT, default=DEFAULT_LEVEL,
               show_default=True,
               help='quantile (low and high) to be clipped to minimum '
-                   'and maximum color; only relevant for --method=quantiles')
+                   'and maximum color; relevant for --method=quantiles '
+                   'and --method=quantiles-fixed-cutoff')
 @click.option('-l', '--lower-cutoff', type=COLOR, default='rgb(127,0,0)',
               show_default=True,
               help='lower cutoff as a color name, hex value '
                    'or in rgb(...) function form; '
-                   'only relevant for --method=fixed-cutoff')
+                   'relevant for --method=fixed-cutoff '
+                   'and --method=quantiles-fixed-cutoff')
 @click.option('-u', '--upper-cutoff', type=COLOR, default='white',
               show_default=True,
               help='lower cutoff as a color name, hex value '
                    'or in rgb(...) function form; '
-                   'only relevant for --method=fixed-cutoff')
+                   'relevant for --method=fixed-cutoff '
+                   'and --method=quantiles-fixed-cutoff')
 def cli_colorfix(method, alpha, lower_cutoff, upper_cutoff):
     '''Fix colors by stretching channel histograms to full range.'''
     click.echo('Initializing colorfix with parameters {}'.format(locals()))
