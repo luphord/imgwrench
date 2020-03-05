@@ -17,6 +17,12 @@ class Branch:
         total = sum(w for w, _ in self.content)
         return [(w / total, node) for w, node in self.content]
 
+    def to_json(self):
+        content_json = [(w, node.to_json())
+                        for w, node in self.normalized_content]
+        return dict(node_type=self.__class__.__name__,
+                    content=content_json)
+
 
 class Row(Branch):
     def positions(self, x, y, width, height):
@@ -42,6 +48,9 @@ class Leaf:
 
     def positions(self, x, y, width, height):
         yield (x, y, width, height, self.image)
+
+    def to_json(self):
+        return self.__class__.__name__
 
 
 def random_weight(rnd):
