@@ -10,6 +10,7 @@ from PIL import Image
 
 from .info import ImageInfo
 from .commands.blackwhite import cli_blackwhite
+from .commands.collage import cli_collage
 from .commands.colorfix import cli_colorfix
 from .commands.crop import cli_crop
 from .commands.dither import cli_dither
@@ -125,6 +126,7 @@ def pipeline(image_processors, image_list, prefix, increment, digits,
 
 
 cli_imgwrench.add_command(cli_blackwhite)
+cli_imgwrench.add_command(cli_collage)
 cli_imgwrench.add_command(cli_colorfix)
 cli_imgwrench.add_command(cli_crop)
 cli_imgwrench.add_command(cli_filmstrip)
