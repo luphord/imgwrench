@@ -1,5 +1,7 @@
 '''Create a collage from multiple images.'''
 
+import random
+
 import click
 from PIL import Image
 
@@ -42,6 +44,38 @@ class Leaf:
         yield (x, y, width, height, self.image)
 
 
+def random_weight(rnd):
+    return 1.0 - rnd.random()
+
+
+def random_partition(images, rnd):
+    n_parts = rnd.randint(1, len(images))
+    parts = [list(images[start::n_parts]) for start in range(n_parts)]
+    return parts
+
+
+def random_tree_recursive(images, contained_in, rnd):
+    images = list(images)
+    rnd.shuffle(images)
+    if not images:
+        raise Exception('No random layout without images')
+    if len(images) <= 2:
+        for img in images:
+            yield random_weight(rnd), Leaf(img)
+    else:
+        layout = Column if contained_in == Row else Row
+        for part in random_partition(images, rnd):
+            rnd_cnt = list(random_tree_recursive(part, layout, rnd))
+            yield random_weight(rnd), layout(content=rnd_cnt)
+
+
+def random_tree(images):
+    rnd = random.Random(123)
+    root_layout = rnd.choice([Row, Column])
+    rnd_cnt = list(random_tree_recursive(images, root_layout, rnd))
+    return root_layout(content=rnd_cnt)
+
+
 def render(tree, width, height, frame_width, color):
     collg = Image.new('RGB', (width, height), color)
     for (x, y, w, h, img) in tree.positions(0, 0, width, height):
@@ -52,9 +86,7 @@ def render(tree, width, height, frame_width, color):
 
 def collage(images, width, height, frame_width, color):
     '''Create a collage from multiple images.'''
-    row = Row((1.0, Leaf(img)) for img in images[1:])
-    col = Column([(1.0, Leaf(images[0])), (1.0, row)])
-    return render(col, width, height, frame_width, color)
+    return render(random_tree(images), width, height, frame_width, color)
 
 
 @click.command(name='collage')
