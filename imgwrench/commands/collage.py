@@ -85,6 +85,11 @@ def random_tree(images):
     return root_layout(content=rnd_cnt)
 
 
+def crop(img, width, height):
+    '''Center crop image and resize to width * height'''
+    return img.resize((width, height), Image.LANCZOS)
+
+
 def render(tree, width, height, frame_width, color):
     collg = Image.new('RGB', (width, height), color)
     frame_half_pixels = round(frame_width * max(width, height) / 2)
@@ -98,7 +103,7 @@ def render(tree, width, height, frame_width, color):
         inner_h = int(h) - frame_pixels
         inner_x = int(x) + frame_half_pixels
         inner_y = int(y) + frame_half_pixels
-        resized_img = img.resize((inner_w, inner_h), Image.LANCZOS)
+        resized_img = crop(img, inner_w, inner_h)
         collg.paste(resized_img, (inner_x, inner_y))
     return collg
 
