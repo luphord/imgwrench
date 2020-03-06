@@ -87,9 +87,19 @@ def random_tree(images):
 
 def render(tree, width, height, frame_width, color):
     collg = Image.new('RGB', (width, height), color)
-    for (x, y, w, h, img) in tree.positions(0, 0, width, height):
-        resized_img = img.resize((int(w), int(h)), Image.LANCZOS)
-        collg.paste(resized_img, (int(x), int(y)))
+    frame_half_pixels = round(frame_width * max(width, height) / 2)
+    frame_pixels = frame_half_pixels * 2
+    inner_width = width - frame_pixels
+    inner_height = height - frame_pixels
+    for (x, y, w, h, img) in tree.positions(frame_half_pixels,
+                                            frame_half_pixels,
+                                            inner_width, inner_height):
+        inner_w = int(w) - frame_pixels
+        inner_h = int(h) - frame_pixels
+        inner_x = int(x) + frame_half_pixels
+        inner_y = int(y) + frame_half_pixels
+        resized_img = img.resize((inner_w, inner_h), Image.LANCZOS)
+        collg.paste(resized_img, (inner_x, inner_y))
     return collg
 
 
@@ -105,7 +115,7 @@ def collage(images, width, height, frame_width, color):
 @click.option('-s', '--height', type=click.INT, default=2048,
               show_default=True,
               help='height of the collage')
-@click.option('-f', '--frame-width', type=click.FLOAT, default=0.025,
+@click.option('-f', '--frame-width', type=click.FLOAT, default=0.01,
               show_default=True,
               help='width of the frame as a fraction of the longer ' +
                    'image side')
