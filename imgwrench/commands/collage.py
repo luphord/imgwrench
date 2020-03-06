@@ -96,8 +96,8 @@ def crop(image, width, height):
         left = 0
         right = image.size[0]
         upper = floor(crop_pixels / 2)
-        lower = height - ceil(crop_pixels / 2)
-    else:  # need to crop width side
+        lower = image.size[1] - ceil(crop_pixels / 2)
+    else:  # need to crop width
         crop_pixels = round((1 - target_ratio / actual_ratio)
                             * image.size[0])
         left = floor(crop_pixels / 2)
