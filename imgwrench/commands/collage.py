@@ -1,6 +1,7 @@
 '''Create a collage from multiple images.'''
 
 import random
+from math import floor, ceil
 
 import click
 from PIL import Image
@@ -85,9 +86,26 @@ def random_tree(images):
     return root_layout(content=rnd_cnt)
 
 
-def crop(img, width, height):
+def crop(image, width, height):
     '''Center crop image and resize to width * height'''
-    return img.resize((width, height), Image.LANCZOS)
+    actual_ratio = image.size[0] / image.size[1]
+    target_ratio = width / height
+    if target_ratio > actual_ratio:  # need to crop height
+        crop_pixels = round((1 - actual_ratio / target_ratio)
+                            * image.size[1])
+        left = 0
+        right = image.size[0]
+        upper = floor(crop_pixels / 2)
+        lower = height - ceil(crop_pixels / 2)
+    else:  # need to crop width side
+        crop_pixels = round((1 - target_ratio / actual_ratio)
+                            * image.size[0])
+        left = floor(crop_pixels / 2)
+        right = image.size[0] - ceil(crop_pixels / 2)
+        upper = 0
+        lower = image.size[1]
+    image = image.crop((left, upper, right, lower))
+    return image.resize((width, height), Image.LANCZOS)
 
 
 def render(tree, width, height, frame_width, color):
