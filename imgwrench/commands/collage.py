@@ -110,6 +110,38 @@ def random_tree(images, rnd=None):
     return root_layout(content=rnd_cnt)
 
 
+phi = (1 + 5**0.5) / 2
+
+
+def _golden_section_tree_recursive(images, aspect_ratio, rnd):
+    images = list(images)
+    if not images:
+        raise Exception('No golden sections layout without images')
+    n = len(images)
+    if n == 1:
+        return LayoutLeaf(images[0])
+    else:
+        if aspect_ratio > 1:
+            layout = Column
+            ratios = [aspect_ratio / phi, aspect_ratio / (phi ** 2)]
+        else:
+            layout = Row
+            ratios = [aspect_ratio * phi, aspect_ratio * (phi ** 2)]
+        n_first = n // 2
+        rnd.shuffle(ratios)
+        partition = [images[:n_first], images[n_first:]]
+        cnt = [(ratio, _golden_section_tree_recursive(part, ratio, rnd))
+               for ratio, part in zip(ratios, partition)]
+        return layout(content=cnt)
+
+
+def golden_section_tree(images, aspect_ratio, rnd=None):
+    '''Create a layout tree structure based on golden sections.'''
+    rnd = rnd or random.Random(0)
+    rnd.shuffle(images)
+    return _golden_section_tree_recursive(images, aspect_ratio, rnd)
+
+
 def crop(image, width, height):
     '''Center crop image and resize to width * height.'''
     actual_ratio = image.size[0] / image.size[1]
@@ -154,7 +186,7 @@ def render(tree, width, height, frame_width, color):
 
 def collage(images, width, height, frame_width, color, rnd=None):
     '''Create a collage from multiple images.'''
-    tree = random_tree(images, rnd)
+    tree = golden_section_tree(images, width / height, rnd)
     return render(tree, width, height, frame_width, color)
 
 
