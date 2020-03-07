@@ -9,7 +9,15 @@ from PIL import Image
 from ..param import COLOR
 
 
-class Branch:
+class Node:
+    def to_string(self, indent=0, weight=None):
+        raise NotImplementedError('to_string is not implemented')
+
+    def __str__(self):
+        return '\n'.join(self.to_string())
+
+
+class Branch(Node):
     def __init__(self, content):
         self.content = list(content)
 
@@ -18,11 +26,12 @@ class Branch:
         total = sum(w for w, _ in self.content)
         return [(w / total, node) for w, node in self.content]
 
-    def to_json(self):
-        content_json = [(w, node.to_json())
-                        for w, node in self.normalized_content]
-        return dict(node_type=self.__class__.__name__,
-                    content=content_json)
+    def to_string(self, indent=0, weight=None):
+        yield '{}{} {}:'.format(indent * '  ',
+                                '{:.2f}'.format(weight) if weight else '',
+                                self.__class__.__name__)
+        for weight, node in self.normalized_content:
+            yield from node.to_string(indent + 1, weight)
 
 
 class Row(Branch):
@@ -50,8 +59,9 @@ class Leaf:
     def positions(self, x, y, width, height):
         yield (x, y, width, height, self.image)
 
-    def to_json(self):
-        return self.__class__.__name__
+    def to_string(self, indent=0, weight=None):
+        w = '{:.2f}'.format(weight) if weight else ''
+        yield '{}{} {}'.format(indent * '  ', w, self.__class__.__name__)
 
 
 def random_weight(rnd):
