@@ -10,6 +10,8 @@ from ..param import COLOR
 
 
 class LayoutNode:
+    '''Node in a layout tree structure; base class for specific types'''
+
     def to_string(self, indent=0, weight=None):
         raise NotImplementedError('to_string is not implemented')
 
@@ -18,6 +20,9 @@ class LayoutNode:
 
 
 class LayoutBranch(LayoutNode):
+    '''Non-leaf node in a layout tree structure;
+       base class for specific types'''
+
     def __init__(self, content):
         self.content = list(content)
 
@@ -35,6 +40,8 @@ class LayoutBranch(LayoutNode):
 
 
 class Row(LayoutBranch):
+    '''Row node in a layout tree structure'''
+
     def positions(self, x, y, width, height):
         offset = 0.0
         for w, node in self.normalized_content:
@@ -44,6 +51,8 @@ class Row(LayoutBranch):
 
 
 class Column(LayoutBranch):
+    '''Column node in a layout tree structure'''
+
     def positions(self, x, y, width, height):
         offset = 0.0
         for w, node in self.normalized_content:
@@ -53,6 +62,8 @@ class Column(LayoutBranch):
 
 
 class LayoutLeaf:
+    '''Leaf node in a layout tree structure; contains a single image'''
+
     def __init__(self, image):
         self.image = image
 
@@ -65,16 +76,18 @@ class LayoutLeaf:
 
 
 def random_weight(rnd):
+    '''Random variable X in (0, 1]'''
     return 1.0 - rnd.random()
 
 
 def random_partition(images, rnd):
+    '''Partition list of images into a random number of subsets'''
     n_parts = rnd.randint(1, len(images))
     parts = [list(images[start::n_parts]) for start in range(n_parts)]
     return parts
 
 
-def random_tree_recursive(images, contained_in, rnd):
+def _random_tree_recursive(images, contained_in, rnd):
     images = list(images)
     rnd.shuffle(images)
     if not images:
@@ -85,14 +98,15 @@ def random_tree_recursive(images, contained_in, rnd):
     else:
         layout = Column if contained_in == Row else Row
         for part in random_partition(images, rnd):
-            rnd_cnt = list(random_tree_recursive(part, layout, rnd))
+            rnd_cnt = list(_random_tree_recursive(part, layout, rnd))
             yield random_weight(rnd), layout(content=rnd_cnt)
 
 
 def random_tree(images):
+    '''Create a random layout tree structure'''
     rnd = random.Random(123)
     root_layout = rnd.choice([Row, Column])
-    rnd_cnt = list(random_tree_recursive(images, root_layout, rnd))
+    rnd_cnt = list(_random_tree_recursive(images, root_layout, rnd))
     return root_layout(content=rnd_cnt)
 
 
@@ -119,6 +133,8 @@ def crop(image, width, height):
 
 
 def render(tree, width, height, frame_width, color):
+    '''Render layout tree structure to given width and height
+       with specified frame; returns a PIL.Image'''
     collg = Image.new('RGB', (width, height), color)
     frame_half_pixels = round(frame_width * max(width, height) / 2)
     frame_pixels = frame_half_pixels * 2
