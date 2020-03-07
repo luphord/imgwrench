@@ -102,9 +102,9 @@ def _random_tree_recursive(images, contained_in, rnd):
             yield random_weight(rnd), layout(content=rnd_cnt)
 
 
-def random_tree(images):
+def random_tree(images, rnd=None):
     '''Create a random layout tree structure'''
-    rnd = random.Random(123)
+    rnd = rnd or random.Random(0)
     root_layout = rnd.choice([Row, Column])
     rnd_cnt = list(_random_tree_recursive(images, root_layout, rnd))
     return root_layout(content=rnd_cnt)
@@ -152,9 +152,10 @@ def render(tree, width, height, frame_width, color):
     return collg
 
 
-def collage(images, width, height, frame_width, color):
+def collage(images, width, height, frame_width, color, rnd=None):
     '''Create a collage from multiple images.'''
-    return render(random_tree(images), width, height, frame_width, color)
+    tree = random_tree(images, rnd)
+    return render(tree, width, height, frame_width, color)
 
 
 @click.command(name='collage')
@@ -179,7 +180,8 @@ def cli_collage(width, height, frame_width, color):
     def _collage(image_infos):
         image_infos = list(image_infos)
         images = [img for _, img in image_infos]
+        rnd = random.Random(123)
         yield image_infos[0][0], \
-            collage(images, width, height, frame_width, color)
+            collage(images, width, height, frame_width, color, rnd)
 
     return _collage
