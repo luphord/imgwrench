@@ -128,6 +128,8 @@ def _golden_section_tree_recursive(images, aspect_ratio, rnd):
             layout = Column
             ratios = [aspect_ratio * phi, aspect_ratio * (phi ** 2)]
         n_first = n // 2
+        if n % 2 == 1:
+            n_first += rnd.choice([0, 1])
         rnd.shuffle(ratios)
         weights = [ratio if aspect_ratio > 1 else 1 / ratio
                    for ratio in ratios]
