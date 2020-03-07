@@ -89,7 +89,6 @@ def random_partition(images, rnd):
 
 def _random_tree_recursive(images, contained_in, rnd):
     images = list(images)
-    rnd.shuffle(images)
     if not images:
         raise Exception('No random layout without images')
     if len(images) <= 2:
@@ -105,6 +104,7 @@ def _random_tree_recursive(images, contained_in, rnd):
 def random_tree(images, rnd=None):
     '''Create a random layout tree structure.'''
     rnd = rnd or random.Random(0)
+    rnd.shuffle(images)
     root_layout = rnd.choice([Row, Column])
     rnd_cnt = list(_random_tree_recursive(images, root_layout, rnd))
     return root_layout(content=rnd_cnt)
