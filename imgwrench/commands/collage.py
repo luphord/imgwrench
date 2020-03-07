@@ -9,7 +9,7 @@ from PIL import Image
 from ..param import COLOR
 
 
-class Node:
+class LayoutNode:
     def to_string(self, indent=0, weight=None):
         raise NotImplementedError('to_string is not implemented')
 
@@ -17,7 +17,7 @@ class Node:
         return '\n'.join(self.to_string())
 
 
-class Branch(Node):
+class LayoutBranch(LayoutNode):
     def __init__(self, content):
         self.content = list(content)
 
@@ -34,7 +34,7 @@ class Branch(Node):
             yield from node.to_string(indent + 1, weight)
 
 
-class Row(Branch):
+class Row(LayoutBranch):
     def positions(self, x, y, width, height):
         offset = 0.0
         for w, node in self.normalized_content:
@@ -43,7 +43,7 @@ class Row(Branch):
             offset += total_width
 
 
-class Column(Branch):
+class Column(LayoutBranch):
     def positions(self, x, y, width, height):
         offset = 0.0
         for w, node in self.normalized_content:
@@ -52,7 +52,7 @@ class Column(Branch):
             offset += total_height
 
 
-class Leaf:
+class LayoutLeaf:
     def __init__(self, image):
         self.image = image
 
@@ -81,7 +81,7 @@ def random_tree_recursive(images, contained_in, rnd):
         raise Exception('No random layout without images')
     if len(images) <= 2:
         for img in images:
-            yield random_weight(rnd), Leaf(img)
+            yield random_weight(rnd), LayoutLeaf(img)
     else:
         layout = Column if contained_in == Row else Row
         for part in random_partition(images, rnd):
