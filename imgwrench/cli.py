@@ -28,6 +28,19 @@ def _xmp_from_image(img, xmp_marker=b'http://ns.adobe.com/xap/1.0/'):
                 return val
 
 
+def _write_xmp_to_image(path, xmp):
+    with open(path, 'rb') as f:
+        raw_data = f.read()
+    app1_start = raw_data.find(b'\xFF\xE1')
+    if app1_start > 0:
+        with open(path, 'wb') as f:
+            f.write(raw_data[:app1_start])
+            f.write(b'\xFF\xE1')
+            f.write((len(xmp) + 2).to_bytes(2, 'big'))
+            f.write(xmp)
+            f.write(raw_data[app1_start:])
+
+
 def _load_image(fname, i, preserve_exif):
     '''Load an image from file system and rotate according to exif'''
     img = Image.open(fname)
@@ -128,16 +141,7 @@ def pipeline(image_processors, image_list, prefix, increment, digits,
             args['exif'] = info.exif
         processed_image.save(outpath, **args)
         if preserve_exif and jpg and info.xmp:
-            with open(outpath, 'rb') as f:
-                raw_data = f.read()
-            app1_start = raw_data.find(b'\xFF\xE1')
-            if app1_start > 0:
-                with open(outpath, 'wb') as f:
-                    f.write(raw_data[:app1_start])
-                    f.write(b'\xFF\xE1')
-                    f.write((len(info.xmp) + 2).to_bytes(2, 'big'))
-                    f.write(info.xmp)
-                    f.write(raw_data[app1_start:])
+            _write_xmp_to_image(outpath, info.xmp)
         click.echo('-> Saved {}'.format(outpath))
     click.echo('--- Pipeline execution completed ---')
 
