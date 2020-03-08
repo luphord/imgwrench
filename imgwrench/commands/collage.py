@@ -18,6 +18,11 @@ class LayoutNode:
     def __str__(self):
         return '\n'.join(self.to_string())
 
+    def aspect_ratios(self, container_aspect_ratio):
+        '''Calculate aspect ratios of leaf nodes given aspect ratio
+           of containing nodes.'''
+        raise NotImplementedError('to_string is not implemented')
+
 
 class LayoutBranch(LayoutNode):
     '''Non-leaf node in a layout tree structure;
@@ -49,6 +54,10 @@ class Row(LayoutBranch):
             yield from node.positions(x + offset, y, total_width, height)
             offset += total_width
 
+    def aspect_ratios(self, container_aspect_ratio):
+        for weight, node in self.normalized_content:
+            yield from node.aspect_ratios(container_aspect_ratio * weight)
+
 
 class Column(LayoutBranch):
     '''Column node in a layout tree structure.'''
@@ -59,6 +68,10 @@ class Column(LayoutBranch):
             total_height = w * height
             yield from node.positions(x, y + offset, width, total_height)
             offset += total_height
+
+    def aspect_ratios(self, container_aspect_ratio):
+        for weight, node in self.normalized_content:
+            yield from node.aspect_ratios(container_aspect_ratio / weight)
 
 
 class LayoutLeaf:
@@ -73,6 +86,9 @@ class LayoutLeaf:
     def to_string(self, indent=0, weight=None):
         w = '{:.2f}'.format(weight) if weight else ''
         yield '{}{} {}'.format(indent * '  ', w, self.__class__.__name__)
+
+    def aspect_ratios(self, container_aspect_ratio):
+        yield container_aspect_ratio, self
 
 
 def random_weight(rnd):
