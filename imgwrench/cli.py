@@ -31,7 +31,7 @@ def _xmp_from_image(img, xmp_marker=b'http://ns.adobe.com/xap/1.0/'):
 def _load_image(fname, i, preserve_exif):
     '''Load an image from file system and rotate according to exif'''
     img = Image.open(fname)
-    info = ImageInfo(fname, i, img.info.get('exif'))
+    info = ImageInfo(fname, i, img.info.get('exif'), _xmp_from_image(img))
     # do not rotate image if exif is preserved
     # (otherwise it would be rotated twice)
     if not preserve_exif and hasattr(img, '_getexif'):
