@@ -23,6 +23,17 @@ class LayoutNode:
            of containing nodes.'''
         raise NotImplementedError('to_string is not implemented')
 
+    def move_images_to_best_aspect_ratios(self, container_aspect_ratio):
+        '''Exchange images between leaf nodes of the tree such that they
+           are placed ranked according to their aspect ratios.'''
+        target_ar = list(self.aspect_ratios(container_aspect_ratio))
+        target_ar.sort(key=lambda tpl: tpl[0])
+        image_ar = [(leaf.image_aspect_ratio, leaf.image)
+                    for _, leaf in target_ar]
+        image_ar.sort(key=lambda tpl: tpl[0])
+        for (_, node), (_, image) in zip(target_ar, image_ar):
+            node.image = image
+
 
 class LayoutBranch(LayoutNode):
     '''Non-leaf node in a layout tree structure;
@@ -89,6 +100,10 @@ class LayoutLeaf:
 
     def aspect_ratios(self, container_aspect_ratio):
         yield container_aspect_ratio, self
+
+    @property
+    def image_aspect_ratio(self):
+        return self.image.size[0] / self.image.size[1]
 
 
 def random_weight(rnd):
@@ -158,7 +173,6 @@ def _golden_section_tree_recursive(images, aspect_ratio, rnd):
 def golden_section_tree(images, aspect_ratio, rnd=None):
     '''Create a layout tree structure based on golden sections.'''
     rnd = rnd or random.Random(0)
-    rnd.shuffle(images)
     return _golden_section_tree_recursive(images, aspect_ratio, rnd)
 
 
@@ -207,6 +221,7 @@ def render(tree, width, height, frame_width, color):
 def collage(images, width, height, frame_width, color, rnd=None):
     '''Create a collage from multiple images.'''
     tree = golden_section_tree(images, width / height, rnd)
+    tree.move_images_to_best_aspect_ratios(width / height)
     return render(tree, width, height, frame_width, color)
 
 
