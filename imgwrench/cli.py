@@ -127,6 +127,17 @@ def pipeline(image_processors, image_list, prefix, increment, digits,
         if preserve_exif and info.exif:
             args['exif'] = info.exif
         processed_image.save(outpath, **args)
+        if preserve_exif and jpg and info.xmp:
+            with open(outpath, 'rb') as f:
+                raw_data = f.read()
+            app1_start = raw_data.find(b'\xFF\xE1')
+            if app1_start > 0:
+                with open(outpath, 'wb') as f:
+                    f.write(raw_data[:app1_start])
+                    f.write(b'\xFF\xE1')
+                    f.write((len(info.xmp) + 2).to_bytes(2, 'big'))
+                    f.write(info.xmp)
+                    f.write(raw_data[app1_start:])
         click.echo('-> Saved {}'.format(outpath))
     click.echo('--- Pipeline execution completed ---')
 
