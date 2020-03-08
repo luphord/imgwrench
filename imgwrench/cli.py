@@ -31,14 +31,17 @@ def _xmp_from_image(img, xmp_marker=b'http://ns.adobe.com/xap/1.0/'):
 def _write_xmp_to_image(path, xmp):
     with open(path, 'rb') as f:
         raw_data = f.read()
-    app1_start = raw_data.find(b'\xFF\xE1')
+    app1_start = raw_data.rfind(b'\xFF\xE1')
     if app1_start > 0:
+        app1_raw_len = raw_data[app1_start+2:app1_start+4]
+        app1_len = int.from_bytes(app1_raw_len, 'big')
+        app1_end = app1_start + 2 + app1_len
         with open(path, 'wb') as f:
-            f.write(raw_data[:app1_start])
+            f.write(raw_data[:app1_end])
             f.write(b'\xFF\xE1')
             f.write((len(xmp) + 2).to_bytes(2, 'big'))
             f.write(xmp)
-            f.write(raw_data[app1_start:])
+            f.write(raw_data[app1_end:])
 
 
 def _load_image(fname, i, preserve_exif):
