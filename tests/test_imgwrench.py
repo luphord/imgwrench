@@ -207,9 +207,6 @@ class TestImgwrenchMainCli(unittest.TestCase):
                                          '-i', 'images.txt', 'save'])
             fname = '{}{:04d}.jpg'.format('no_exif_', 0)
             self.assertTrue(os.path.exists(fname), fname + ' missing')
-            img = Image.open(fname)
-            self.assertFalse(hasattr(img, '_getexif') and img._getexif())
-            self.assertFalse(_xmp_from_image(img))
             with Image.open(fname) as img:
                 self.assertFalse(hasattr(img, '_getexif') and img._getexif())
                 self.assertFalse(_xmp_from_image(img))
