@@ -22,9 +22,33 @@ from .commands.save import cli_save
 from .commands.stack import cli_stack
 
 
-def _load_image(fname, preserve_exif):
+def _xmp_from_image(img, xmp_marker=b'http://ns.adobe.com/xap/1.0/'):
+    if hasattr(img, 'applist'):
+        for key, val in img.applist:
+            if key == 'APP1' and val.startswith(xmp_marker):
+                return val
+
+
+def _write_xmp_to_image(path, xmp):
+    with open(path, 'rb') as f:
+        raw_data = f.read()
+    app1_start = raw_data.rfind(b'\xFF\xE1')
+    if app1_start > 0:
+        app1_raw_len = raw_data[app1_start+2:app1_start+4]
+        app1_len = int.from_bytes(app1_raw_len, 'big')
+        app1_end = app1_start + 2 + app1_len
+        with open(path, 'wb') as f:
+            f.write(raw_data[:app1_end])
+            f.write(b'\xFF\xE1')
+            f.write((len(xmp) + 2).to_bytes(2, 'big'))
+            f.write(xmp)
+            f.write(raw_data[app1_end:])
+
+
+def _load_image(fname, i, preserve_exif):
     '''Load an image from file system and rotate according to exif'''
     img = Image.open(fname)
+    info = ImageInfo(fname, i, img.info.get('exif'), _xmp_from_image(img))
     # do not rotate image if exif is preserved
     # (otherwise it would be rotated twice)
     if not preserve_exif and hasattr(img, '_getexif'):
@@ -40,8 +64,8 @@ def _load_image(fname, preserve_exif):
             if orientation in rotations:
                 img = img.transpose(rotations[orientation])
     if img.mode != 'RGB':
-        return img.convert('RGB')
-    return img
+        return img.convert('RGB'), info
+    return img, info
 
 
 @click.group(name='imgwrench', chain=True)
@@ -73,7 +97,7 @@ def _load_image(fname, preserve_exif):
               help='quality of the output images, integer 0 - 100')
 @click.option('-e', '--preserve-exif', is_flag=True, default=False,
               show_default=True,
-              help='preserve image exif headers if available')
+              help='preserve image exif and xmp metadata if available')
 @click.option('-j', '--jpg/--png',
               default=True, show_default=True,
               help='save output images in JPEG format (otherwise PNG)')
@@ -95,8 +119,7 @@ def pipeline(image_processors, image_list, prefix, increment, digits,
         with image_list:
             for i, line in enumerate(image_list):
                 path = Path(line.strip()).resolve()
-                img = _load_image(path, preserve_exif)
-                info = ImageInfo(path, i, img.info.get('exif'))
+                img, info = _load_image(path, i, preserve_exif)
                 click.echo('<- Processing {}...'.format(info))
                 yield info, img
 
@@ -121,6 +144,8 @@ def pipeline(image_processors, image_list, prefix, increment, digits,
         if preserve_exif and info.exif:
             args['exif'] = info.exif
         processed_image.save(outpath, **args)
+        if preserve_exif and jpg and info.xmp:
+            _write_xmp_to_image(outpath, info.xmp)
         click.echo('-> Saved {}'.format(outpath))
     click.echo('--- Pipeline execution completed ---')
 
