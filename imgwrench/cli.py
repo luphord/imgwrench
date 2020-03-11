@@ -96,7 +96,7 @@ def _load_image(fname, i, preserve_exif):
               help='quality of the output images, integer 0 - 100')
 @click.option('-e', '--preserve-exif', is_flag=True, default=False,
               show_default=True,
-              help='preserve image exif headers if available')
+              help='preserve image exif and xmp metadata if available')
 @click.option('-j', '--jpg/--png',
               default=True, show_default=True,
               help='save output images in JPEG format (otherwise PNG)')
