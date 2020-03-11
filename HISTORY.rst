@@ -2,6 +2,13 @@
 History
 =======
 
+0.11.0 (not yet)
+----------------
+
+* collage subcommand for creating a framed collage from images
+* BREAKING CHANGE: default method for colorfix is now quantiles-fixed-cutoff
+* preserve xmp metadata when -e/--preserve-exif is used (in addition to exif metadata)
+
 0.10.0 (2020-03-04)
 -------------------
 
