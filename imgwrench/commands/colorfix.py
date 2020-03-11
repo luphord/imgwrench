@@ -57,6 +57,20 @@ def colorfix_fixed_cutoff(img, lower_cutoff, upper_cutoff):
     return stretch_histogram(img, cutoffs)
 
 
+def _inner_cutoffs(first_cutoffs, second_cutoffs):
+    for first, second in zip(first_cutoffs, second_cutoffs):
+        yield max(first[0], second[0]), min(first[1], second[1])
+
+
+def colorfix_quantiles_fixed_cutoff(img, level, lower_cutoff, upper_cutoff):
+    '''Fix colors by stretching channel histogram between inner values
+       of given quantiles and cutoff colors to full range.'''
+    channel_quantiles = quantiles(img, level)
+    cutoffs = list(zip(lower_cutoff, upper_cutoff))
+    combined = list(_inner_cutoffs(channel_quantiles, cutoffs))
+    return stretch_histogram(img, combined)
+
+
 def stretch_histogram(img, cutoffs):
     '''Stretch channel histograms between given cutoffs to full range.'''
     # convert PIL image to numpy array for processing
@@ -85,6 +99,7 @@ def stretch_histogram(img, cutoffs):
 
 QUANTILES = 'quantiles'
 FIXED_CUTOFF = 'fixed-cutoff'
+QUANTILES_FIXED_CUTOFF = 'quantiles-fixed-cutoff'
 
 
 def _deprecation_warn_default_method():
@@ -96,28 +111,35 @@ def _deprecation_warn_default_method():
 
 @click.command(name='colorfix')
 @click.option('-m', '--method',
-              type=click.Choice([QUANTILES, FIXED_CUTOFF],
+              type=click.Choice([QUANTILES, FIXED_CUTOFF,
+                                 QUANTILES_FIXED_CUTOFF],
                                 case_sensitive=False),
               default=_deprecation_warn_default_method,
               show_default=True,
-              help='algorithm method to use; quantiles stretches all channel'
-                   'histograms between the quantile specified by --alpha; '
+              help='algorithm method to use; quantiles stretches all channel '
+                   'histograms between the quantiles specified by --alpha; '
                    'fixed-cutoff stretches channels between the cutoffs '
-                   'specified by --lower-cutoff and --upper-cutoff')
+                   'specified by --lower-cutoff and --upper-cutoff; '
+                   'quantiles-fixed-cutoff combines the two methods and '
+                   'applies the "stronger" of both cutoffs (i.e. the higher '
+                   'value of lower cutoffs and lower value of upper cutoffs)')
 @click.option('-a', '--alpha', type=click.FLOAT, default=DEFAULT_LEVEL,
               show_default=True,
               help='quantile (low and high) to be clipped to minimum '
-                   'and maximum color; only relevant for --method=quantiles')
-@click.option('-l', '--lower-cutoff', type=COLOR, default='black',
+                   'and maximum color; relevant for --method=quantiles '
+                   'and --method=quantiles-fixed-cutoff')
+@click.option('-l', '--lower-cutoff', type=COLOR, default='rgb(127,0,0)',
               show_default=True,
               help='lower cutoff as a color name, hex value '
                    'or in rgb(...) function form; '
-                   'only relevant for --method=fixed-cutoff')
+                   'relevant for --method=fixed-cutoff '
+                   'and --method=quantiles-fixed-cutoff')
 @click.option('-u', '--upper-cutoff', type=COLOR, default='white',
               show_default=True,
               help='lower cutoff as a color name, hex value '
                    'or in rgb(...) function form; '
-                   'only relevant for --method=fixed-cutoff')
+                   'relevant for --method=fixed-cutoff '
+                   'and --method=quantiles-fixed-cutoff')
 def cli_colorfix(method, alpha, lower_cutoff, upper_cutoff):
     '''Fix colors by stretching channel histograms to full range.'''
     click.echo('Initializing colorfix with parameters {}'.format(locals()))
@@ -130,6 +152,11 @@ def cli_colorfix(method, alpha, lower_cutoff, upper_cutoff):
                 yield info, colorfix_fixed_cutoff(image,
                                                   lower_cutoff,
                                                   upper_cutoff)
+            elif method == QUANTILES_FIXED_CUTOFF:
+                yield info, colorfix_quantiles_fixed_cutoff(image,
+                                                            alpha,
+                                                            lower_cutoff,
+                                                            upper_cutoff)
             else:
                 raise NotImplementedError('{} not implemented'.format(method))
 

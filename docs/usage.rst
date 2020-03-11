@@ -36,35 +36,56 @@ repair its colors and output as `img_0000.jpg` as follows:
 
 .. image:: _static/colorfix.jpg
 
-`colorfix` supports the float parameter -a/--alpha representing the quantile
+The `colorfix` algorithm stretches the channel histogram to specified clipping
+values (cutoffs). The precise specification depends on the :code:`-m/--method` option.
+
+:code:`--method=quantiles` supports the float parameter :code:`-a/--alpha`
+representing the quantile
 within each color channel that is clipped to the minimum and maximum value.
-It defaults to `0.01`. Increasing `alpha` will stretch the histogram further
+It defaults to :code:`0.01`. Increasing :code:`alpha` will stretch the histogram further
 and will intensify the contrast of the resulting image.
+
+:code:`--method=fixed-cutoff` lets you specify the cutoff colors directly as named color,
+hex value or in rgb(...) function form. Use :code:`-l/--lower-cutoff` and
+:code:`-u/--upper-cutoff` to specify.
+
+:code:`--method=quantiles-fixed-cutoff` combines the other two methods and applies the
+"stronger" cutoff (i.e. the higher value of lower cutoffs and lower value of
+upper cutoffs).
 
 .. code-block:: console
 
     Usage: imgwrench colorfix [OPTIONS]
-
-    Fix colors by stretching channel histograms to full range.
-
+    
+      Fix colors by stretching channel histograms to full range.
+    
     Options:
-    -m, --method [quantiles|fixed-cutoff]
-                                    algorithm method to use; quantiles stretches
-                                    all channelhistograms between the quantile
-                                    specified by --alpha; fixed-cutoff stretches
-                                    channels between the cutoffs specified by
-                                    --lower-cutoff and --upper-cutoff  [default:
-                                    quantiles]
-    -a, --alpha FLOAT               quantile (low and high) to be clipped to
-                                    minimum and maximum color; only relevant for
-                                    --method=quantiles  [default: 0.01]
-    -l, --lower-cutoff COLOR        lower cutoff as a color name, hex value or
-                                    in rgb(...) function form; only relevant for
-                                    --method=fixed-cutoff  [default: black]
-    -u, --upper-cutoff COLOR        lower cutoff as a color name, hex value or
-                                    in rgb(...) function form; only relevant for
-                                    --method=fixed-cutoff  [default: white]
-    --help                          Show this message and exit.
+      -m, --method [quantiles|fixed-cutoff|quantiles-fixed-cutoff]
+                                      algorithm method to use; quantiles stretches
+                                      all channel histograms between the quantiles
+                                      specified by --alpha; fixed-cutoff stretches
+                                      channels between the cutoffs specified by
+                                      --lower-cutoff and --upper-cutoff;
+                                      quantiles-fixed-cutoff combines the two
+                                      methods and applies the "stronger" of both
+                                      cutoffs (i.e. the higher value of lower
+                                      cutoffs and lower value of upper cutoffs)
+                                      [default: (dynamic)]
+      -a, --alpha FLOAT               quantile (low and high) to be clipped to
+                                      minimum and maximum color; relevant for
+                                      --method=quantiles and --method=quantiles-
+                                      fixed-cutoff  [default: 0.01]
+      -l, --lower-cutoff COLOR        lower cutoff as a color name, hex value or
+                                      in rgb(...) function form; relevant for
+                                      --method=fixed-cutoff and
+                                      --method=quantiles-fixed-cutoff  [default:
+                                      rgb(127,0,0)]
+      -u, --upper-cutoff COLOR        lower cutoff as a color name, hex value or
+                                      in rgb(...) function form; relevant for
+                                      --method=fixed-cutoff and
+                                      --method=quantiles-fixed-cutoff  [default:
+                                      white]
+      --help                          Show this message and exit.
 
 
 crop

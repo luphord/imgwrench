@@ -104,3 +104,6 @@ settings.json
 
 # mypy
 .mypy_cache/
+
+# imgwrench
+img_*.jpg

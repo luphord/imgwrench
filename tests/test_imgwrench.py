@@ -172,10 +172,10 @@ class TestImgwrenchMainCli(unittest.TestCase):
     def test_saving_of_exif_metadata(self):
         '''Test saving of exif metadata'''
         img_path = str(self.images_path / 'town.jpg')
-        img = Image.open(img_path)
-        self.assertTrue(hasattr(img, '_getexif'))
-        org_exif = img._getexif()
-        org_xmp = _xmp_from_image(img)
+        with Image.open(img_path) as img:
+            self.assertTrue(hasattr(img, '_getexif'))
+            org_exif = img._getexif()
+            org_xmp = _xmp_from_image(img)
         # need to copy image to isolated filesystem
         with open(img_path, 'rb') as f:
             img_data = f.read()
@@ -194,12 +194,12 @@ class TestImgwrenchMainCli(unittest.TestCase):
             self.assertEqual(0, result.exit_code)
             fname = '{}{:04d}.jpg'.format('exif_', 0)
             self.assertTrue(os.path.exists(fname), fname + ' missing')
-            img = Image.open(fname)
-            self.assertTrue(hasattr(img, '_getexif'))
-            exif = img._getexif()
-            self.assertEqual(org_exif, exif)
-            xmp = _xmp_from_image(img)
-            self.assertEqual(org_xmp, xmp)
+            with Image.open(fname) as img:
+                self.assertTrue(hasattr(img, '_getexif'))
+                exif = img._getexif()
+                self.assertEqual(org_exif, exif)
+                xmp = _xmp_from_image(img)
+                self.assertEqual(org_xmp, xmp)
             # save without exif
             result = self.runner.invoke(cli_imgwrench,
                                         ['-p', 'no_exif_',
@@ -210,16 +210,19 @@ class TestImgwrenchMainCli(unittest.TestCase):
             img = Image.open(fname)
             self.assertFalse(hasattr(img, '_getexif') and img._getexif())
             self.assertFalse(_xmp_from_image(img))
+            with Image.open(fname) as img:
+                self.assertFalse(hasattr(img, '_getexif') and img._getexif())
+                self.assertFalse(_xmp_from_image(img))
 
     def test_image_rotation(self):
         '''Test rotation if images depending on exif preservation'''
         img_path = str(self.images_path / 'town.jpg')
-        img = Image.open(img_path)
-        self.assertTrue(hasattr(img, '_getexif'))
-        # note: this is a portrait image by exif rotation,
-        # but a landscaoe image by storage format
-        self.assertEqual(img.size[0], 300)
-        self.assertEqual(img.size[1], 200)
+        with Image.open(img_path) as img:
+            self.assertTrue(hasattr(img, '_getexif'))
+            # note: this is a portrait image by exif rotation,
+            # but a landscaoe image by storage format
+            self.assertEqual(img.size[0], 300)
+            self.assertEqual(img.size[1], 200)
         # need to copy image to isolated filesystem
         with open(img_path, 'rb') as f:
             img_data = f.read()
@@ -238,10 +241,10 @@ class TestImgwrenchMainCli(unittest.TestCase):
             self.assertEqual(0, result.exit_code)
             fname = '{}{:04d}.jpg'.format('exif_', 0)
             self.assertTrue(os.path.exists(fname), fname + ' missing')
-            img = Image.open(fname)
-            # stored with exif -> should still be landscape by storage
-            self.assertEqual(img.size[0], 300)
-            self.assertEqual(img.size[1], 200)
+            with Image.open(fname) as img:
+                # stored with exif -> should still be landscape by storage
+                self.assertEqual(img.size[0], 300)
+                self.assertEqual(img.size[1], 200)
             # save without exif
             result = self.runner.invoke(cli_imgwrench,
                                         ['-p', 'no_exif_',
@@ -251,10 +254,10 @@ class TestImgwrenchMainCli(unittest.TestCase):
             self.assertEqual(0, result.exit_code)
             fname = '{}{:04d}.jpg'.format('no_exif_', 0)
             self.assertTrue(os.path.exists(fname), fname + ' missing')
-            img = Image.open(fname)
-            # stored without exif -> should now be portrait by storage
-            self.assertEqual(img.size[0], 200)
-            self.assertEqual(img.size[1], 300)
+            with Image.open(fname) as img:
+                # stored without exif -> should now be portrait by storage
+                self.assertEqual(img.size[0], 200)
+                self.assertEqual(img.size[1], 300)
 
     def test_loading_broken_exif(self):
         '''Test loading an image with exif header, but missing orientation.'''
