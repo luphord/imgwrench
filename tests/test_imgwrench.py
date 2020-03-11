@@ -12,6 +12,7 @@ from PIL import Image
 from click.testing import CliRunner
 
 from imgwrench import cli_imgwrench
+from imgwrench.cli import _xmp_from_image
 
 from .images import pixel1x1, png1x1, badexif
 
@@ -174,6 +175,7 @@ class TestImgwrenchMainCli(unittest.TestCase):
         img = Image.open(img_path)
         self.assertTrue(hasattr(img, '_getexif'))
         org_exif = img._getexif()
+        org_xmp = _xmp_from_image(img)
         # need to copy image to isolated filesystem
         with open(img_path, 'rb') as f:
             img_data = f.read()
@@ -196,6 +198,8 @@ class TestImgwrenchMainCli(unittest.TestCase):
             self.assertTrue(hasattr(img, '_getexif'))
             exif = img._getexif()
             self.assertEqual(org_exif, exif)
+            xmp = _xmp_from_image(img)
+            self.assertEqual(org_xmp, xmp)
             # save without exif
             result = self.runner.invoke(cli_imgwrench,
                                         ['-p', 'no_exif_',
@@ -205,6 +209,7 @@ class TestImgwrenchMainCli(unittest.TestCase):
             self.assertTrue(os.path.exists(fname), fname + ' missing')
             img = Image.open(fname)
             self.assertFalse(hasattr(img, '_getexif') and img._getexif())
+            self.assertFalse(_xmp_from_image(img))
 
     def test_image_rotation(self):
         '''Test rotation if images depending on exif preservation'''
