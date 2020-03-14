@@ -171,6 +171,16 @@ def _golden_section_tree_recursive(images, aspect_ratio, rnd):
     n = len(images)
     if n == 1:
         return LayoutLeaf(images[0])
+    elif n == 2:
+        leafs = [LayoutLeaf(image) for image in images]
+        assert len(leafs) == 2
+        row_ratios = [aspect_ratio / phi, aspect_ratio / (phi ** 2)]
+        row = Row(content=list(zip(row_ratios, leafs)))
+        col_ratios = [aspect_ratio * phi, aspect_ratio * (phi ** 2)]
+        col = Column(content=list(zip(col_ratios, leafs)))
+        return row \
+            if row.cut_loss(aspect_ratio) < col.cut_loss(aspect_ratio) \
+            else col
     else:
         if aspect_ratio > 1:
             layout = Row
