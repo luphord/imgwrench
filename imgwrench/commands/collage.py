@@ -250,8 +250,11 @@ def render(tree, width, height, frame_width, color):
 
 def collage(images, width, height, frame_width, color, rnd=None):
     '''Create a collage from multiple images.'''
-    tree = golden_section_tree(images, width / height, rnd)
-    tree.move_images_to_best_aspect_ratios(width / height)
+    aspect_ratio = width / height
+    tree = golden_section_tree(images, aspect_ratio, rnd)
+    print('Loss before moving is {:.2f}'.format(tree.cut_loss(aspect_ratio)))
+    tree.move_images_to_best_aspect_ratios(aspect_ratio)
+    print('Loss after moving is {:.2f}'.format(tree.cut_loss(aspect_ratio)))
     return render(tree, width, height, frame_width, color)
 
 
