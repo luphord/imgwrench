@@ -23,6 +23,10 @@ class LayoutNode:
            of containing nodes.'''
         raise NotImplementedError('to_string is not implemented')
 
+    def cut_loss(self, container_aspect_ratio):
+        '''Sum of fractions of image area that are cut away.'''
+        raise NotImplementedError('cut_loss is not implemented')
+
     def move_images_to_best_aspect_ratios(self, container_aspect_ratio):
         '''Exchange images between leaf nodes of the tree such that they
            are placed ranked according to their aspect ratios.'''
@@ -69,6 +73,11 @@ class Row(LayoutBranch):
         for weight, node in self.normalized_content:
             yield from node.aspect_ratios(container_aspect_ratio * weight)
 
+    def cut_loss(self, container_aspect_ratio):
+        '''Sum of fractions of image area that are cut away.'''
+        return sum(node.cut_loss(container_aspect_ratio * w)
+                   for w, node in self.content)
+
 
 class Column(LayoutBranch):
     '''Column node in a layout tree structure.'''
@@ -83,6 +92,11 @@ class Column(LayoutBranch):
     def aspect_ratios(self, container_aspect_ratio):
         for weight, node in self.normalized_content:
             yield from node.aspect_ratios(container_aspect_ratio / weight)
+
+    def cut_loss(self, container_aspect_ratio):
+        '''Sum of fractions of image area that are cut away.'''
+        return sum(node.cut_loss(container_aspect_ratio / w)
+                   for w, node in self.content)
 
 
 class LayoutLeaf:
@@ -104,6 +118,12 @@ class LayoutLeaf:
     @property
     def image_aspect_ratio(self):
         return self.image.size[0] / self.image.size[1]
+
+    def cut_loss(self, container_aspect_ratio):
+        '''Fraction of image area that is cut away.'''
+        ai = self.image_aspect_ratio
+        ac = container_aspect_ratio
+        return (ai - ac) / ac
 
 
 def random_weight(rnd):
