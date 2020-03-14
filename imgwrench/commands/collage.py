@@ -132,7 +132,7 @@ class LayoutLeaf:
         '''Fraction of image area that is cut away.'''
         ai = self.image_aspect_ratio
         ac = container_aspect_ratio
-        return (ai - ac) / ac if ai > ac else (1/ai - 1/ac) * ai
+        return (ai - ac) / ai if ai > ac else (1/ai - 1/ac) * ai
 
 
 def random_weight(rnd):
