@@ -2,12 +2,15 @@
 
 import unittest
 from unittest.mock import Mock
+from random import Random
+from statistics import mean, stdev
 
 from click.testing import CliRunner
 
 from .utils import execute_and_test_output_images
 
-from imgwrench.commands.collage import LayoutLeaf, Row, Column
+from imgwrench.commands.collage import LayoutLeaf, Row, Column, \
+    golden_section_tree
 
 
 class MockLeaf(LayoutLeaf):
@@ -58,6 +61,26 @@ class TestCollage(unittest.TestCase):
         self.assertEqual(10/12, leaf.cut_loss(6/2))
         self.assertEqual(16/18, leaf.cut_loss(9/2))
         self.assertEqual(3/4, leaf.cut_loss(4/2))
+
+    def test_average_cut_loss(self):
+        '''Create collage using different seeds in order to
+           calculate average cut loss and test statistically.'''
+        images = []
+        for i in range(12):
+            img = Mock
+            img.size = (150, 100) if i % 2 == 0 else (100, 150)
+            images.append(img)
+        losses = []
+        aspect_ratio = 1.0
+        for i in range(1000):
+            rnd = Random(i)
+            tree = golden_section_tree(images, aspect_ratio, rnd)
+            losses.append(tree.normalized_cut_loss(aspect_ratio))
+        actual_mean = mean(losses)
+        actual_stdev = stdev(losses)
+        expected_mean = 0.5069
+        self.assertLess(expected_mean, actual_mean + 3 * actual_stdev)
+        self.assertGreater(expected_mean, actual_mean - 3 * actual_stdev)
 
     def test_collage_output(self):
         '''Test output of filmstrip command.'''
