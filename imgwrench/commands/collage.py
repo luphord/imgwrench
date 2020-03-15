@@ -194,9 +194,12 @@ def _golden_section_variants(images, aspect_ratio):
         for n01 in uneven_images:
             partition = [images[:(n_first + n01)], images[(n_first + n01):]]
             for layout, base_ratios in zip(layouts, rc_ratios):
-                for ratios in (base_ratios, reversed(base_ratios)):
+                for ratios in (base_ratios, list(reversed(base_ratios))):
                     weights = [ratio if aspect_ratio > 1 else 1 / ratio
                                for ratio in ratios]
+                    assert len(weights) == 2
+                    assert len(ratios) == 2
+                    assert len(partition) == 2
                     cnt = [(weight,
                             _golden_section_optimized_variant(part, ratio))
                            for weight, ratio, part
