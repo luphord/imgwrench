@@ -178,9 +178,9 @@ def _golden_section_variants(images, aspect_ratio):
     '''Yield all possible variants of image placements and branches
        provided optimized subtrees.'''
     images = list(images)
-    if not images:
-        raise Exception('No golden section layout variants without images')
+    assert images, 'No golden section layout variants without images'
     n = len(images)
+    assert n > 1
     n_first = n // 2
     uneven_images = [0] if n % 2 == 0 else [0, 1]
     row_ratios = [aspect_ratio / phi, aspect_ratio / (phi ** 2)]
@@ -194,15 +194,20 @@ def _golden_section_variants(images, aspect_ratio):
                 for ratios in (base_ratios, reversed(base_ratios)):
                     weights = [ratio if aspect_ratio > 1 else 1 / ratio
                                for ratio in ratios]
-                    cnt = [(weight, _golden_section_variants(part, ratio))
+                    cnt = [(weight,
+                            _golden_section_optimized_variant(part, ratio))
                            for weight, ratio, part
                            in zip(weights, ratios, partition)]
-                    yield layout(content=cnt)
+                    node = layout(content=cnt)
+                    yield node
 
 
 def _golden_section_optimized_variant(images, aspect_ratio):
     '''Chose the best variant out of all images placements and branches
        w.r.t cut loss.'''
+    images = list(images)
+    if len(images) == 1:
+        return LayoutLeaf(images[0])
     best_variant = None
     best_loss = None
     for variant in _golden_section_variants(images, aspect_ratio):
