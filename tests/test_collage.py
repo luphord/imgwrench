@@ -39,6 +39,9 @@ class TestCollage(unittest.TestCase):
         self.assertEqual(1/3, leaf.cut_loss(1/1))
         self.assertEqual(2/3, leaf.cut_loss(1/2))
         self.assertEqual(1/2, leaf.cut_loss(3/4))
+        self.assertEqual(1/2, leaf.cut_loss(6/2))
+        self.assertEqual(2/3, leaf.cut_loss(9/2))
+        self.assertAlmostEqual(1/4, leaf.cut_loss(4/2))
 
     def test_collage_output(self):
         '''Test output of filmstrip command.'''
