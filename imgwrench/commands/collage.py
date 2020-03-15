@@ -231,8 +231,6 @@ def _golden_section_tree_recursive(images, aspect_ratio, rnd):
     n = len(images)
     if n == 1:
         return LayoutLeaf(images[0])
-    elif n == 2:
-        return _golden_section_optimized_variant(images, aspect_ratio)
     else:
         if aspect_ratio > 1:
             layout = Row

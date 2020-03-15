@@ -78,7 +78,7 @@ class TestCollage(unittest.TestCase):
             losses.append(tree.normalized_cut_loss(aspect_ratio))
         actual_mean = mean(losses)
         actual_stdev = stdev(losses)
-        expected_mean = 0.5069
+        expected_mean = 0.7177
         self.assertLess(expected_mean, actual_mean + 3 * actual_stdev)
         self.assertGreater(expected_mean, actual_mean - 3 * actual_stdev)
 
