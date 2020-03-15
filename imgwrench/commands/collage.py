@@ -1,7 +1,6 @@
 '''Create a collage from multiple images.'''
 
 import random
-import itertools
 from math import floor, ceil
 
 import click
@@ -152,77 +151,7 @@ def random_partition(images, rnd):
     return parts
 
 
-def _random_tree_recursive(images, contained_in, rnd):
-    images = list(images)
-    assert images, 'No random layout without images'
-    if len(images) <= 2:
-        for img in images:
-            yield random_weight(rnd), LayoutLeaf(img)
-    else:
-        layout = Column if contained_in == Row else Row
-        for part in random_partition(images, rnd):
-            rnd_cnt = list(_random_tree_recursive(part, layout, rnd))
-            yield random_weight(rnd), layout(content=rnd_cnt)
-
-
-def random_tree(images, rnd=None):
-    '''Create a random layout tree structure.'''
-    rnd = rnd or random.Random(0)
-    rnd.shuffle(images)
-    root_layout = rnd.choice([Row, Column])
-    rnd_cnt = list(_random_tree_recursive(images, root_layout, rnd))
-    return root_layout(content=rnd_cnt)
-
-
 phi = (1 + 5**0.5) / 2
-
-
-def _golden_section_variants(images, aspect_ratio):
-    '''Yield all possible variants of image placements and branches
-       provided optimized subtrees.'''
-    images = list(images)
-    assert images, 'No golden section layout variants without images'
-    n = len(images)
-    assert n > 1
-    n_first = n // 2
-    uneven_images = [0] if n % 2 == 0 else [0, 1]
-    row_ratios = [aspect_ratio / phi, aspect_ratio / (phi ** 2)]
-    col_ratios = [aspect_ratio * phi, aspect_ratio * (phi ** 2)]
-    rc_ratios = [row_ratios, col_ratios]
-    layouts = [Row, Column]
-    for permutation in itertools.permutations(images):
-        for n01 in uneven_images:
-            partition = [images[:(n_first + n01)], images[(n_first + n01):]]
-            for layout, base_ratios in zip(layouts, rc_ratios):
-                for ratios in (base_ratios, list(reversed(base_ratios))):
-                    weights = [ratio if aspect_ratio > 1 else 1 / ratio
-                               for ratio in ratios]
-                    assert len(weights) == 2
-                    assert len(ratios) == 2
-                    assert len(partition) == 2
-                    cnt = [(weight,
-                            _golden_section_optimized_variant(part, ratio))
-                           for weight, ratio, part
-                           in zip(weights, ratios, partition)]
-                    node = layout(content=cnt)
-                    yield node
-
-
-def _golden_section_optimized_variant(images, aspect_ratio):
-    '''Chose the best variant out of all images placements and branches
-       w.r.t cut loss.'''
-    images = list(images)
-    assert images, 'No golden section layout variants without images'
-    if len(images) == 1:
-        return LayoutLeaf(images[0])
-    best_variant = None
-    best_loss = None
-    for variant in _golden_section_variants(images, aspect_ratio):
-        variant_loss = variant.normalized_cut_loss(aspect_ratio)
-        if best_variant is None or variant_loss < best_loss:
-            best_variant = variant
-            best_loss = variant_loss
-    return best_variant
 
 
 def _golden_section_tree_recursive(images, aspect_ratio, rnd):
