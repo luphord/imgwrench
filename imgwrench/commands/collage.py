@@ -1,6 +1,7 @@
 '''Create a collage from multiple images.'''
 
 import random
+import itertools
 from math import floor, ceil
 
 import click
@@ -171,6 +172,45 @@ def random_tree(images, rnd=None):
 
 
 phi = (1 + 5**0.5) / 2
+
+
+def _golden_section_variants(images, aspect_ratio):
+    '''Yield all possible variants of image placements and branches
+       provided optimized subtrees.'''
+    images = list(images)
+    if not images:
+        raise Exception('No golden section layout variants without images')
+    n = len(images)
+    n_first = n // 2
+    uneven_images = [0] if n % 2 == 0 else [0, 1]
+    row_ratios = [aspect_ratio / phi, aspect_ratio / (phi ** 2)]
+    col_ratios = [aspect_ratio * phi, aspect_ratio * (phi ** 2)]
+    rc_ratios = [row_ratios, col_ratios]
+    layouts = [Row, Column]
+    for permutation in itertools.permutations(images):
+        for n01 in uneven_images:
+            partition = [images[:(n_first + n01)], images[(n_first + n01):]]
+            for layout, base_ratios in zip(layouts, rc_ratios):
+                for ratios in (base_ratios, reversed(base_ratios)):
+                    weights = [ratio if aspect_ratio > 1 else 1 / ratio
+                               for ratio in ratios]
+                    cnt = [(weight, _golden_section_variants(part, ratio))
+                           for weight, ratio, part
+                           in zip(weights, ratios, partition)]
+                    yield layout(content=cnt)
+
+
+def _golden_section_optimized_variant(images, aspect_ratio):
+    '''Chose the best variant out of all images placements and branches
+       w.r.t cut loss.'''
+    best_variant = None
+    best_loss = None
+    for variant in _golden_section_variants(images, aspect_ratio):
+        variant_loss = variant.normalized_cut_loss(aspect_ratio)
+        if best_variant is None or variant_loss < best_loss:
+            best_variant = variant
+            best_loss = variant_loss
+    return best_variant
 
 
 def _golden_section_tree_recursive(images, aspect_ratio, rnd):
