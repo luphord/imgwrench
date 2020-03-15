@@ -31,7 +31,9 @@ class LayoutNode:
     def normalized_cut_loss(self, container_aspect_ratio):
         '''Sum of fractions of image area that are cut away
            normalized by number of images.'''
-        return self.cut_loss(container_aspect_ratio) / self.leaf_count
+        leaf_count = self.leaf_count
+        assert leaf_count > 0, 'Invalid node {}'.format(self)
+        return self.cut_loss(container_aspect_ratio) / leaf_count
 
     def move_images_to_best_aspect_ratios(self, container_aspect_ratio):
         '''Exchange images between leaf nodes of the tree such that they
@@ -55,6 +57,8 @@ class LayoutBranch(LayoutNode):
 
     def __init__(self, content):
         self.content = list(content)
+        assert self.content, \
+            'Cannot create {} without content'.format(self.__class__.__name__)
 
     @property
     def normalized_content(self):
@@ -150,8 +154,7 @@ def random_partition(images, rnd):
 
 def _random_tree_recursive(images, contained_in, rnd):
     images = list(images)
-    if not images:
-        raise Exception('No random layout without images')
+    assert images, 'No random layout without images'
     if len(images) <= 2:
         for img in images:
             yield random_weight(rnd), LayoutLeaf(img)
@@ -206,6 +209,7 @@ def _golden_section_optimized_variant(images, aspect_ratio):
     '''Chose the best variant out of all images placements and branches
        w.r.t cut loss.'''
     images = list(images)
+    assert images, 'No golden section layout variants without images'
     if len(images) == 1:
         return LayoutLeaf(images[0])
     best_variant = None
@@ -220,8 +224,7 @@ def _golden_section_optimized_variant(images, aspect_ratio):
 
 def _golden_section_tree_recursive(images, aspect_ratio, rnd):
     images = list(images)
-    if not images:
-        raise Exception('No golden sections layout without images')
+    assert images, 'No golden sections layout without images'
     n = len(images)
     if n == 1:
         return LayoutLeaf(images[0])
