@@ -7,12 +7,12 @@ History
 
 * collage subcommand for creating a framed collage from images
 * BREAKING CHANGE: default method for colorfix is now quantiles-fixed-cutoff
-* preserve xmp metadata when -e/--preserve-exif is used (in addition to exif metadata)
+* preserve xmp metadata when :code:`-e/--preserve-exif` is used (in addition to exif metadata)
 
 0.10.0 (2020-03-04)
 -------------------
 
-* -m/--method option to colorfix (default: quantiles)
+* :code:`-m/--method` option to colorfix (default: quantiles)
 * add fixed-cutoff as new method to colorfix accepting fixed colors as color cutoff boundaries
 * add quantiles-fixed-cutoff as new method to colorfix combining quantiles and fixed-cutoff
 * deprecate running colorfix without specifying method (as default will change in next version)
@@ -34,7 +34,7 @@ History
 
 * dither subcommand for dithering
 * filmstrip subcommand to stack images horizontally
-* images can be saved in PNG format using --png CLI flag
+* images can be saved in PNG format using :code:`--png` CLI flag
 
 0.7.1 (2019-05-16)
 ------------------
@@ -45,7 +45,7 @@ History
 ------------------
 
 * option for preserving exif image metadata
-* fix error when running with -k/--keep-names
+* fix error when running with :code:`-k/--keep-names`
 * status progress to Alpha
 
 0.6.0 (2019-03-14)
@@ -86,8 +86,8 @@ History
 0.3.0 (2019-02-17)
 ------------------
 
-* -d/--digits option to specify number of digits in file names
-* -c/--increment option to define increment for file numbering
+* :code:`-d/--digits` option to specify number of digits in file names
+* :code:`-c/--increment` option to define increment for file numbering
 * create non-existing output folder instead of complaining
 
 0.2.0 (2019-01-30)
@@ -95,7 +95,7 @@ History
 
 * no-op save command for only saving images
 * raise exception if output image already exists
-* -f / --force-overwrite flag to enable overwriting output
+* :code:`-f/--force-overwrite` flag to enable overwriting output
 * tests for cli, pipeline and resize
 
 0.1.1 (2019-01-29)
