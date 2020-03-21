@@ -21,6 +21,43 @@ be applied to output to `img_0000.jpg` as follows:
 At the moment, `blackwhite` supports no further parameters. Conversion
 is delegated to the PIL `convert('L')` method call.
 
+collage
+=======
+
+The `collage` subcommand creates a collage of all input images. Currently, the
+only method for image composition is based golden section of rectangles.
+
+Assuming a couple of images in the current directory, `collage` generates a collage
+in `img_0000.jpg` as follows:
+
+.. code-block:: console
+
+    ls *.jpg | imgwrench collage -c lightgrey
+
+.. image:: _static/collage.jpg
+
+:code:`-w/--width` and :code:`-s/--height` can be used to specify the dimensions
+of the output image. The parameter :code:`-f/--frame-width` specifies the frame width
+as fraction of the longer image side, e.g. 0.1 for a frame width that is equal
+to 10% of the longer image side. Also :code:`-c/--color` is supported which accepts
+the frame color as either a name (e.g. :code:`white`, :code:`green`), a hex value (e.g.
+:code:`#ab1fde`) or an rgb function value (e.g. :code:`rgb(120,23,217)`).
+
+.. code-block:: console
+
+    Usage: imgwrench collage [OPTIONS]
+    
+      Create a collage from multiple images.
+    
+    Options:
+      -w, --width INTEGER      width of the collage  [default: 3072]
+      -s, --height INTEGER     height of the collage  [default: 2048]
+      -f, --frame-width FLOAT  width of the frame as a fraction of the longer
+                               image side  [default: 0.01]
+      -c, --color COLOR        color of the frame as a color name, hex value or in
+                               rgb(...) function form  [default: white]
+      --help                   Show this message and exit.
+
 colorfix
 ========
 

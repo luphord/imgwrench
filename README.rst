@@ -28,48 +28,51 @@ Usage
 
 .. code-block:: console
 
-        Usage: imgwrench [OPTIONS] COMMAND1 [ARGS]... [COMMAND2 [ARGS]...]...
+    Usage: imgwrench [OPTIONS] COMMAND1 [ARGS]... [COMMAND2 [ARGS]...]...
+    
+      A highly opinionated image processor for the commandline. Multiple
+      subcommands can be executed sequentially to form a processing pipeline.
+    
+    Options:
+      -i, --image-list FILENAME  File containing paths to images for processing,
+                                 defaults to stdin
+      -p, --prefix TEXT          prefix for all output filenames before numbering
+                                 [default: img_]
+      -d, --digits INTEGER       number of digits for file numbering  [default: 4]
+      -c, --increment INTEGER    increment for file numbering  [default: 1]
+      -k, --keep-names           keep original file names instead of numbering
+                                 [default: False]
+      -f, --force-overwrite      force overwriting output image file if it exists
+                                 [default: False]
+      -o, --outdir DIRECTORY     output directory  [default: .]
+      -q, --quality INTEGER      quality of the output images, integer 0 - 100
+                                 [default: 88]
+      -e, --preserve-exif        preserve image exif and xmp metadata if available
+                                 [default: False]
+      -j, --jpg / --png          save output images in JPEG format (otherwise PNG)
+                                 [default: True]
+      --help                     Show this message and exit.
+    
+    Commands:
+      blackwhite  Convert color images to black and white.
+      collage     Create a collage from multiple images.
+      colorfix    Fix colors by stretching channel histograms to full range.
+      crop        Crop images to the given aspect ratio.
+      dither      Apply black-white dithering to images.
+      filmstrip   Stack all images horizontally, creating a filmstrip.
+      frame       Put a monocolor frame around images.
+      framecrop   Crop and frame an image to a target aspect ratio.
+      resize      Resize images to a maximum side length preserving aspect...
+      save        No-op to enable saving of images without any processing.
+      stack       Stacks pairs of images vertically, empty space in the middle.
 
-          A highly opinionated image processor for the commandline. Multiple
-          subcommands can be executed sequentially to form a processing pipeline.
-
-        Options:
-          -i, --image-list FILENAME  File containing paths to images for processing,
-                                     defaults to stdin
-          -p, --prefix TEXT          prefix for all output filenames before numbering
-                                     [default: img_]
-          -d, --digits INTEGER       number of digits for file numbering  [default: 4]
-          -c, --increment INTEGER    increment for file numbering  [default: 1]
-          -k, --keep-names           keep original file names instead of numbering
-                                     [default: False]
-          -f, --force-overwrite      force overwriting output image file if it exists
-                                     [default: False]
-          -o, --outdir DIRECTORY     output directory  [default: .]
-          -q, --quality INTEGER      quality of the output images, integer 0 - 100
-                                     [default: 88]
-          -e, --preserve-exif        preserve image exif and xmp metadata if available
-                                     [default: False]
-          -j, --jpg / --png          save output images in JPEG format (otherwise PNG)
-                                     [default: True]
-          --help                     Show this message and exit.
-
-Commands:
-  blackwhite  Convert color images to black and white.
-  colorfix    Fix colors by stretching channel histograms to full range.
-  crop        Crop images to the given aspect ratio.
-  dither      Apply black-white dithering to images.
-  filmstrip   Stack all images horizontally, creating a filmstrip.
-  frame       Put a monocolor frame around images.
-  framecrop   Crop and frame an image to a target aspect ratio.
-  resize      Resize images to a maximum side length preserving aspect...
-  save        No-op to enable saving of images without any processing.
-  stack       Stacks pairs of images vertically, empty space in the middle.
 
 Features
 --------
 
 * Subcommands can be executed sequentially to form a pipeline
 * Command *blackwhite* for converting images to black and white
+* Command *collage* creates a collage from multiple images
 * Command *colorfix* for fixing the colors of aged photographs
 * Command *crop* for cropping images to give aspect ratio
 * Command *dither* for converting images to black and white and dithering
