@@ -139,8 +139,8 @@ with aspect ratio 2:1 and output to `img_0000.jpg` as follows:
 
 .. image:: _static/crop.jpg
 
-`crop` supports the parameter -a/--aspect-ratio which has to be an aspect ratio
-specified as two numbers separated by a colon, e.g. "2:1", "3:4", "117:123".
+`crop` supports the parameter :code:`-a/--aspect-ratio` which has to be an aspect ratio
+specified as two numbers separated by a colon, e.g. :code:`2:1`, :code:`3:4`, :code:`117:123`.
 
 .. code-block:: console
 
@@ -167,7 +167,7 @@ to output `img_0000.jpg` as follows:
 
 .. image:: _static/dither.jpg
 
-The parameter -b/--brightness-factor adjusts the brightness of the image before dithering.
+The parameter :code:`-b/--brightness-factor` adjusts the brightness of the image before dithering.
 It is usually recommended to make images brighter before dithering. A value of 1.0 is
 neutral (i.e. has no effect), larger values will make the image brighter, smaller values
 will make it darker. It defaults to 1.5.
@@ -198,9 +198,9 @@ as follows:
 
 .. image:: _static/filmstrip.jpg
 
-The parameter -s/--height specifies the total height of the resulting collage,
-its width will be inferred. -w/--frame-width determines the frame width relative
-to the specified height and -c/--color sets the frame color.
+The parameter :code:`-s/--height specifies` the total height of the resulting collage,
+its width will be inferred. :code:`-w/--frame-width` determines the frame width relative
+to the specified height and :code:`-c/--color` sets the frame color.
 
 .. code-block:: console
 
@@ -233,11 +233,11 @@ to output to `img_0000.jpg` as follows:
 
 .. image:: _static/frame.jpg
 
-`frame` supports the parameter -w/--frame-width which specifies the frame width
+`frame` supports the parameter :code:`-w/--frame-width` which specifies the frame width
 as fraction of the longer image side, e.g. 0.1 for a frame width that is equal
-to 10% of the longer image side. Also -c/--color is supported which accepts
-the frame color as either a name (e.g. 'white', 'green'), a hex value (e.g.
-'#ab1fde') or an rgb function value (e.g. 'rgb(120,23,217)').
+to 10% of the longer image side. Also :code:`-c/--color` is supported which accepts
+the frame color as either a name (e.g. :code:`white`, :code:`green`), a hex value (e.g.
+:code:`#ab1fde`) or an rgb function value (e.g. :code:`rgb(120,23,217)`).
 
 .. code-block:: console
 
@@ -268,14 +268,14 @@ with aspect ratio 3:2, a grey frame of width 10% and output to `img_0000.jpg` as
 
 .. image:: _static/framecrop.jpg
 
-`framecrop` supports the parameter -a/--aspect-ratio which has to be an aspect ratio
-specified as two numbers separated by a colon, e.g. "2:1", "3:4", "117:123". This will
+`framecrop` supports the parameter :code:`-a/--aspect-ratio` which has to be an aspect ratio
+specified as two numbers separated by a colon, e.g. :code:`2:1`, :code:`3:4`, :code:`117:123`. This will
 be the ratio of the final image *including* the frame.
 
-The parameter -w/--frame-width specifies the frame width as fraction of the longer
-image side after the crop operation. Also -c/--color is supported which accepts
-the frame color as either a name (e.g. 'white', 'green'), a hex value (e.g.
-'#ab1fde') or an rgb function value (e.g. 'rgb(120,23,217)').
+The parameter :code:`-w/--frame-width` specifies the frame width as fraction of the longer
+image side after the crop operation. Also :code:`-c/--color` is supported which accepts
+the frame color as either a name (e.g. :code:`white`, :code:`green`), a hex value (e.g.
+:code:`#ab1fde`) or an rgb function value (e.g. :code:`rgb(120,23,217)`).
 
 .. code-block:: console
 
@@ -307,7 +307,7 @@ with a maximum side length of 300 pixels to `img_0000.jpg` as follows:
 
 .. image:: _static/resize.jpg
 
-The parameter -m/--maxsize specifies the new maximum side length of the resized
+The parameter :code:`-m/--maxsize` specifies the new maximum side length of the resized
 image, i.e. for landscape images it specifies the new width and for portrait
 images it specifies the new height.
 
@@ -337,8 +337,8 @@ to output to `img_0000.jpg` as follows:
 
 .. image:: _static/stack.jpg
 
-The parameters -w/--width and -s/--height (attention: it is -s, not -h to avoid
-conflicts with --help) specify the target width and height of the output image.
+The parameters :code:`-w/--width` and :code:`-s/--height` (attention: it is :code:`-s`, not :code:`-h` to avoid
+conflicts with :code:`--help`) specify the target width and height of the output image.
 Remaining space will be white.
 
 .. code-block:: console
