@@ -2,8 +2,8 @@
 History
 =======
 
-0.11.0 (not yet)
-----------------
+0.11.0 (2020-03-21)
+-------------------
 
 * collage subcommand for creating a framed collage from images
 * BREAKING CHANGE: default method for colorfix is now quantiles-fixed-cutoff
