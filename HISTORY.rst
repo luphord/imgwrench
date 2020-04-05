@@ -2,6 +2,11 @@
 History
 =======
 
+0.11.1 (2020-04-05)
+-------------------
+
+* :code:`-x/--seed` option for collage to control initialization of random number generator
+
 0.11.0 (2020-03-21)
 -------------------
 
