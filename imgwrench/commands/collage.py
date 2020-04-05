@@ -254,14 +254,17 @@ def collage(images, width, height, frame_width, color, rnd=None):
               show_default=True,
               help='color of the frame as a color name, hex value ' +
                    'or in rgb(...) function form')
-def cli_collage(width, height, frame_width, color):
+@click.option('-x', '--seed', type=int, default=123,
+              show_default=True,
+              help='seed for random number generator')
+def cli_collage(width, height, frame_width, color, seed):
     '''Create a collage from multiple images.'''
     click.echo('Initializing collage with parameters {}'.format(locals()))
 
     def _collage(image_infos):
         image_infos = list(image_infos)
         images = [img for _, img in image_infos]
-        rnd = random.Random(123)
+        rnd = random.Random(seed)
         yield image_infos[0][0], \
             collage(images, width, height, frame_width, color, rnd)
 
