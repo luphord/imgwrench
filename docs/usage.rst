@@ -56,6 +56,7 @@ the frame color as either a name (e.g. :code:`white`, :code:`green`), a hex valu
                                image side  [default: 0.01]
       -c, --color COLOR        color of the frame as a color name, hex value or in
                                rgb(...) function form  [default: white]
+      -x, --seed INTEGER       seed for random number generator  [default: 123]
       --help                   Show this message and exit.
 
 colorfix
