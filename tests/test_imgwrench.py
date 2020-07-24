@@ -9,12 +9,23 @@ import unittest
 from pathlib import Path
 
 from PIL import Image
+from PIL.TiffImagePlugin import IFDRational
 from click.testing import CliRunner
 
 from imgwrench import cli_imgwrench
 from imgwrench.cli import _xmp_from_image
 
 from .images import pixel1x1, png1x1, badexif
+
+
+def ifdrational_eq(r1, r2):
+    '''Monkey patch __eq__ method for IFDRational
+       (which is broken in Pillow 7.1.2)'''
+    assert isinstance(r1, IFDRational)
+    if isinstance(r2, IFDRational):
+        return r1._val == r2._val
+    else:
+        return r1._val == r2
 
 
 class TestImgwrenchMainCli(unittest.TestCase):
@@ -204,7 +215,14 @@ class TestImgwrenchMainCli(unittest.TestCase):
                     self.assertEqual(org_type, new_type)
                     msg = 'Exif key {} of type {} differs'.format(key,
                                                                   org_type)
+                    # due to a change between Pillow 7.1.2 -> 7.2.0
+                    # certain Exif values are now represented by IFDRational
+                    # which has a broken __eq__ implementation in Pillow 7.2.0
+                    # that we monkey patch
+                    old_eq = IFDRational.__eq__
+                    IFDRational.__eq__ = ifdrational_eq
                     self.assertEqual(org_exif[key], exif[key], msg)
+                    IFDRational.__eq__ = old_eq
                 xmp = _xmp_from_image(img)
                 self.assertEqual(org_xmp, xmp)
             # save without exif
