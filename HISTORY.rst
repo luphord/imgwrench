@@ -2,6 +2,12 @@
 History
 =======
 
+0.12.0 (2020-07-24)
+-------------------
+
+* :code:`flip` subcommand to flip/mirror images left-right
+* Monkey patch :code:`IFDRational.__eq__` method of Pillow in tests to avoid regression with Pillow 7.2.0
+
 0.11.1 (2020-04-05)
 -------------------
 
