@@ -217,6 +217,23 @@ to the specified height and :code:`-c/--color` sets the frame color.
                             rgb(...) function form  [default: white]
     --help                   Show this message and exit.
 
+flip
+====
+
+The `flip` command flips (a.k.a. mirrors) all images in the pipeline horizontally,
+i.e. what was left is now right and vice versa.
+
+Assuming image `town.jpg` in the current directory, `flip` will output
+the mirrored image to `img_0000.jpg` as follows:
+
+.. code-block:: console
+
+    ls town.jpg | imgwrench flip
+
+.. image:: _static/flip.jpg
+
+`flip` takes no parameters.
+
 frame
 =====
 

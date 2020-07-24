@@ -60,6 +60,7 @@ Usage
       crop        Crop images to the given aspect ratio.
       dither      Apply black-white dithering to images.
       filmstrip   Stack all images horizontally, creating a filmstrip.
+      flip        Flip/mirror images left-right.
       frame       Put a monocolor frame around images.
       framecrop   Crop and frame an image to a target aspect ratio.
       resize      Resize images to a maximum side length preserving aspect...
@@ -77,6 +78,7 @@ Features
 * Command *crop* for cropping images to give aspect ratio
 * Command *dither* for converting images to black and white and dithering
 * Command *filmstrip* to stack images horizontally forming a filmstrip
+* Command *flip* to flip/mirror images left-right
 * Command *frame* to put a monocolor frame around images
 * Command *framecrop* top frame and crop an image to a target aspect ratio
 * Command *resize* for resizing images
