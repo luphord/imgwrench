@@ -213,8 +213,8 @@ class TestImgwrenchMainCli(unittest.TestCase):
                     org_type = type(org_exif[key])
                     new_type = type(exif[key])
                     self.assertEqual(org_type, new_type)
-                    msg = 'Exif key {} of type {} differs'.format(key,
-                                                                  org_type)
+                    tpn = org_type.__name__
+                    msg = 'Exif key {} of type {} differs'.format(key, tpn)
                     # due to a change between Pillow 7.1.2 -> 7.2.0
                     # certain Exif values are now represented by IFDRational
                     # which has a broken __eq__ implementation in Pillow 7.2.0
