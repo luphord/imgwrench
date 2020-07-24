@@ -23,6 +23,9 @@ def ifdrational_eq(r1, r2):
        (which is broken in Pillow 7.1.2)'''
     assert isinstance(r1, IFDRational)
     if isinstance(r2, IFDRational):
+        if r1.denominator == 0 and r2.denominator == 0:
+            # in this case ._val would be NaN
+            return r1.numerator == r1.numerator
         return r1._val == r2._val
     else:
         return r1._val == r2
