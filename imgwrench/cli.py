@@ -15,6 +15,7 @@ from .commands.colorfix import cli_colorfix
 from .commands.crop import cli_crop
 from .commands.dither import cli_dither
 from .commands.filmstrip import cli_filmstrip
+from .commands.flip import cli_flip
 from .commands.frame import cli_frame
 from .commands.framecrop import cli_framecrop
 from .commands.resize import cli_resize
@@ -155,6 +156,7 @@ cli_imgwrench.add_command(cli_collage)
 cli_imgwrench.add_command(cli_colorfix)
 cli_imgwrench.add_command(cli_crop)
 cli_imgwrench.add_command(cli_filmstrip)
+cli_imgwrench.add_command(cli_flip)
 cli_imgwrench.add_command(cli_frame)
 cli_imgwrench.add_command(cli_framecrop)
 cli_imgwrench.add_command(cli_resize)
