@@ -11,7 +11,7 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = ['Click>=6.0', 'Pillow>=5.0', 'numpy>=1.10']
+requirements = ['Click>=6.0', 'Pillow>=5.0, <7.2.0', 'numpy>=1.10']
 
 setup_requirements = []
 
