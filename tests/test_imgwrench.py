@@ -197,7 +197,14 @@ class TestImgwrenchMainCli(unittest.TestCase):
             with Image.open(fname) as img:
                 self.assertTrue(hasattr(img, '_getexif'))
                 exif = img._getexif()
-                self.assertEqual(org_exif, exif)
+                self.assertEqual(org_exif.keys(), exif.keys())
+                for key in org_exif.keys():
+                    org_type = type(org_exif[key])
+                    new_type = type(exif[key])
+                    self.assertEqual(org_type, new_type)
+                    msg = 'Exif key {} of type {} differs'.format(key,
+                                                                  org_type)
+                    self.assertEqual(org_exif[key], exif[key], msg)
                 xmp = _xmp_from_image(img)
                 self.assertEqual(org_xmp, xmp)
             # save without exif
