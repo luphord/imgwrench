@@ -12,6 +12,7 @@ from .resize import resize
 def quad(quad_images, width, height):
     assert quad_images
     assert len(quad_images) <= 4
+    is_landscape = width >= height
     width, height = max(width, height), min(width, height)
     result = Image.new(mode='RGB', size=(width, height),
                        color=(0, 0, 0))
@@ -21,6 +22,8 @@ def quad(quad_images, width, height):
         img = crop(img, width / height)
         img = resize(img, width / 2)
         result.paste(img, (int(i % 2 * width/2), int(int(i/2) * height/2)))
+    if not is_landscape:
+        result = result.transpose(Image.ROTATE_270)
     return quad_images[0][0], result
 
 

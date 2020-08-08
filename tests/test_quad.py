@@ -18,6 +18,9 @@ class TestQuad(unittest.TestCase):
         _, out100x50 = quad([(None, pixel1x1_img)], 100, 50)
         self.assertEqual(100, out100x50.size[0])
         self.assertEqual(50, out100x50.size[1])
+        _, out50x100 = quad([(None, pixel1x1_img)], 50, 100)
+        self.assertEqual(50, out50x100.size[0])
+        self.assertEqual(100, out50x100.size[1])
 
     def test_quad_output(self):
         '''Test output of quad command.'''
