@@ -3,6 +3,7 @@
 import unittest
 
 from click.testing import CliRunner
+from PIL import Image
 
 from imgwrench.commands.quad import quad
 
@@ -21,6 +22,26 @@ class TestQuad(unittest.TestCase):
         _, out50x100 = quad([(None, pixel1x1_img)], 50, 100, 0, None)
         self.assertEqual(50, out50x100.size[0])
         self.assertEqual(100, out50x100.size[1])
+
+    def test_quad_pixels(self):
+        '''Test exact pixel colors of quad.'''
+        actual_white = Image.new('RGB', (10, 10), 'white')
+        images = [(None, actual_white) for i in range(4)]
+        _, quad_img = quad(images, 100, 50, 0.1, '#00ff00')
+        pixels = quad_img.load()
+        for i in range(quad_img.size[0]):
+            for j in range(quad_img.size[1]):
+                r, g, b = pixels[i, j]
+                inside_frame = i < 10 or 45 <= i < 55 or i >= 90 \
+                    or j < 10 or 20 <= j < 30 or j >= 40
+                if inside_frame:
+                    self.assertEqual(0, r)
+                    self.assertEqual(255, g)
+                    self.assertEqual(0, b)
+                else:
+                    self.assertEqual(255, r)
+                    self.assertEqual(255, g)
+                    self.assertEqual(255, b)
 
     def test_quad_output(self):
         '''Test output of quad command.'''
