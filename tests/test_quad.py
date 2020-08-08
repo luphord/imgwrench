@@ -15,10 +15,10 @@ class TestQuad(unittest.TestCase):
 
     def test_quad_size(self):
         '''Test output sizes of quad.'''
-        _, out100x50 = quad([(None, pixel1x1_img)], 100, 50)
+        _, out100x50 = quad([(None, pixel1x1_img)], 100, 50, 0, None)
         self.assertEqual(100, out100x50.size[0])
         self.assertEqual(50, out100x50.size[1])
-        _, out50x100 = quad([(None, pixel1x1_img)], 50, 100)
+        _, out50x100 = quad([(None, pixel1x1_img)], 50, 100, 0, None)
         self.assertEqual(50, out50x100.size[0])
         self.assertEqual(100, out50x100.size[1])
 
