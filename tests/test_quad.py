@@ -16,18 +16,18 @@ class TestQuad(unittest.TestCase):
 
     def test_quad_size(self):
         '''Test output sizes of quad.'''
-        _, out100x50 = quad([(None, pixel1x1_img)], 100, 50, 0, None)
+        out100x50 = quad([pixel1x1_img], 100, 50, 0, None)
         self.assertEqual(100, out100x50.size[0])
         self.assertEqual(50, out100x50.size[1])
-        _, out50x100 = quad([(None, pixel1x1_img)], 50, 100, 0, None)
+        out50x100 = quad([pixel1x1_img], 50, 100, 0, None)
         self.assertEqual(50, out50x100.size[0])
         self.assertEqual(100, out50x100.size[1])
 
     def test_quad_pixels(self):
         '''Test exact pixel colors of quad.'''
         actual_white = Image.new('RGB', (10, 10), 'white')
-        images = [(None, actual_white) for i in range(4)]
-        _, quad_img = quad(images, 100, 50, 0.1, '#00ff00')
+        images = [actual_white for i in range(4)]
+        quad_img = quad(images, 100, 50, 0.1, '#00ff00')
         pixels = quad_img.load()
         for i in range(quad_img.size[0]):
             for j in range(quad_img.size[1]):

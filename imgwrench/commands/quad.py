@@ -22,7 +22,7 @@ def quad(quad_images, width, height, frame_width, color):
     ratio = (width - total_frame_pixels) / (height - total_frame_pixels)
     single_width = (width - total_frame_pixels) / 2
     single_height = (height - total_frame_pixels) / 2
-    for i, (info, img) in enumerate(quad_images):
+    for i, img in enumerate(quad_images):
         if img.size[0] < img.size[1]:
             img = img.transpose(Image.ROTATE_90)
         img = crop(img, ratio)
@@ -32,7 +32,7 @@ def quad(quad_images, width, height, frame_width, color):
         result.paste(img, (x, y))
     if not is_landscape:
         result = result.transpose(Image.ROTATE_270)
-    return quad_images[0][0], result
+    return result
 
 
 @click.command(name='quad')
@@ -59,7 +59,9 @@ def cli_quad(width, height, frame_width, color):
         while True:
             quad_images = list(islice(images, 4))
             if quad_images:
-                yield quad(quad_images, width, height, frame_width, color)
+                info = quad_images[0][0]
+                yield info, quad([img for _, img in quad_images],
+                                 width, height, frame_width, color)
             else:
                 break
 
