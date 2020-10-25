@@ -42,7 +42,7 @@ def quad(quad_images, width, height, frame_width, color):
 @click.option('-s', '--height', type=click.INT, default=2048,
               show_default=True,
               help='height of the quad image')
-@click.option('-f', '--frame-width', type=click.FLOAT, default=0.01,
+@click.option('-f', '--frame-width', type=click.FLOAT, default=0.0,
               show_default=True,
               help='width of the frame as a fraction of the longer ' +
                    ' side of the output image')
