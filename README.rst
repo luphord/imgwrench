@@ -61,6 +61,15 @@ or
 Usage
 -----
 
+:code:`imgwrench` is used on the command line by piping paths to image files it, e.g.
+
+.. code-block:: console
+
+        ls /path/to/my/images/*.jpg | imgwrench blackwhite
+
+
+Full command line help is
+
 .. code-block:: console
 
         Usage: imgwrench [OPTIONS] COMMAND1 [ARGS]... [COMMAND2 [ARGS]...]...
