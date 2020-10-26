@@ -310,6 +310,42 @@ the frame color as either a name (e.g. :code:`white`, :code:`green`), a hex valu
                                 in rgb(...) function form  [default: white]
     --help                    Show this message and exit.
 
+
+quad
+====
+
+The `quad` command creates grids consisting of four images. The primary use case
+is batch creation of small prints. Images are rotated in order to minimize the area cropped away,
+i.e. landscape images are rotated if the target image has portrait aspect ratio and
+portrait images are rotated if the target image has landscape aspect ratio.
+
+.. code-block:: console
+
+   ls *.jpg | imgwrench quad
+
+.. image:: _static/quad.jpg
+
+`quad` automatically creates the correct amount of target images and leaves remaining space blank
+(color can be specified using :code:`--color`). Also, the usual :code:`--width`, :code:`--height`
+and :code:`--frame-width` options are supported.
+
+.. code-block:: console
+
+    Usage: imgwrench quad [OPTIONS]
+
+    Collects four images to a quad.
+
+    Options:
+    -w, --width INTEGER      width of the quad image  [default: 3072]
+    -s, --height INTEGER     height of the quad image  [default: 2048]
+    -f, --frame-width FLOAT  width of the frame as a fraction of the longer
+                            side of the output image  [default: 0.0]
+
+    -c, --color COLOR        color of the frame as a color name, hex value or in
+                            rgb(...) function form  [default: white]
+
+    --help                   Show this message and exit
+
 resize
 ======
 
