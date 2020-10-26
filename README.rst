@@ -19,9 +19,44 @@ Image Wrench
 A highly opinionated image processor for the commandline. Multiple subcommands can
 be executed sequentially to form a processing pipeline.
 
+:code:`imgwrench` is free software available under the MIT license.
+Detailed documentation can be found at https://imgwrench.readthedocs.io.
 
-* Free software: MIT license
-* Documentation: https://imgwrench.readthedocs.io.
+Installation
+------------
+
+Make sure you have Python and pip installed and available in your $PATH.
+Then :code:`imgwrench` can be installed with
+
+.. code-block:: console
+
+        pip install imgwrench
+
+
+In order to install for the current user only, you may want to execute
+
+.. code-block:: console
+
+        pip install --user imgwrench
+
+
+instead. In this case you will have to ensure that the local bin directory
+(typically :code:`~/.local/bin` on Linux systems) is contained in your $PATH.
+
+Note that legacy Python2 is not supported. If your system still ships Python2
+as the default Python interpreter, you may have to execute
+
+.. code-block:: console
+
+        pip3 install imgwrench
+
+
+or
+
+.. code-block:: console
+
+        python3 -m pip install imgwrench
+
 
 Usage
 -----
