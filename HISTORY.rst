@@ -2,6 +2,12 @@
 History
 =======
 
+0.13.0 (2020-10-26)
+-------------------
+* :code:`quad` subcommand to to collect four images into a quad
+* improve documentation
+
+
 0.12.0 (2020-07-24)
 -------------------
 
