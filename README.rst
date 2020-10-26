@@ -80,7 +80,7 @@ or
 Usage
 -----
 
-:code:`imgwrench` is used on the command line by piping paths to image files it, e.g.
+:code:`imgwrench` is used on the command line by piping file paths into it, e.g.
 
 .. code-block:: console
 
@@ -142,9 +142,9 @@ Full command line help is
 Pipelines
 ---------
 
-imgwrench subcommands can be combined into pipelines. This saves you from generating intermediate
-files cluttering your filesystem and reducing the quality of the final results. For example, if you
-would like to convert all images in the current directory to black and white, put a white frame
+:code:`imgwrench` subcommands can be combined into pipelines. This saves you from generating intermediate
+files cluttering your filesystem or reducing the quality of the final results. For example, if you
+want to convert all images in the current directory to black and white, put a white frame
 around them and have them cut to an aspect ratio of 3:2 (for standard format printing), you would
 execute the following command:
 
