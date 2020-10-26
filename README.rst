@@ -22,6 +22,25 @@ be executed sequentially to form a processing pipeline.
 :code:`imgwrench` is free software available under the MIT license.
 Detailed documentation can be found at https://imgwrench.readthedocs.io.
 
+
+Features
+--------
+
+* Subcommands can be executed sequentially to form a pipeline
+* Command *blackwhite* for converting images to black and white
+* Command *collage* creates a collage from multiple images
+* Command *colorfix* for fixing the colors of aged photographs
+* Command *crop* for cropping images to give aspect ratio
+* Command *dither* for converting images to black and white and dithering
+* Command *filmstrip* to stack images horizontally forming a filmstrip
+* Command *flip* to flip/mirror images left-right
+* Command *frame* to put a monocolor frame around images
+* Command *framecrop* top frame and crop an image to a target aspect ratio
+* Command *resize* for resizing images
+* Command *save* for no processing, but saving images with the given parameters
+* Command *stack* for vertically stacking images
+
+
 Installation
 ------------
 
@@ -119,23 +138,6 @@ Full command line help is
         save        No-op to enable saving of images without any processing.
         stack       Stacks pairs of images vertically, empty space in the middle.
 
-
-Features
---------
-
-* Subcommands can be executed sequentially to form a pipeline
-* Command *blackwhite* for converting images to black and white
-* Command *collage* creates a collage from multiple images
-* Command *colorfix* for fixing the colors of aged photographs
-* Command *crop* for cropping images to give aspect ratio
-* Command *dither* for converting images to black and white and dithering
-* Command *filmstrip* to stack images horizontally forming a filmstrip
-* Command *flip* to flip/mirror images left-right
-* Command *frame* to put a monocolor frame around images
-* Command *framecrop* top frame and crop an image to a target aspect ratio
-* Command *resize* for resizing images
-* Command *save* for no processing, but saving images with the given parameters
-* Command *stack* for vertically stacking images
 
 Pipelines
 ---------
