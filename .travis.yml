@@ -15,5 +15,6 @@ install:
 
 # Command to run tests, e.g. python setup.py test
 script:
+  - black --check .
   - flake8 imgwrench tests
   - python -m unittest discover -v

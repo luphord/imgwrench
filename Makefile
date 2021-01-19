@@ -50,7 +50,11 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr htmlcov/
 	rm -fr .pytest_cache
 
+format: ## format code with black
+	black .
+
 lint: ## check style with flake8
+	black --check .
 	flake8 imgwrench tests
 
 test: ## run tests quickly with the default Python
