@@ -34,16 +34,6 @@ class LayoutNode:
         assert leaf_count > 0, "Invalid node {}".format(self)
         return self.cut_loss(container_aspect_ratio) / leaf_count
 
-    def move_images_to_best_aspect_ratios(self, container_aspect_ratio):
-        """Exchange images between leaf nodes of the tree such that they
-        are placed ranked according to their aspect ratios."""
-        target_ar = list(self.aspect_ratios(container_aspect_ratio))
-        target_ar.sort(key=lambda tpl: tpl[0])
-        image_ar = [(leaf.image_aspect_ratio, leaf.image) for _, leaf in target_ar]
-        image_ar.sort(key=lambda tpl: tpl[0])
-        for (_, node), (_, image) in zip(target_ar, image_ar):
-            node.image = image
-
     @property
     def leaf_count(self):
         return len(list(self.aspect_ratios(1.0)))
@@ -236,9 +226,6 @@ def collage(images, width, height, frame_width, color, rnd=None):
     tree = golden_section_tree(images, aspect_ratio, rnd)
     loss = tree.normalized_cut_loss(aspect_ratio)
     print("Loss before moving is {:.2f}".format(loss))
-    tree.move_images_to_best_aspect_ratios(aspect_ratio)
-    loss = tree.normalized_cut_loss(aspect_ratio)
-    print("Loss after moving is {:.2f}".format(loss))
     return render(tree, width, height, frame_width, color)
 
 
