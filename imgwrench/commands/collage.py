@@ -2,6 +2,7 @@
 
 import random
 from math import floor, ceil
+from abc import ABC, abstractmethod
 
 import click
 from PIL import Image
@@ -9,20 +10,23 @@ from PIL import Image
 from ..param import COLOR
 
 
-class LayoutNode:
+class LayoutNode(ABC):
     """Node in a layout tree structure; base class for specific types."""
 
+    @abstractmethod
     def to_string(self, indent=0, weight=None):
         raise NotImplementedError("to_string is not implemented")
 
     def __str__(self):
         return "\n".join(self.to_string())
 
+    @abstractmethod
     def aspect_ratios(self, container_aspect_ratio):
         """Calculate aspect ratios of leaf nodes given aspect ratio
         of containing nodes."""
         raise NotImplementedError("to_string is not implemented")
 
+    @abstractmethod
     def cut_loss(self, container_aspect_ratio):
         """Sum of fractions of image area that are cut away."""
         raise NotImplementedError("cut_loss is not implemented")
