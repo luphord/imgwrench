@@ -54,6 +54,10 @@ class LayoutNode(ABC):
         as required by BRIC algorithm"""
         pass
 
+    @abstractmethod
+    def set_weights_from_widths(tree, widths):
+        pass
+
 
 class LayoutBranch(LayoutNode):
     """Non-leaf node in a layout tree structure;
@@ -117,6 +121,15 @@ class Row(LayoutBranch):
                 h0 = hi
         return width, height, coeff
 
+    def set_weights_from_widths(self, widths_index):
+        nodes = [node for _, node in self.content]
+        widths_heights = [node.set_weights_from_widths(widths_index) for node in nodes]
+        widths = [w for w, _ in widths_heights]
+        sum_widths = sum(widths)
+        rel_widths = [w / sum_widths for w in widths]
+        self.content = list(zip(rel_widths, nodes))
+        return sum_widths, widths_heights[0][1]
+
 
 class Column(LayoutBranch):
     """Column node in a layout tree structure."""
@@ -155,6 +168,15 @@ class Column(LayoutBranch):
                 w0 = wi
         return width, height, coeff
 
+    def set_weights_from_widths(self, widths_index):
+        nodes = [node for _, node in self.content]
+        widths_heights = [node.set_weights_from_widths(widths_index) for node in nodes]
+        heights = [h for _, h in widths_heights]
+        sum_heights = sum(heights)
+        rel_heights = [h / sum_heights for h in heights]
+        self.content = list(zip(rel_heights, nodes))
+        return widths_heights[0][0], sum_heights
+
 
 class LayoutLeaf(LayoutNode):
     """Leaf node in a layout tree structure; contains a single image."""
@@ -184,6 +206,9 @@ class LayoutLeaf(LayoutNode):
 
     def width_height_coeff(self):
         return {self: 1}, {self: 1 / self.image_aspect_ratio}, []
+
+    def set_weights_from_widths(self, widths_index):
+        return widths_index[self], widths_index[self] / self.image_aspect_ratio
 
 
 def random_weight(rnd):
@@ -263,8 +288,9 @@ def bric_tree(images, aspect_ratio, rnd=None):
     b = np.zeros(shape=len(leafs))
     b[-1] = aspect_ratio
     solution = np.linalg.solve(a, b)
-    weights = {leaf: solution[i] for leaf, i in leafs.items()}
-    return weights
+    widths = {leaf: solution[i] for leaf, i in leafs.items()}
+    tree.set_weights_from_widths(widths)
+    return tree
 
 
 def crop(image, width, height):
