@@ -42,6 +42,12 @@ class LayoutNode(ABC):
     def leaf_count(self):
         return len(list(self.aspect_ratios(1.0)))
 
+    @abstractmethod
+    def width_height_coeff(self):
+        """width, height and coefficients for system of linear equation
+        as required by BRIC algorithm"""
+        pass
+
 
 class LayoutBranch(LayoutNode):
     """Non-leaf node in a layout tree structure;
@@ -88,6 +94,21 @@ class Row(LayoutBranch):
             node.cut_loss(container_aspect_ratio * w) for w, node in self.content
         )
 
+    def width_height_coeff(self):
+        width = {}
+        height = {}
+        coeff = []
+        h0 = None
+        for _, node in self.content:
+            wi, hi, ci = node.width_height_coeff()
+            h0 = h0 or hi
+            width.update(wi)
+            height.update(hi)
+            coeff.extend(ci)
+            same_height_rule = {**h0, **{k: -v for k, v in hi.items()}}
+            coeff.append(same_height_rule)
+        return width, height, coeff
+
 
 class Column(LayoutBranch):
     """Column node in a layout tree structure."""
@@ -108,6 +129,21 @@ class Column(LayoutBranch):
         return sum(
             node.cut_loss(container_aspect_ratio / w) for w, node in self.content
         )
+
+    def width_height_coeff(self):
+        width = {}
+        height = {}
+        coeff = []
+        w0 = None
+        for _, node in self.content:
+            wi, hi, ci = node.width_height_coeff()
+            w0 = w0 or wi
+            width.update(wi)
+            height.update(hi)
+            coeff.extend(ci)
+            same_width_rule = {**w0, **{k: -v for k, v in wi.items()}}
+            coeff.append(same_width_rule)
+        return width, height, coeff
 
 
 class LayoutLeaf:
@@ -135,6 +171,9 @@ class LayoutLeaf:
         ai = self.image_aspect_ratio
         ac = container_aspect_ratio
         return (ai - ac) / ai if ai > ac else (1 / ai - 1 / ac) * ai
+
+    def width_height_coeff(self):
+        return {self: 1}, {self: 1 / self.image_aspect_ratio}, []
 
 
 def random_weight(rnd):
