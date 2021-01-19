@@ -6,6 +6,7 @@ from abc import ABC, abstractmethod
 
 import click
 from PIL import Image
+import numpy as np
 
 from ..param import COLOR
 
@@ -245,6 +246,25 @@ def _binary_tree_recursive(images, rnd, is_row):
         left = _binary_tree_recursive(images[:n], rnd, not is_row)
         right = _binary_tree_recursive(images[n:], rnd, not is_row)
         return layout([(1, left), (1, right)])
+
+
+def bric_tree(images, aspect_ratio, rnd=None):
+    """Create a layout tree structure using a variant of the
+    Blocked Recursive Image Composition (BRIC) algorithm
+    by C. Brian Atkins."""
+    rnd = rnd or random.Random(0)
+    tree = _binary_tree_recursive(images, rnd, aspect_ratio >= 1)
+    leafs = {node: i for i, node in enumerate(tree.leafs)}
+    width, height, coeff = tree.width_height_coeff()
+    a = np.zeros(shape=(len(leafs), len(leafs)))
+    for row, c in enumerate(coeff + [width]):
+        for node, w in c.items():
+            a[row, leafs[node]] = w
+    b = np.zeros(shape=len(leafs))
+    b[-1] = aspect_ratio
+    solution = np.linalg.solve(a, b)
+    weights = {leaf: solution[i] for leaf, i in leafs.items()}
+    return weights
 
 
 def crop(image, width, height):
