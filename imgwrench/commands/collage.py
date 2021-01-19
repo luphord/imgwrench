@@ -42,6 +42,11 @@ class LayoutNode(ABC):
     def leaf_count(self):
         return len(list(self.aspect_ratios(1.0)))
 
+    @property
+    def leafs(self):
+        for _, node in self.aspect_ratios(1.0):
+            yield node
+
     @abstractmethod
     def width_height_coeff(self):
         """width, height and coefficients for system of linear equation
@@ -150,7 +155,7 @@ class Column(LayoutBranch):
         return width, height, coeff
 
 
-class LayoutLeaf:
+class LayoutLeaf(LayoutNode):
     """Leaf node in a layout tree structure; contains a single image."""
 
     def __init__(self, image):
