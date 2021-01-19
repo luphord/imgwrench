@@ -101,12 +101,14 @@ class Row(LayoutBranch):
         h0 = None
         for _, node in self.content:
             wi, hi, ci = node.width_height_coeff()
-            h0 = h0 or hi
             width.update(wi)
             height.update(hi)
             coeff.extend(ci)
-            same_height_rule = {**h0, **{k: -v for k, v in hi.items()}}
-            coeff.append(same_height_rule)
+            if h0:
+                same_height_rule = {**h0, **{k: -v for k, v in hi.items()}}
+                coeff.append(same_height_rule)
+            else:
+                h0 = hi
         return width, height, coeff
 
 
@@ -137,12 +139,14 @@ class Column(LayoutBranch):
         w0 = None
         for _, node in self.content:
             wi, hi, ci = node.width_height_coeff()
-            w0 = w0 or wi
             width.update(wi)
             height.update(hi)
             coeff.extend(ci)
-            same_width_rule = {**w0, **{k: -v for k, v in wi.items()}}
-            coeff.append(same_width_rule)
+            if w0:
+                same_width_rule = {**w0, **{k: -v for k, v in wi.items()}}
+                coeff.append(same_width_rule)
+            else:
+                w0 = wi
         return width, height, coeff
 
 
