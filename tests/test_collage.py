@@ -81,6 +81,25 @@ class TestCollage(unittest.TestCase):
         self.assertLess(expected_mean, actual_mean + 3 * actual_stdev)
         self.assertGreater(expected_mean, actual_mean - 3 * actual_stdev)
 
+    def test_width_height_coeff(self):
+        for i in range(1, 50):
+            images = []
+            for i in range(i):
+                img = Mock
+                img.size = (150, 100) if i % 2 == 0 else (100, 150)
+                images.append(img)
+            aspect_ratio = 1.0
+            rnd = Random(i)
+            tree = golden_section_tree(images, aspect_ratio, rnd)
+            width, height, coeff = tree.width_height_coeff()
+            self.assertEqual(len(images) - 1, len(coeff))
+            leafs_set = set(tree.leafs)
+            self.assertEqual(len(images), len(leafs_set))
+            for c in coeff + [{**width, **height}]:
+                for node in c:
+                    leafs_set.discard(node)
+            self.assertFalse(leafs_set)
+
     def test_collage_output(self):
         """Test output of filmstrip command."""
         execute_and_test_output_images(
