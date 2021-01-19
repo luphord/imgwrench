@@ -128,7 +128,7 @@ class Row(LayoutBranch):
         sum_widths = sum(widths)
         rel_widths = [w / sum_widths for w in widths]
         self.content = list(zip(rel_widths, nodes))
-        return sum_widths, widths_heights[0][1]
+        return sum_widths, sum(h for w, h in widths_heights)
 
 
 class Column(LayoutBranch):
@@ -175,7 +175,7 @@ class Column(LayoutBranch):
         sum_heights = sum(heights)
         rel_heights = [h / sum_heights for h in heights]
         self.content = list(zip(rel_heights, nodes))
-        return widths_heights[0][0], sum_heights
+        return sum(w for w, h in widths_heights), sum_heights
 
 
 class LayoutLeaf(LayoutNode):
@@ -286,7 +286,7 @@ def bric_tree(images, aspect_ratio, rnd=None):
         for node, w in c.items():
             a[row, leafs[node]] = w
     b = np.zeros(shape=len(leafs))
-    b[-1] = aspect_ratio
+    b[-1] = 1
     solution = np.linalg.solve(a, b)
     widths = {leaf: solution[i] for leaf, i in leafs.items()}
     tree.set_weights_from_widths(widths)
@@ -336,7 +336,7 @@ def render(tree, width, height, frame_width, color):
 def collage(images, width, height, frame_width, color, rnd=None):
     """Create a collage from multiple images."""
     aspect_ratio = width / height
-    tree = golden_section_tree(images, aspect_ratio, rnd)
+    tree = bric_tree(images, aspect_ratio, rnd)
     loss = tree.normalized_cut_loss(aspect_ratio)
     print("Loss before moving is {:.2f}".format(loss))
     return render(tree, width, height, frame_width, color)

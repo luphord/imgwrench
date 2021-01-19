@@ -15,6 +15,7 @@ from imgwrench.commands.collage import (
     Column,
     golden_section_tree,
     _binary_tree_recursive,
+    bric_tree,
 )
 
 
@@ -115,6 +116,14 @@ class TestCollage(unittest.TestCase):
                 images.append(img)
             tree = _binary_tree_recursive(images, Random(i), True)
             self.assertEqual(len(images), tree.leaf_count)
+
+    def test_bric_tree(self):
+        images = []
+        for i in range(12):
+            img = Mock
+            img.size = (150, 100) if i % 3 == 2 else (100, 150)
+            images.append(img)
+        bric_tree(images, 1, Random(1))
 
     def test_collage_output(self):
         """Test output of filmstrip command."""
