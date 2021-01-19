@@ -9,7 +9,13 @@ from click.testing import CliRunner
 
 from .utils import execute_and_test_output_images
 
-from imgwrench.commands.collage import LayoutLeaf, Row, Column, golden_section_tree
+from imgwrench.commands.collage import (
+    LayoutLeaf,
+    Row,
+    Column,
+    golden_section_tree,
+    _binary_tree_recursive,
+)
 
 
 class MockLeaf(LayoutLeaf):
@@ -99,6 +105,16 @@ class TestCollage(unittest.TestCase):
                 for node in c:
                     leafs_set.discard(node)
             self.assertFalse(leafs_set)
+
+    def test_binary_tree_recursive(self):
+        for i in range(1, 50):
+            images = []
+            for i in range(i):
+                img = Mock
+                img.size = (150, 100) if i % 2 == 0 else (100, 150)
+                images.append(img)
+            tree = _binary_tree_recursive(images, Random(i), True)
+            self.assertEqual(len(images), tree.leaf_count)
 
     def test_collage_output(self):
         """Test output of filmstrip command."""

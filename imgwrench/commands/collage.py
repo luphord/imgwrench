@@ -232,6 +232,21 @@ def golden_section_tree(images, aspect_ratio, rnd=None):
     return _golden_section_tree_recursive(images, aspect_ratio, rnd)
 
 
+def _binary_tree_recursive(images, rnd, is_row):
+    images = list(images)
+    assert images, "No binary tree layout without images"
+    layout = Row if is_row else Column
+    if len(images) == 1:
+        return LayoutLeaf(images[0])
+    elif len(images) == 2:
+        return layout([(1, LayoutLeaf(images[0])), (1, LayoutLeaf(images[1]))])
+    else:
+        n = rnd.randint(1, len(images) - 1)
+        left = _binary_tree_recursive(images[:n], rnd, not is_row)
+        right = _binary_tree_recursive(images[n:], rnd, not is_row)
+        return layout([(1, left), (1, right)])
+
+
 def crop(image, width, height):
     """Center crop image and resize to width * height."""
     actual_ratio = image.size[0] / image.size[1]
