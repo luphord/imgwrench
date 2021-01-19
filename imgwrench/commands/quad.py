@@ -1,4 +1,4 @@
-'''Collects four images to a quad.'''
+"""Collects four images to a quad."""
 
 from itertools import islice
 
@@ -15,8 +15,7 @@ def quad(quad_images, width, height, frame_width, color):
     assert len(quad_images) <= 4
     is_landscape = width >= height
     width, height = max(width, height), min(width, height)
-    result = Image.new(mode='RGB', size=(width, height),
-                       color=color)
+    result = Image.new(mode="RGB", size=(width, height), color=color)
     frame_pixels = frame_width * width
     total_frame_pixels = 3 * frame_pixels
     ratio = (width - total_frame_pixels) / (height - total_frame_pixels)
@@ -28,31 +27,51 @@ def quad(quad_images, width, height, frame_width, color):
         img = crop(img, ratio)
         img = resize(img, single_width)
         x = int(i % 2 * (single_width + frame_pixels) + frame_pixels)
-        y = int(int(i/2) * (single_height + frame_pixels) + frame_pixels)
+        y = int(int(i / 2) * (single_height + frame_pixels) + frame_pixels)
         result.paste(img, (x, y))
     if not is_landscape:
         result = result.transpose(Image.ROTATE_270)
     return result
 
 
-@click.command(name='quad')
-@click.option('-w', '--width', type=click.INT, default=3072,
-              show_default=True,
-              help='width of the quad image')
-@click.option('-s', '--height', type=click.INT, default=2048,
-              show_default=True,
-              help='height of the quad image')
-@click.option('-f', '--frame-width', type=click.FLOAT, default=0.0,
-              show_default=True,
-              help='width of the frame as a fraction of the longer ' +
-                   ' side of the output image')
-@click.option('-c', '--color', type=COLOR, default='white',
-              show_default=True,
-              help='color of the frame as a color name, hex value ' +
-                   'or in rgb(...) function form')
+@click.command(name="quad")
+@click.option(
+    "-w",
+    "--width",
+    type=click.INT,
+    default=3072,
+    show_default=True,
+    help="width of the quad image",
+)
+@click.option(
+    "-s",
+    "--height",
+    type=click.INT,
+    default=2048,
+    show_default=True,
+    help="height of the quad image",
+)
+@click.option(
+    "-f",
+    "--frame-width",
+    type=click.FLOAT,
+    default=0.0,
+    show_default=True,
+    help="width of the frame as a fraction of the longer "
+    + " side of the output image",
+)
+@click.option(
+    "-c",
+    "--color",
+    type=COLOR,
+    default="white",
+    show_default=True,
+    help="color of the frame as a color name, hex value "
+    + "or in rgb(...) function form",
+)
 def cli_quad(width, height, frame_width, color):
-    '''Collects four images to a quad.'''
-    click.echo('Initializing quad with parameters {}'.format(locals()))
+    """Collects four images to a quad."""
+    click.echo("Initializing quad with parameters {}".format(locals()))
 
     def _quad(images):
         images = iter(images)
@@ -60,8 +79,9 @@ def cli_quad(width, height, frame_width, color):
             quad_images = list(islice(images, 4))
             if quad_images:
                 info = quad_images[0][0]
-                yield info, quad([img for _, img in quad_images],
-                                 width, height, frame_width, color)
+                yield info, quad(
+                    [img for _, img in quad_images], width, height, frame_width, color
+                )
             else:
                 break
 

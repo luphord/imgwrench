@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
-'''Image meta information.'''
+"""Image meta information."""
 
 
 class ImageInfo:
-    '''Container for image meta information'''
+    """Container for image meta information"""
 
     def __init__(self, path, index, exif, xmp):
         self.path = path

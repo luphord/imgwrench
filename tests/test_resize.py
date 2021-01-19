@@ -1,4 +1,4 @@
-'''Test `resize` command.'''
+"""Test `resize` command."""
 
 import unittest
 
@@ -11,10 +11,10 @@ from .utils import execute_and_test_output_images
 
 
 class TestResize(unittest.TestCase):
-    '''Test for `resize` command.'''
+    """Test for `resize` command."""
 
     def test_resize_size(self):
-        '''Test output sizes of resize.'''
+        """Test output sizes of resize."""
         pixel100 = resize(pixel1x1_img, 100)
         self.assertEqual(100, pixel100.size[0])
         self.assertEqual(100, pixel100.size[1])
@@ -23,6 +23,5 @@ class TestResize(unittest.TestCase):
         self.assertEqual(67, pixel67.size[1])
 
     def test_resized_output(self):
-        '''Test output of resize command.'''
-        execute_and_test_output_images(self, CliRunner(), 3, 3,
-                                       'resized_', ['resize'])
+        """Test output of resize command."""
+        execute_and_test_output_images(self, CliRunner(), 3, 3, "resized_", ["resize"])
