@@ -6,6 +6,7 @@ from random import Random
 from statistics import mean, stdev
 
 from click.testing import CliRunner
+import numpy as np
 
 from .utils import execute_and_test_output_images
 
@@ -124,6 +125,37 @@ class TestCollage(unittest.TestCase):
             img.size = (150, 100) if i % 3 == 2 else (100, 150)
             images.append(img)
         bric_tree(images, 1, Random(1))
+
+    def test_bric_paper_tree(self):
+        """Test tree example from seminal BRIC paper"""
+        leafs = [MockLeaf(150, 100) for i in range(5)]
+        p1, p2, p3, p4, p5 = leafs
+        tree = Row(
+            [
+                (1, Column([(1, Row([(1, p1), (1, p5)])), (1, p3)])),
+                (1, Column([(1, p2), (1, p4)])),
+            ]
+        )
+        idx = [leafs.index(leaf) for leaf in tree.leafs]
+        for i1, i2 in enumerate(idx):
+            self.assertEqual(leafs[i2], list(tree.leafs)[i1])
+        for node, i in tree.leafs_index.items():
+            self.assertEqual(leafs[idx[i]], node)
+        a1, a2, a3, a4, a5 = [1 / p.image_aspect_ratio for p in leafs]
+        a_expected = np.array(
+            [
+                [a1, 0, 0, 0, -a5],
+                [a1, 0, -a3, 0, a5],
+                [0, 1, 0, -1, 0],
+                [a1, -a2, a3, -a4, 0],
+                [1, 1, 0, 0, 1],
+            ]
+        )
+        b_expected = np.array([0, 0, 0, 0, 1])
+        sol_expected = np.linalg.solve(a_expected, b_expected)
+        a, b = tree.linear_equations
+        sol = np.linalg.solve(a, b)
+        self.assertTrue(np.allclose(sol_expected[idx], sol))
 
     def test_collage_output(self):
         """Test output of filmstrip command."""
