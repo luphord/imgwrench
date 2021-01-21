@@ -144,7 +144,7 @@ class Row(LayoutBranch):
         sum_widths = sum(widths)
         rel_widths = [w / sum_widths for w in widths]
         self.content = list(zip(rel_widths, nodes))
-        return sum_widths, sum(h for w, h in widths_heights)
+        return sum_widths, widths_heights[0][1]
 
 
 class Column(LayoutBranch):
@@ -191,7 +191,7 @@ class Column(LayoutBranch):
         sum_heights = sum(heights)
         rel_heights = [h / sum_heights for h in heights]
         self.content = list(zip(rel_heights, nodes))
-        return sum(w for w, h in widths_heights), sum_heights
+        return widths_heights[0][0], sum_heights
 
 
 class LayoutLeaf(LayoutNode):
