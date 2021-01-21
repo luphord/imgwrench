@@ -347,7 +347,7 @@ def collage(images, width, height, frame_width, color, rnd=None):
     aspect_ratio = width / height
     tree = bric_tree(images, aspect_ratio, rnd)
     loss = tree.normalized_cut_loss(aspect_ratio)
-    print("Loss before moving is {:.2f}".format(loss))
+    print("Cut loss is {:.2f}".format(loss))
     return render(tree, width, height, frame_width, color)
 
 
