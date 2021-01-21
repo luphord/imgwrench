@@ -128,13 +128,13 @@ class Row(LayoutBranch):
         for _, node in self.content:
             wi, hi, ci = node.width_height_coeff()
             width.update(wi)
-            height.update(hi)
             coeff.extend(ci)
             if h0:
                 same_height_rule = {**h0, **{k: -v for k, v in hi.items()}}
                 coeff.append(same_height_rule)
             else:
                 h0 = hi
+                height.update(hi)
         return width, height, coeff
 
     def set_weights_from_widths(self, widths_index):
@@ -174,7 +174,6 @@ class Column(LayoutBranch):
         w0 = None
         for _, node in self.content:
             wi, hi, ci = node.width_height_coeff()
-            width.update(wi)
             height.update(hi)
             coeff.extend(ci)
             if w0:
@@ -182,6 +181,7 @@ class Column(LayoutBranch):
                 coeff.append(same_width_rule)
             else:
                 w0 = wi
+                width.update(wi)
         return width, height, coeff
 
     def set_weights_from_widths(self, widths_index):
