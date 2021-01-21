@@ -48,6 +48,10 @@ class LayoutNode(ABC):
         for _, node in self.aspect_ratios(1.0):
             yield node
 
+    @property
+    def leafs_index(self):
+        return {node: i for i, node in enumerate(self.leafs)}
+
     @abstractmethod
     def width_height_coeff(self):
         """width, height and coefficients for system of linear equation
@@ -57,6 +61,18 @@ class LayoutNode(ABC):
     @abstractmethod
     def set_weights_from_widths(tree, widths):
         pass
+
+    @property
+    def linear_equations(self):
+        width, height, coeff = self.width_height_coeff()
+        leafs = self.leafs_index
+        a = np.zeros(shape=(len(leafs), len(leafs)))
+        for row, c in enumerate(coeff + [width]):
+            for node, w in c.items():
+                a[row, leafs[node]] = w
+        b = np.zeros(shape=len(leafs))
+        b[-1] = 1
+        return a, b
 
 
 class LayoutBranch(LayoutNode):
@@ -279,16 +295,9 @@ def bric_tree(images, aspect_ratio, rnd=None):
     by C. Brian Atkins."""
     rnd = rnd or random.Random(0)
     tree = _binary_tree_recursive(images, rnd, aspect_ratio >= 1)
-    leafs = {node: i for i, node in enumerate(tree.leafs)}
-    width, height, coeff = tree.width_height_coeff()
-    a = np.zeros(shape=(len(leafs), len(leafs)))
-    for row, c in enumerate(coeff + [width]):
-        for node, w in c.items():
-            a[row, leafs[node]] = w
-    b = np.zeros(shape=len(leafs))
-    b[-1] = 1
+    a, b = tree.linear_equations
     solution = np.linalg.solve(a, b)
-    widths = {leaf: solution[i] for leaf, i in leafs.items()}
+    widths = {leaf: solution[i] for leaf, i in tree.leafs_index.items()}
     tree.set_weights_from_widths(widths)
     return tree
 
