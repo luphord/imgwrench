@@ -227,53 +227,6 @@ class LayoutLeaf(LayoutNode):
         return widths_index[self], widths_index[self] / self.image_aspect_ratio
 
 
-def random_weight(rnd):
-    """Random variable X in (0, 1]."""
-    return 1.0 - rnd.random()
-
-
-def random_partition(images, rnd):
-    """Partition list of images into a random number of subsets."""
-    n_parts = rnd.randint(1, len(images))
-    parts = [list(images[start::n_parts]) for start in range(n_parts)]
-    return parts
-
-
-phi = (1 + 5 ** 0.5) / 2
-
-
-def _golden_section_tree_recursive(images, aspect_ratio, rnd):
-    images = list(images)
-    assert images, "No golden sections layout without images"
-    n = len(images)
-    if n == 1:
-        return LayoutLeaf(images[0])
-    else:
-        if aspect_ratio > 1:
-            layout = Row
-            ratios = [aspect_ratio / phi, aspect_ratio / (phi ** 2)]
-        else:
-            layout = Column
-            ratios = [aspect_ratio * phi, aspect_ratio * (phi ** 2)]
-        n_first = n // 2
-        if n % 2 == 1:
-            n_first += rnd.choice([0, 1])
-        rnd.shuffle(ratios)
-        weights = [ratio if aspect_ratio > 1 else 1 / ratio for ratio in ratios]
-        partition = [images[:n_first], images[n_first:]]
-        cnt = [
-            (weight, _golden_section_tree_recursive(part, ratio, rnd))
-            for weight, ratio, part in zip(weights, ratios, partition)
-        ]
-        return layout(content=cnt)
-
-
-def golden_section_tree(images, aspect_ratio, rnd=None):
-    """Create a layout tree structure based on golden sections."""
-    rnd = rnd or random.Random(0)
-    return _golden_section_tree_recursive(images, aspect_ratio, rnd)
-
-
 def _binary_tree_recursive(images, rnd, is_row):
     images = list(images)
     assert images, "No binary tree layout without images"
