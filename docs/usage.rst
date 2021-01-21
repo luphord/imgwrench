@@ -24,8 +24,9 @@ is delegated to the PIL `convert('L')` method call.
 collage
 =======
 
-The `collage` subcommand creates a collage of all input images. Currently, the
-only method for image composition is based golden section of rectangles.
+The `collage` subcommand creates a collage of all input images. The method
+for image composition is based on the `Blocked Recursive Image Composition (BRIC)`
+algorithm by C. Brian Atkins..
 
 Assuming a couple of images in the current directory, `collage` generates a collage
 in `img_0000.jpg` as follows:
