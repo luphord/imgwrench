@@ -21,7 +21,7 @@ from imgwrench.commands.collage import (
 
 class MockLeaf(LayoutLeaf):
     def __init__(self, width, height):
-        image = Mock
+        image = Mock()
         image.size = (width, height)
         super().__init__(image)
         self.width = width
@@ -73,7 +73,7 @@ class TestCollage(unittest.TestCase):
         calculate average cut loss and test statistically."""
         images = []
         for i in range(12):
-            img = Mock
+            img = Mock()
             img.size = (150, 100) if i % 2 == 0 else (100, 150)
             images.append(img)
         losses = []
@@ -92,7 +92,7 @@ class TestCollage(unittest.TestCase):
         for i in range(1, 50):
             images = []
             for i in range(i):
-                img = Mock
+                img = Mock()
                 img.size = (150, 100) if i % 2 == 0 else (100, 150)
                 images.append(img)
             aspect_ratio = 1.0
@@ -111,7 +111,7 @@ class TestCollage(unittest.TestCase):
         for i in range(1, 50):
             images = []
             for i in range(i):
-                img = Mock
+                img = Mock()
                 img.size = (150, 100) if i % 2 == 0 else (100, 150)
                 images.append(img)
             tree = _binary_tree_recursive(images, Random(i), True)
@@ -120,7 +120,7 @@ class TestCollage(unittest.TestCase):
     def test_bric_tree(self):
         images = []
         for i in range(12):
-            img = Mock
+            img = Mock()
             img.size = (150, 100) if i % 3 == 2 else (100, 150)
             images.append(img)
         bric_tree(images, 1, Random(1))
