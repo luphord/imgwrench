@@ -2,9 +2,10 @@
 History
 =======
 
-0.14.0 (not yet)
-----------------
-* drop support for Python 3.5
+0.14.0 (2020-12-21)
+-------------------
+* BREAKING CHANGE: replace golden collage approach with BRIC algorithm in :code:`black` subcommand
+* BREAKING CHANGE: drop support for Python 3.5
 * format code with :code:`black`
 
 0.13.0 (2020-10-26)
