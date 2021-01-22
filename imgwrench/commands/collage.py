@@ -319,15 +319,23 @@ def render(tree, width, height, frame_width, color):
     return collg
 
 
-def collage(images, width, height, frame_width, color, seed):
+def collage(images, width, height, frame_width, color, seed, n_tries=1):
     """Create a collage from multiple images."""
     aspect_ratio = width / height
-    tree = bric_tree(images, aspect_ratio, random.Random(seed))
-    loss = tree.normalized_cut_loss(aspect_ratio)
-    print("Cut loss is {:.2f}".format(loss))
-    print("Balance score is {:.2f}".format(tree.balance_score(width, height)))
-    print("Overall score is {:.2f}".format(tree.score(width, height)))
-    return render(tree, width, height, frame_width, color)
+    best_tree = None
+    best_score = None
+    for i in range(seed, seed + n_tries):
+        tree = bric_tree(images, aspect_ratio, random.Random(i))
+        best_tree = best_tree or tree
+        best_score = tree.score(width, height) if best_score is None else best_score
+        score = tree.score(width, height)
+        if score > best_score:
+            best_tree = tree
+            best_score = score
+    print("Cut loss is {:.2f}".format(best_tree.normalized_cut_loss(aspect_ratio)))
+    print("Balance score is {:.2f}".format(best_tree.balance_score(width, height)))
+    print("Overall score is {:.2f}".format(best_tree.score(width, height)))
+    return render(best_tree, width, height, frame_width, color)
 
 
 @click.command(name="collage")
@@ -372,7 +380,15 @@ def collage(images, width, height, frame_width, color, seed):
     show_default=True,
     help="seed for random number generator",
 )
-def cli_collage(width, height, frame_width, color, seed):
+@click.option(
+    "-n",
+    "--number-tries",
+    type=int,
+    default=100,
+    show_default=True,
+    help="number of tries for layout generation",
+)
+def cli_collage(width, height, frame_width, color, seed, number_tries):
     """Create a collage from multiple images."""
     click.echo("Initializing collage with parameters {}".format(locals()))
 
@@ -380,7 +396,7 @@ def cli_collage(width, height, frame_width, color, seed):
         image_infos = list(image_infos)
         images = [img for _, img in image_infos]
         yield image_infos[0][0], collage(
-            images, width, height, frame_width, color, seed
+            images, width, height, frame_width, color, seed, number_tries
         )
 
     return _collage
