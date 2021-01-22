@@ -47,18 +47,23 @@ the frame color as either a name (e.g. :code:`white`, :code:`green`), a hex valu
 .. code-block:: console
 
     Usage: imgwrench collage [OPTIONS]
-    
-      Create a collage from multiple images.
-    
+
+    Create a collage from multiple images.
+
     Options:
-      -w, --width INTEGER      width of the collage  [default: 3072]
-      -s, --height INTEGER     height of the collage  [default: 2048]
-      -f, --frame-width FLOAT  width of the frame as a fraction of the longer
-                               image side  [default: 0.01]
-      -c, --color COLOR        color of the frame as a color name, hex value or in
-                               rgb(...) function form  [default: white]
-      -x, --seed INTEGER       seed for random number generator  [default: 123]
-      --help                   Show this message and exit.
+    -w, --width INTEGER         width of the collage  [default: 3072]
+    -s, --height INTEGER        height of the collage  [default: 2048]
+    -f, --frame-width FLOAT     width of the frame as a fraction of the longer
+                                image side  [default: 0.01]
+
+    -c, --color COLOR           color of the frame as a color name, hex value or
+                                in rgb(...) function form  [default: white]
+
+    -x, --seed INTEGER          seed for random number generator  [default: 123]
+    -n, --number-tries INTEGER  number of tries for layout generation  [default:
+                                100]
+
+    --help                      Show this message and exit.
 
 colorfix
 ========
