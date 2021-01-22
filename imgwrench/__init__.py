@@ -4,7 +4,7 @@
 
 __author__ = "luphord"
 __email__ = "luphord@protonmail.com"
-__version__ = "0.14.0"
+__version__ = "0.15.0"
 
 from .cli import cli_imgwrench
 
