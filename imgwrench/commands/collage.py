@@ -57,6 +57,12 @@ class LayoutNode(ABC):
         areas = np.array(list(self.relative_areas(width, height)))
         return np.prod(np.minimum(areas / target_area, 1)) ** target_area
 
+    def score(self, width, height):
+        """Score function to compare layouts, between 0 (worst) and 1 (best)."""
+        return (1 - self.normalized_cut_loss(width / height)) * self.balance_score(
+            width, height
+        )
+
     @property
     def leaf_count(self):
         return len(list(self.aspect_ratios(1.0)))
@@ -320,6 +326,7 @@ def collage(images, width, height, frame_width, color, rnd=None):
     loss = tree.normalized_cut_loss(aspect_ratio)
     print("Cut loss is {:.2f}".format(loss))
     print("Balance score is {:.2f}".format(tree.balance_score(width, height)))
+    print("Overall score is {:.2f}".format(tree.score(width, height)))
     return render(tree, width, height, frame_width, color)
 
 
