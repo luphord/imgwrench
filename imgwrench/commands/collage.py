@@ -22,6 +22,11 @@ class LayoutNode(ABC):
         return "\n".join(self.to_string())
 
     @abstractmethod
+    def positions(self, x, y, width, height):
+        """Positions of individual images"""
+        pass
+
+    @abstractmethod
     def aspect_ratios(self, container_aspect_ratio):
         """Calculate aspect ratios of leaf nodes given aspect ratio
         of containing nodes."""
