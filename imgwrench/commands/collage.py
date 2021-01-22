@@ -319,10 +319,10 @@ def render(tree, width, height, frame_width, color):
     return collg
 
 
-def collage(images, width, height, frame_width, color, rnd=None):
+def collage(images, width, height, frame_width, color, seed):
     """Create a collage from multiple images."""
     aspect_ratio = width / height
-    tree = bric_tree(images, aspect_ratio, rnd)
+    tree = bric_tree(images, aspect_ratio, random.Random(seed))
     loss = tree.normalized_cut_loss(aspect_ratio)
     print("Cut loss is {:.2f}".format(loss))
     print("Balance score is {:.2f}".format(tree.balance_score(width, height)))
@@ -379,7 +379,8 @@ def cli_collage(width, height, frame_width, color, seed):
     def _collage(image_infos):
         image_infos = list(image_infos)
         images = [img for _, img in image_infos]
-        rnd = random.Random(seed)
-        yield image_infos[0][0], collage(images, width, height, frame_width, color, rnd)
+        yield image_infos[0][0], collage(
+            images, width, height, frame_width, color, seed
+        )
 
     return _collage
