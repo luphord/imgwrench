@@ -50,6 +50,13 @@ class LayoutNode(ABC):
         for (x, y, w, h, img) in self.positions(0, 0, width, height):
             yield w * h / area
 
+    def balance_score(self, width, height):
+        """Score function penalizing different image sizes.
+        Between 0 and 1. Equal to 1 if every image has the same area."""
+        target_area = 1 / self.leaf_count
+        areas = np.array(list(self.relative_areas(width, height)))
+        return np.prod(np.minimum(areas / target_area, 1)) ** target_area
+
     @property
     def leaf_count(self):
         return len(list(self.aspect_ratios(1.0)))
@@ -312,6 +319,7 @@ def collage(images, width, height, frame_width, color, rnd=None):
     tree = bric_tree(images, aspect_ratio, rnd)
     loss = tree.normalized_cut_loss(aspect_ratio)
     print("Cut loss is {:.2f}".format(loss))
+    print("Balance score is {:.2f}".format(tree.balance_score(width, height)))
     return render(tree, width, height, frame_width, color)
 
 
