@@ -2,9 +2,14 @@
 History
 =======
 
+0.15.0 (not yet)
+----------------
+* :code:`collage` subcommand selects best layout based on score function
+* :code:`collage` subcommand supports :code:`-n/--number-tries` parameter to specify number of layout tries
+
 0.14.0 (2020-12-21)
 -------------------
-* BREAKING CHANGE: replace golden collage approach with BRIC algorithm in :code:`black` subcommand
+* BREAKING CHANGE: replace golden collage approach with BRIC algorithm in :code:`collage` subcommand
 * BREAKING CHANGE: drop support for Python 3.5
 * format code with :code:`black`
 
