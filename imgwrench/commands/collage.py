@@ -44,6 +44,12 @@ class LayoutNode(ABC):
         assert leaf_count > 0, "Invalid node {}".format(self)
         return self.cut_loss(container_aspect_ratio) / leaf_count
 
+    def relative_areas(self, width, height):
+        """Relative area of leaf nodes"""
+        area = width * height
+        for (x, y, w, h, img) in self.positions(0, 0, width, height):
+            yield w * h / area
+
     @property
     def leaf_count(self):
         return len(list(self.aspect_ratios(1.0)))
