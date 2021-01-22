@@ -36,6 +36,7 @@ Features
 * Command *flip* to flip/mirror images left-right
 * Command *frame* to put a monocolor frame around images
 * Command *framecrop* top frame and crop an image to a target aspect ratio
+* Command *quad* collects four images to a quad
 * Command *resize* for resizing images
 * Command *save* for no processing, but saving images with the given parameters
 * Command *stack* for vertically stacking images
