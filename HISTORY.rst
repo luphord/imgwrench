@@ -2,6 +2,10 @@
 History
 =======
 
+0.16.0 (2021-01-23)
+-------------------
+* :code:`quad` subcommand supports doubling inner frame using the :code:`-d/--double-inner-frame` flag
+
 0.15.0 (2021-01-22)
 -------------------
 * :code:`collage` subcommand selects best layout based on score function
