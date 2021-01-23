@@ -342,15 +342,16 @@ and :code:`--frame-width` options are supported.
     Collects four images to a quad.
 
     Options:
-    -w, --width INTEGER      width of the quad image  [default: 3072]
-    -s, --height INTEGER     height of the quad image  [default: 2048]
-    -f, --frame-width FLOAT  width of the frame as a fraction of the longer
-                            side of the output image  [default: 0.0]
+    -w, --width INTEGER       width of the quad image  [default: 3072]
+    -s, --height INTEGER      height of the quad image  [default: 2048]
+    -f, --frame-width FLOAT   width of the frame as a fraction of the longer
+                                side of the output image  [default: 0.0]
 
-    -c, --color COLOR        color of the frame as a color name, hex value or in
-                            rgb(...) function form  [default: white]
+    -d, --double-inner-frame  double inner frame width for even cuts
+    -c, --color COLOR         color of the frame as a color name, hex value or
+                                in rgb(...) function form  [default: white]
 
-    --help                   Show this message and exit
+    --help                    Show this message and exit
 
 resize
 ======
