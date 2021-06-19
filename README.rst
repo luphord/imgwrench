@@ -160,6 +160,18 @@ Please refer to the `detailed subcommand documentation`_ for the individual para
 
 .. _`detailed subcommand documentation`: https://imgwrench.readthedocs.io/en/latest/usage.html
 
+Developer Notes
+---------------
+
+Should you run into the following exception while running :code:`imgwrench` from an editable install
+
+.. code-block:: console
+
+        importlib_metadata.PackageNotFoundError: No package metadata was found for imgwrench
+
+try executing :code:`make dist` to regenerate the :code:`egg` files required bei :code:`importlib`
+which have likely been removed by a call to :code:`make clean`.
+
 Credits
 -------
 
