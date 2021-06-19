@@ -10,6 +10,10 @@ class Color(click.ParamType):
     name = "color"
 
     def convert(self, value, param, ctx):
+        if isinstance(value, tuple):
+            # click 8.0 may pass already parsed parameter values to convert, see
+            # https://github.com/pallets/click/issues/1898
+            return value
         try:
             return ImageColor.getrgb(value)
         except ValueError:
@@ -22,6 +26,10 @@ class Ratio(click.ParamType):
     name = "ratio"
 
     def convert(self, value, param, ctx):
+        if isinstance(value, float):
+            # click 8.0 may pass already parsed parameter values to convert, see
+            # https://github.com/pallets/click/issues/1898
+            return value
         try:
             a, b = value.split(":")
             a, b = float(a), float(b)
