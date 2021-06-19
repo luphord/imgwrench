@@ -51,7 +51,6 @@ class TestQuad(unittest.TestCase):
         # same thing with double frame
         quad_img = quad(images, 100, 50, 0.1, True, "#00ff00")
         pixels = quad_img.load()
-        quad_img.save("test.png")
         for i in range(quad_img.size[0]):
             for j in range(quad_img.size[1]):
                 r, g, b = pixels[i, j]
