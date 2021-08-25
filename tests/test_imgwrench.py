@@ -113,6 +113,22 @@ class TestImgwrenchMainCli(unittest.TestCase):
                 fname = "{}{:04d}.jpg".format(prefix, i * increment)
                 self.assertTrue(os.path.exists(fname), fname + " missing")
 
+    def test_repeat(self):
+        """Test repeat of inputs"""
+        out_folder = "out"
+        repeat = 5
+        with self.runner.isolated_filesystem():
+            with open("pixel1x1.jpg", "wb") as f:
+                f.write(pixel1x1)
+            with open("images.txt", "w") as f:
+                f.write("pixel1x1.jpg\n")
+            result = self.runner.invoke(
+                cli_imgwrench,
+                ["-r", repeat, "-o", out_folder, "-i", "images.txt", "save"],
+            )
+            self.assertEqual(0, result.exit_code)
+            self.assertEqual(repeat, len(list(Path(out_folder).iterdir())))
+
     def test_digits(self):
         """Test number of digits of output files"""
         prefix = "img_"
