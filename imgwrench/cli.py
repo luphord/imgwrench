@@ -66,6 +66,13 @@ def _load_image(fname, i, preserve_exif):
     return img, info
 
 
+def _repeat(it, n):
+    """Repeat every element of it n times"""
+    for el in it:
+        for i in range(n):
+            yield el
+
+
 @click.group(name="imgwrench", chain=True)
 @click.option(
     "-i",
@@ -73,6 +80,14 @@ def _load_image(fname, i, preserve_exif):
     type=click.File(mode="r"),
     default="-",
     help="File containing paths to images for processing, " + "defaults to stdin",
+)
+@click.option(
+    "-r",
+    "--repeat",
+    type=click.INT,
+    default=1,
+    show_default=True,
+    help="repeat every image in input sequence",
 )
 @click.option(
     "-p",
@@ -149,6 +164,7 @@ def _load_image(fname, i, preserve_exif):
 )
 def cli_imgwrench(
     image_list,
+    repeat,
     prefix,
     digits,
     increment,
@@ -171,6 +187,7 @@ def cli_imgwrench(
 def pipeline(
     image_processors,
     image_list,
+    repeat,
     prefix,
     increment,
     digits,
@@ -183,7 +200,7 @@ def pipeline(
 ):
     def _load_images():
         with image_list:
-            for i, line in enumerate(image_list):
+            for i, line in enumerate(_repeat(image_list, repeat)):
                 path = Path(line.strip()).resolve()
                 img, info = _load_image(path, i, preserve_exif)
                 click.echo("<- Processing {}...".format(info))
