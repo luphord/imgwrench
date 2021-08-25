@@ -2,6 +2,10 @@
 History
 =======
 
+0.17.0 (not yet)
+----------------
+* :code:`-r/--repeat` option for repeating input files
+
 0.16.1 (2021-06-19)
 -------------------
 * Fix support for :code:`click>=8.0` which has changed its behaviour regarding custom parameter types
