@@ -101,6 +101,9 @@ Full command line help is
         -i, --image-list FILENAME  File containing paths to images for processing,
                                 defaults to stdin
 
+        -r, --repeat INTEGER       repeat every image in input sequence  [default:
+                                     1]
+
         -p, --prefix TEXT          prefix for all output filenames before numbering
                                 [default: img_]
 
