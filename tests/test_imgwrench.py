@@ -6,6 +6,7 @@
 
 import os
 import unittest
+import doctest
 from pathlib import Path
 
 from PIL import Image
@@ -14,6 +15,7 @@ from click.testing import CliRunner
 
 from imgwrench import cli_imgwrench
 from imgwrench.cli import _xmp_from_image
+from imgwrench import cli
 
 from .images import pixel1x1, png1x1, badexif
 
@@ -316,3 +318,8 @@ class TestImgwrenchMainCli(unittest.TestCase):
             self.assertEqual(0, result.exit_code)
             outfile = outdir / fname
             self.assertTrue(outfile.exists(), "{0} missing".format(outfile))
+
+
+def load_tests(loader, tests, ignore):
+    tests.addTests(doctest.DocTestSuite(cli))
+    return tests

@@ -67,7 +67,11 @@ def _load_image(fname, i, preserve_exif):
 
 
 def _repeat(it, n):
-    """Repeat every element of it n times"""
+    """Repeat every element of it n times
+
+    >>> list(_repeat([1, 2, 3], 4))
+    [1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3]
+    """
     for el in it:
         for i in range(n):
             yield el
