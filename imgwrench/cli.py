@@ -18,6 +18,7 @@ from .commands.filmstrip import cli_filmstrip
 from .commands.flip import cli_flip
 from .commands.frame import cli_frame
 from .commands.framecrop import cli_framecrop
+from .commands.grid import cli_grid
 from .commands.quad import cli_quad
 from .commands.resize import cli_resize
 from .commands.save import cli_save
@@ -246,6 +247,7 @@ cli_imgwrench.add_command(cli_filmstrip)
 cli_imgwrench.add_command(cli_flip)
 cli_imgwrench.add_command(cli_frame)
 cli_imgwrench.add_command(cli_framecrop)
+cli_imgwrench.add_command(cli_grid)
 cli_imgwrench.add_command(cli_quad)
 cli_imgwrench.add_command(cli_resize)
 cli_imgwrench.add_command(cli_save)
