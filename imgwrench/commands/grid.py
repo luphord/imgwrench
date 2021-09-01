@@ -7,7 +7,6 @@ from PIL import Image
 
 from ..param import COLOR
 from .crop import crop
-from .resize import resize
 
 
 def grid(images, rows, columns, width, height, frame_width, double_inner_frame, color):
@@ -30,7 +29,7 @@ def grid(images, rows, columns, width, height, frame_width, double_inner_frame, 
         ):
             img = img.transpose(Image.ROTATE_90)
         img = crop(img, ratio)
-        img = resize(img, single_width)
+        img = img.resize((int(single_width), int(single_height)))
         x = int(i // rows * (single_width + dbl * frame_pixels) + frame_pixels)
         y = int(i % rows * (single_height + dbl * frame_pixels) + frame_pixels)
         result.paste(img, (x, y))
