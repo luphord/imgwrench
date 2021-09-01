@@ -25,7 +25,9 @@ def grid(images, rows, columns, width, height, frame_width, double_inner_frame, 
     single_height = (height - total_frame_pixels_height) / rows
     ratio = single_width / single_height
     for i, img in enumerate(images):
-        if img.size[0] < img.size[1]:
+        if (ratio >= 1 and img.size[0] < img.size[1]) or (
+            ratio < 1 and img.size[0] >= img.size[1]
+        ):
             img = img.transpose(Image.ROTATE_90)
         img = crop(img, ratio)
         img = resize(img, single_width)
