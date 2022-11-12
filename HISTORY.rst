@@ -2,9 +2,15 @@
 History
 =======
 
-0.17.0 (not yet)
-----------------
+0.17.0 (2022-11-12)
+-------------------
 * :code:`-r/--repeat` option for repeating input files
+* Constrain :code:`click` version to :code:`<8.1` due to breaking API change; this will be relaxed in a future version
+* Constrain :code:`Pillow` version to :code:`<9.0` due to breaking tests; this will be relaxed in a future version
+* Drop support for Python 3.6 and 3.7
+* Add support for Python 3.9 and 3.10
+* Upgrade dependencies
+* Migrate from travis-ci.com to GitHub actions
 
 0.16.1 (2021-06-19)
 -------------------
