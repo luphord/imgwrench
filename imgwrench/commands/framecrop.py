@@ -9,7 +9,7 @@ from .frame import frame
 
 
 def _floor(x, digits):
-    return floor(x * 10 ** digits) / 10 ** digits
+    return floor(x * 10**digits) / 10**digits
 
 
 def _unachievable_ratio_msg(target_ratio, frame_width):

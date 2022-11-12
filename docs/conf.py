@@ -48,9 +48,9 @@ source_suffix = ".rst"
 master_doc = "index"
 
 # General information about the project.
-project = u"Image Wrench"
-copyright = u"2019, luphord"
-author = u"luphord"
+project = "Image Wrench"
+copyright = "2019, luphord"
+author = "luphord"
 
 # The version info for the project you're documenting, acts as replacement
 # for |version| and |release|, also used in various other places throughout
@@ -126,7 +126,7 @@ latex_elements = {
 # (source start file, target name, title, author, documentclass
 # [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, "imgwrench.tex", u"Image Wrench Documentation", u"luphord", "manual"),
+    (master_doc, "imgwrench.tex", "Image Wrench Documentation", "luphord", "manual"),
 ]
 
 
@@ -134,7 +134,7 @@ latex_documents = [
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [(master_doc, "imgwrench", u"Image Wrench Documentation", [author], 1)]
+man_pages = [(master_doc, "imgwrench", "Image Wrench Documentation", [author], 1)]
 
 
 # -- Options for Texinfo output ----------------------------------------
@@ -146,7 +146,7 @@ texinfo_documents = [
     (
         master_doc,
         "imgwrench",
-        u"Image Wrench Documentation",
+        "Image Wrench Documentation",
         author,
         "imgwrench",
         "One line description of project.",
