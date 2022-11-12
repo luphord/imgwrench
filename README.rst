@@ -6,8 +6,8 @@ Image Wrench
 .. image:: https://img.shields.io/pypi/v/imgwrench.svg
         :target: https://pypi.python.org/pypi/imgwrench
 
-.. image:: https://travis-ci.com/luphord/imgwrench.svg
-        :target: https://travis-ci.com/luphord/imgwrench
+.. image:: https://github.com/luphord/imgwrench/actions/workflows/build-test.yml/badge.svg
+        :target: https://github.com/luphord/imgwrench/actions
 
 .. image:: https://readthedocs.org/projects/imgwrench/badge/?version=latest
         :target: https://imgwrench.readthedocs.io/en/latest/?badge=latest
